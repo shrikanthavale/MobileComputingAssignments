@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<rule>
+		<ruleId>1</ruleId>
+	    <rulename>Rainy</rulename>
+	    <rulecondition>temperature_now > 4 && temperature_nos < 10</rulecondition>
+        <methodName>updateTemperature</methodName>
+        <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.RainyTemperature</parameter>
+	</rule>	
+    <rule>
+		<ruleId>2</ruleId>
+	    <rulename>Snow</rulename>
+        <rulecondition>temperature_now < 4</rulecondition>
+        <methodName>updateTemperature</methodName>
+        <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.SnowTemperature</parameter>
+    </rule>
+    <rule>
+		<ruleId>3</ruleId>
+	    <rulename>Sunny</rulename>
+        <rulecondition>temperature_now > 15 && temperature < 25</rulecondition>
+        <methodName>updateTemperature</methodName>
+        <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.SunnyTemperature</parameter>
+    </rule>
+    <rule>
+		<ruleId>4</ruleId>
+	    <rulename>Hot</rulename>
+        <rulecondition>temperature_now > 26 && temperature_now < 40</rulecondition>
+        <methodName>updateTemperature</methodName>
+        <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.HOTTemperature</parameter>
+    </rule>
+</rules>

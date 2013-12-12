@@ -1,0 +1,335 @@
+/**
+ * JavaCC template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
+ */options{  JDK_VERSION = "1.5";  static = true;}PARSER_BEGIN(ContextRuleParser)package at.fhooe.mc.lbcas.contextrulejavacc;
+
+import at.fhooe.mc.lbcas.contextruleparser.*;
+import java.util.*;
+import java.text.*;
+
+public class ContextRuleParser{  public static void main(String args []) throws ParseException  {    ContextRuleParser parser = new ContextRuleParser(System.in);    while (true)    {      System.out.println("Reading from standard input...");      System.out.print("Enter Rule from Rules XML File:");      try      {        TreeNode treeNode = parser.execute();      }      catch (Exception e)      {        System.out.println("NOK.");        System.out.println(e.getMessage());        ContextRuleParser.ReInit(System.in);      }      catch (Error e)      {        System.out.println("Oops.");        System.out.println(e.getMessage());        break;      }    }  }}PARSER_END(ContextRuleParser)
+/**
+Tokens to be skipped
+**/SKIP :{  " "| "\r"| "\t"| "\n"}
+/**
+ OPERATORS - COMPARISON
+ **/TOKEN : {  < GREATER : ">" >
+	{		System.out.println("GREATER THAN OPERATOR \" > \" ");
+	}
+| < LESS : "<" >
+	{
+		System.out.println("LESS THAN OPERATOR \" < \" ");
+	}
+| < EQUAL : "==" >
+	{
+		System.out.println("EQUAL OPERATOR \" == \" ");
+	}
+| < NOTEQUAL : "!=" >
+	{
+		System.out.println("NOT EQUAL OPERATOR \" != \" ");
+	}
+}
+/**
+ OPERATORS - LOGICAL
+ **/
+TOKEN : 
+{
+  < AND : "&&" >
+	{
+		System.out.println("NOT EQUAL OPERATOR \" && \" ");
+	}
+| < OR : "||" >
+	{
+		System.out.println("NOT EQUAL OPERATOR \" || \" ");
+	}
+}
+
+/**
+VARIABLES - SPECIFIC TO RULES
+**/
+TOKEN :
+{
+	< POSITION_NOW : "position_now" >
+	{	System.out.println("Current Position");
+	}
+|	< DAYNIGHT_MODE : "daynight_mode" >
+	{		System.out.println("Day Night Mode");
+	}
+|	< USER_MODE : "user_mode" >
+	{
+		System.out.println("User Mode");
+	}
+| 	< TIME_NOW : "time_now" >
+	{
+  		System.out.println("Time now");
+	}
+| 	< TEMPERATURE_NOW : "temperature_now" >
+	{
+  		System.out.println("Temperature Now");
+	}
+}
+
+/**
+CONSTANT - SPECIFIC TO RULES
+**/TOKEN :{
+  < UNIVERSITY_CAMPUS : "UNIVERSITY_CAMPUS" >
+  {	System.out.println("Position : UNIVERSITY_CAMPUS");
+  }
+| < DAY : "DAY" >
+  {
+	System.out.println("Day Night Mode is : DAY");
+  }
+| < NIGHT : "NIGHT" >
+  {
+	System.out.println("Day Night Mode is : NIGHT");
+  }
+| < DRIVING : "DRIVING" >
+  {
+	System.out.println("User Mode : DRIVING");
+  }
+| < WALKING : "WALKING" >
+  {
+	System.out.println("User Mode : WALKING");
+  }
+| < AM : "AM" >
+  {
+	System.out.println("Time Unit: AM");
+  }
+| < PM : "PM" >
+  {
+	System.out.println("Time Unit: PM");
+  }
+| < DECIMAL : "DECIMAL" >
+  {
+	System.out.println("Decimal : \" . \" ");
+  }
+}
+
+/**
+CONSTANT - NUMBERS
+**/
+TOKEN :
+{  
+  < NUMBERZERO : ["0"] >
+| < NUMBERONE : ["1"] >
+| < NUMBERTWO : ["2"] >
+| < NUMBERTHREE : ["3"] >
+| < NUMBERFOUR : ["4"] >
+| < NUMBERFIVE : ["5"] >
+| < NUMBERSIX : ["6"] >
+| < NUMBERSEVEN : ["7"] >
+| < NUMBEREIGHT : ["8"] >
+| < NUMBERNINE : ["9"] >
+
+}TreeNode execute() :{
+  TreeNode nodeA = null;
+  TreeNode nodeB = null;
+  TreeNode nodeC = null;
+  TreeNode nodeD = null;
+  TreeNode intermediateFirstNode = null;
+  TreeNode intermediateSecondNode = null;
+  TreeNode rootNode = null;
+}{
+ 
+  intermediateFirstNode = comparison_statement()
+  nodeB = constant_node_statement()
+  rootNode = logical_node_statement()
+  nodeC = variable_node_statement()
+  intermediateSecondNode = comparison_statement()
+  nodeD = constant_node_statement()
+  {
+    intermediateFirstNode.setChildNodes(new TreeNode[]{nodeA,nodeB});
+    intermediateSecondNode.setChildNodes(new TreeNode[]{nodeC,nodeD});
+    rootNode.setChildNodes(new TreeNode[]{intermediateFirstNode,intermediateSecondNode});
+    return rootNode;
+  }
+
+| 
+  nodeA = variable_node_statement()
+  rootNode = comparison_statement()
+  nodeB = constant_node_statement()  {
+    rootNode.setChildNodes(new TreeNode[]{nodeA,nodeB});    return rootNode;  }
+}
+
+/******************************************************* Variable Nodes ********************************************************************/
+
+TreeNode variable_node_statement() :
+{
+  Token variableToken = null;
+}
+{  variableToken = < POSITION_NOW >  {    return new PositionNowVariableNode();
+  }
+|
+  variableToken = < DAYNIGHT_MODE >
+  {
+    return new DayNightModeVariableNode();
+  }
+|
+  variableToken = < USER_MODE >
+  {
+    return new DayNightModeVariableNode();
+  }
+|
+  variableToken = < TIME_NOW >
+  {
+    return new TimeNowVariableNode();
+  }
+|
+  variableToken = < TEMPERATURE_NOW >
+  {
+    return new TemperatureNowVariableNode();
+  }
+}
+/******************************************************* Variable Nodes ********************************************************************/
+
+/******************************************************* Comparison Nodes ********************************************************************/
+TreeNode comparison_statement() :{
+  TreeNode node = null;
+}{
+ node = equalto() {return node; }
+|
+ node = notequalto() {return node; }
+|
+ node = greaterthan() {return node; }
+| 
+ node = lessthan() {return node; }
+} 
+ComparisonEqualNode equalto() :
+{
+  Token token;}
+{    token = < EQUAL >
+  {
+    ComparisonEqualNode comparisonNode = new ComparisonEqualNode();
+    return comparisonNode;
+  }
+}
+
+ComparisonNotEqualNode notequalto() :
+{
+  Token token;
+}
+{
+    token = < NOTEQUAL >
+  {
+    ComparisonNotEqualNode comparisonNode = new ComparisonNotEqualNode();
+    return comparisonNode;
+  }
+}
+
+ComparisonGreaterNode greaterthan() :
+{
+  Token token;
+}
+{
+    token = < GREATER >
+  {
+    ComparisonGreaterNode comparisonNode = new ComparisonGreaterNode();
+    return comparisonNode;
+  }
+}
+
+
+ComparisonLessNode lessthan() :
+{
+  Token token;
+}
+{
+    token = < LESS >
+  {
+    ComparisonLessNode comparisonNode = new ComparisonLessNode();
+    return comparisonNode;
+  }
+}
+
+/******************************************************* Comparison Nodes ********************************************************************/
+ 
+
+/******************************************************* Constant Nodes ********************************************************************/ConstantNode constant_node_statement() :
+{
+  Token token = null;
+  ConstantNode constantNode = null;
+  String time = null;  
+}
+{
+  token = < UNIVERSITY_CAMPUS > |  < DAY > | < NIGHT > | < DRIVING > | < WALKING >
+  {
+    constantNode = new ConstantNode();
+    constantNode.setValueForConstantNode(token.image);
+    return constantNode;
+  }
+| 
+  token = timeconstant()
+  {	time = token.image;
+	try	{	    SimpleDateFormat df = new SimpleDateFormat("HH:mm AA");
+	    Date date = df.parse(time);
+	    constantNode = new ConstantNode();
+	    constantNode.setValueForConstantNode(token.image);
+	} catch(Exception exception)	{	  exception.printStackTrace();
+	}
+    return constantNode;
+  }
+}
+
+Token timeconstant() :
+{
+  Token token = null;}
+{  token = hourcheck() ampmcheck()
+  {
+    return token;
+  }
+}
+
+Token hourcheck() : 
+{
+  Token token = null;
+}
+{
+	token = < NUMBERZERO > allNumbersOneOccurrence()
+|
+    < NUMBERONE > allNumbersOneOccurrence() 
+|
+    < NUMBERTWO > [<NUMBERZERO > | <NUMBERONE> | < NUMBERTWO > | < NUMBERTHREE >]
+    {        return token;
+    }
+}
+
+Token allNumbersOneOccurrence() :
+{
+  Token token = null;
+}
+{
+	 token = <NUMBERZERO > | <NUMBERONE> | < NUMBERTWO > | < NUMBERTHREE > | < NUMBERFOUR > | <NUMBERFIVE> | < NUMBERSIX > | < NUMBERSEVEN > | < NUMBEREIGHT > | < NUMBERNINE >
+	{	   return token;
+	}
+}
+
+Token ampmcheck() :
+{  Token ampm;
+}
+{  token = < AM > | < PM >
+  {    return token;
+  }
+}
+
+/******************************************************* Constant Nodes ********************************************************************/
+
+
+/******************************************************* Logical Nodes ********************************************************************/  
+
+TreeNode logical_node_statement() :
+{  Token token = null;
+  TreeNode logicalNode = null;
+}{	token = < AND >
+	{		logicalNode = new LogicalNodeAnd();
+		return logicalNode;	
+	}
+|
+
+	token = < OR >
+	{
+		logicalNode = new LogicalNodeOr();
+		return logicalNode;	
+	}
+}
+
+
+/******************************************************* Logical Nodes ********************************************************************/
