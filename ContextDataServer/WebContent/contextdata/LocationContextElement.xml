@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContextElement
+	contexttype="locationcontext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ContextElementDefinition.xsd">
+
+	<LocationContextElement contextid="201">
+
+		<PhysicalLocation
+			country="Austria"
+			state="Upper Austria"
+			city="Hagenberg"
+			pincode="4232" />
+		<GeographicalLocation
+			Latitude="22.5"
+			Altitude="15.80"
+			Longitude="293.3" />
+		<Place indoor="Room" />
+
+	</LocationContextElement>
+</ContextElement>
