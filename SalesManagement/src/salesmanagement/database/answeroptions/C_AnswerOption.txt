@@ -1,0 +1,9 @@
+A
+1000
+This response stresses only on features of the radio.  Yes, the features are related to the prospect's needs.  However, it is a very weak selling response.
+B
+0
+This response stresses only on features of the radio.  These features are not related to the prospect's needs.  The prospect may say, "Thanks, but I'd better shop other stores before deciding."
+C
+6000
+This response is excellent since it relates directly to the prospect's needs.

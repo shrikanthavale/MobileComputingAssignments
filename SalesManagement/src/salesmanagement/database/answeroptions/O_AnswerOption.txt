@@ -1,0 +1,12 @@
+A
+0
+No sale -- no way!  You blew it!
+B
+500
+You sold her a junk car worth $500.
+C
+8000
+You sold her an $8,000 car.
+D
+0
+No sale—no way!  You blew it!

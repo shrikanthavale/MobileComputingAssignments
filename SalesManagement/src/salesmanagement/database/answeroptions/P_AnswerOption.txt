@@ -1,0 +1,15 @@
+A
+500
+Tom may get mad if you wait too long to provide him service and cut his order down to $1,000
+B
+500
+Tom would send back all merchandise and throw you out of the store when he sees you next.
+C
+0
+You shipped back the merchandise which canceled out your sale and maybe even future business.
+D
+10000
+Your prompt service will save your sale and keep Tom as a customer.
+E
+500
+You should know what to do.  Do not delay!  What if you cannot reach your regional manager?

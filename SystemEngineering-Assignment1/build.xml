@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="SystemEngineering-Assignment1" default="run">
+	<property name="dir.src" value="src" /> 
+	<property name="dir.bin" value="bin" />
+	<property name="dir.dist" location="dist" />
+	<property name="dir.docs" location="docs" />
+	
+	  <target name="clean">
+	        <delete dir="${dir.docs}" />
+	        <delete dir="${dir.dist}" />
+	    	<delete dir="${dir.bin}" />
+	  </target>
+	
+	<target name="init" depends="clean"> 
+		<mkdir dir="${dir.bin}" /> 
+		<mkdir dir="${dir.dist}" />
+		<mkdir dir="${dir.docs}" />
+	</target>
+	
+	<target name="docs" depends="build">
+	    <javadoc packagenames="src" sourcepath="${dir.src}" destdir="${dir.docs}">
+	      <!-- Define which files / directory should get included, we include all -->
+	       <fileset dir="${dir.src}">
+	           <include name="**" />
+	       </fileset>
+	    </javadoc>
+	</target>
+	
+	<target name="build" depends="init"> 
+		<javac srcdir="${dir.src}" destdir="${dir.bin}" includes="**/*.java" includeantruntime="false"> 
+		</javac>
+	</target>
+	
+	
+	<target name="pack" depends="build">
+
+		<jar destfile="${dir.dist}\SystemEngineeringAssignment1.jar" basedir="${dir.bin}">
+	      <manifest>
+	        <attribute name="Main-Class" value="at.fhooe.mc.se.view.ApplicationMainView" />
+	      </manifest>
+	    </jar>
+	</target>
+
+	
+	<target name="run" depends="pack">
+		<java jar="${dir.dist}\SystemEngineeringAssignment1.jar" dir="${dir.dist}" fork="true" >
+		</java>
+	</target>
+			
+</project>

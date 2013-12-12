@@ -1,0 +1,12 @@
+A
+1500
+Good effort but B is a better answer.
+B
+4000
+Correct! Great way to take care of the customer.
+C
+0
+Nope! This is not the way to take care of this valued customer.
+D
+0
+Certainly not a professional attitude. This is no way to take care of this valued customer.
