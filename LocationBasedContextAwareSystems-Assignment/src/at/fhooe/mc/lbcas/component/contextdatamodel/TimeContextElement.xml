@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ContextElement
+	contexttype="timecontext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ContextElementDefinition.xsd">
+
+	<TimeContextElement contextid="100">
+		<Date
+			Day="04"
+			Month="11"
+			Year="2013" />
+		<Time
+			Hour="08"
+			Minutes="50"
+			Seconds="25"
+			Miliseconds="500"
+			AMPM="PM" />
+	</TimeContextElement>
+
+</ContextElement>

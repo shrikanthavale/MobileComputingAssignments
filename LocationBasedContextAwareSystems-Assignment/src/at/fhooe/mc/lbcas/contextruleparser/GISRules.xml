@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<rule>
+		<ruleId>1</ruleId>
+	    <rulename>GeoServer</rulename>
+	    <rulecondition>position_now == UNIVERSITY_CAMPUS</rulecondition>
+        <methodName>setServer</methodName>
+        <parameter>at.fhooe.mc.lbcas.server.SDEServer</parameter>
+	</rule>	
+	<rule>
+		<ruleId>2</ruleId>
+	    <rulename>GeoServer</rulename>
+	    <rulecondition>position_now != UNIVERSITY_CAMPUS</rulecondition>
+        <methodName>setServer</methodName>
+        <parameter>at.fhooe.mc.lbcas.server.SDEServerSerializedData</parameter>
+	</rule>	
+	<rule>
+		<ruleId>3</ruleId>
+	    <rulename>DayNightMode</rulename>
+	    <condition>daynight_mode == DAY</condition>
+        <methodName>activateDayNightMode</methodName>
+        <parameter></parameter>
+	</rule>
+	<rule>
+		<ruleId>4</ruleId>
+	    <rulename>DayNightMode</rulename>
+	    <condition>daynight_mode == NIGHT</condition>
+        <methodName>activateDayNightMode</methodName>
+        <parameter></parameter>
+	</rule>	
+	<rule>
+		<ruleId>5</ruleId>
+	    <rulename>WalkingDrivingMode</rulename>
+	    <condition>user_mode == DRIVING</condition>
+        <methodName>activateWalkingDrivingMode</methodName>
+        <parameter></parameter>
+	</rule>
+	<rule>
+		<ruleId>6</ruleId>
+	    <rulename>WalkingDrivingMode</rulename>
+	    <condition>user_mode == WALKING</condition>
+        <methodName>activateWalkingDrivingMode</methodName>
+        <parameter></parameter>
+	</rule>	
+</rules>

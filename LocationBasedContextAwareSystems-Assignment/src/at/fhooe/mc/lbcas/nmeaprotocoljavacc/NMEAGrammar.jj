@@ -1,0 +1,242 @@
+/**
+ * JavaCC file for parsing the input from the NMEA-0183 protocol file to parse GPGGA statements
+ */options{  JDK_VERSION = "1.6";  static = true;}PARSER_BEGIN(NMEAProtocolParser)package at.fhooe.mc.lbcas.nmeaprotocoljavacc;
+
+public class NMEAProtocolParser{  public static void main(String args []) throws ParseException,TokenMgrError  {    NMEAProtocolParser parser = new NMEAProtocolParser(System.in);    while (true)    {      System.out.println("Reading from standard input...");      System.out.print("Enter an NEMA Protocol String expression : ");      try      {        switch (parser.validate_line())        {          case 0 :           System.out.println("OK.");          break;          case 1 :           System.out.println("Goodbye.");          break;          default :           break;        }      }      catch (Exception e)      {        System.out.println("NOK.");        System.out.println(e.getMessage());        parser.ReInit(System.in);      }      catch (Error e)      {        System.out.println("Oops.");        System.out.println(e.getMessage());        break;      }    }  }}PARSER_END(NMEAProtocolParser)SKIP :{  < SPACE : " " >| < CARRIAGERETURN : "\r" >| < TAB : "\t" >| < NEWLINE : "\n" >}TOKEN : {  < DOLLAR : "$" >| < GTOKEN : ["G"] >
+| < PTOKEN : ["P"] >
+| < ATOKEN : ["A"] >
+| < NTOKEN : ["N"] >
+| < WTOKEN : ["W"] >
+| < STOKEN : ["S"] >
+| < ETOKEN : ["E"] >
+| < SENTENCEIDENTIFIER : [ "G","P","G","G","A" ] >| < NUMBERZERO : ["0"] >
+| < NUMBERONE : ["1"] >
+| < NUMBERTWO : ["2"] >
+| < NUMBERTHREE : ["3"] >
+| < NUMBERFOUR : ["4"] >
+| < NUMBERFIVE : ["5"] >
+| < NUMBERSIX : ["6"] >
+| < NUMBERSEVEN : ["7"] >
+| < NUMBEREIGHT : ["8"] >
+| < NUMBERNINE : ["9"] >
+| < DECIMAL : "." >
+| < METER : "M" >
+| < STAR : "*" >| < COMMA : "," >}int validate_line() :{}{  dollarcheck()
+  sentenceidentifier()
+  commacheck() 
+  timecheck()
+  commacheck()
+  latitudecheck()
+  commacheck()
+  longitudecheck()
+  commacheck()
+  qualitycheck()
+  commacheck()
+  numberOfSatellites()
+  commacheck()
+  horizontaldilusion()
+  commacheck()
+  altitude()
+  commacheck()
+  geoidheight()
+  commacheck()
+  commacheck()
+  checksum()";"
+    {    return 0;  }| ";"  {    return 1;  }}
+void dollarcheck() :
+{}{	(
+	  < DOLLAR >
+	)
+}
+
+void sentenceidentifier() :{}
+{
+  (    < GTOKEN >
+    < PTOKEN >
+    < GTOKEN >
+    < GTOKEN >
+    < ATOKEN >
+  )}
+
+void commacheck() :
+{}
+{
+	(	< COMMA > 
+	)
+}
+
+void timecheck() :
+{}
+{
+	(
+	  hourcheck()
+	  minuteSecondscheck()
+	  minuteSecondscheck()
+	  decimalcheck()
+	  zerozerocheck()
+	)
+}
+
+void hourcheck() : 
+{}
+{
+  (	< NUMBERZERO > allNumbersOneOccurrence()  )
+|
+ (
+   < NUMBERONE > allNumbersOneOccurrence() )
+|
+ (
+   < NUMBERTWO >
+   [<NUMBERZERO > | <NUMBERONE> | < NUMBERTWO > | < NUMBERTHREE > | < NUMBERFOUR >]
+ )
+}
+
+void minuteSecondscheck() : 
+{}
+{
+  (
+	< NUMBERZERO > allNumbersOneOccurrence()
+  )
+|
+ (
+   < NUMBERONE > allNumbersOneOccurrence()
+ )
+|
+ (
+   < NUMBERTWO > allNumbersOneOccurrence()
+ )
+|
+ (
+   < NUMBERTHREE > allNumbersOneOccurrence()
+ )
+|
+ (
+   < NUMBERFOUR > allNumbersOneOccurrence()
+ )
+|
+ (
+   < NUMBERFIVE > allNumbersOneOccurrence()
+ )
+|
+ (
+   < NUMBERSIX > <NUMBERZERO > 
+ )
+}
+
+
+void decimalcheck() :
+{}{(
+  < DECIMAL >)
+}
+
+void zerozerocheck() :
+{}
+{(	< NUMBERZERO > <NUMBERZERO >
+)
+}
+
+
+void latitudecheck() :
+{}{	(	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  decimalcheck()
+	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  commacheck()
+	  [<NTOKEN > | < STOKEN >]
+	)
+}
+
+
+void longitudecheck() :
+{}
+{
+	(
+	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  decimalcheck()
+	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  allNumbersOneOccurrence()
+	  commacheck()
+	  [<WTOKEN > | < ETOKEN >]
+	)
+
+}
+
+void qualitycheck() :
+{}
+{
+  (	[ <NUMBERONE > | < NUMBERTWO > | < NUMBERTHREE > ]
+  )}
+
+void numberOfSatellites() :{}
+{	(		allNumbersOneOccurrence()
+		allNumbersOneOccurrence()
+	)
+
+}
+
+void horizontaldilusion() : {}
+{  (    allNumbersOneOccurrence()
+    decimalcheck()
+    allNumbersOneOccurrence()
+    allNumbersOneOccurrence()
+  )
+}
+
+void altitude() :
+{}
+{  (	allNumbersOneOccurrence()
+	allNumbersOneOccurrence()
+	allNumbersOneOccurrence()
+	decimalcheck()
+	allNumbersOneOccurrence()
+	commacheck()
+	< METER >
+  )
+}
+
+void geoidheight() :
+{
+}
+{
+  (
+	allNumbersOneOccurrence()
+	allNumbersOneOccurrence()
+	decimalcheck()
+	allNumbersOneOccurrence()
+	commacheck()
+	< METER >
+  )
+}
+
+void checksum() :
+{
+}
+{
+  (
+	< STAR >
+	allNumbersOneOccurrence()
+	allNumbersOneOccurrence()
+  )
+}
+
+
+
+void allNumbersOneOccurrence() :{}
+{	(
+	  [<NUMBERZERO > | <NUMBERONE> | < NUMBERTWO > | < NUMBERTHREE > | < NUMBERFOUR > | <NUMBERFIVE> | < NUMBERSIX > | < NUMBERSEVEN > | < NUMBEREIGHT > | < NUMBERNINE >]	)}
+
+  
