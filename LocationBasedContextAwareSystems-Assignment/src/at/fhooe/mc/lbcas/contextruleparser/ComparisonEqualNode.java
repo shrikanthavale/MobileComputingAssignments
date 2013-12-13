@@ -39,7 +39,6 @@ public class ComparisonEqualNode extends TreeNode {
 	@Override
 	public void setVariableParameters(ContextSituation _contextSituation) {
 		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -50,7 +49,6 @@ public class ComparisonEqualNode extends TreeNode {
 	@Override
 	public void clear() {
 		// TODO Auto-generated method stub
-
 	}
 
 }
