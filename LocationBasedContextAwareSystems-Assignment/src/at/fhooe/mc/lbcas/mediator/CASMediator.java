@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -15,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observer;
 import java.util.Set;
 import java.util.Vector;
@@ -36,6 +38,10 @@ import at.fhooe.mc.lbcas.component.gis.ContextElementObservable;
 import at.fhooe.mc.lbcas.component.gis.ContextSituationObservable;
 import at.fhooe.mc.lbcas.component.gis.GeoObjectObservable;
 import at.fhooe.mc.lbcas.componentcompositionparser.ComponentComposition;
+import at.fhooe.mc.lbcas.contextrulejavacc.ContextRuleParser;
+import at.fhooe.mc.lbcas.contextrulejavacc.ParseException;
+import at.fhooe.mc.lbcas.contextruleparser.RulesEntity;
+import at.fhooe.mc.lbcas.contextruleparser.TreeNode;
 import at.fhooe.mc.lbcas.entities.GeoObject;
 import at.fhooe.mc.lbcas.reflectionapi.ClientController;
 import at.fhooe.mc.lbcas.reflectionapi.ClientControllerIF;
@@ -68,7 +74,7 @@ public class CASMediator implements MediatorIF {
 	 * Main Tab Pane
 	 */
 	private JTabbedPane m_mainTabbedPane;
-
+	
 	/**
 	 * new frame to be added
 	 */
@@ -97,7 +103,12 @@ public class CASMediator implements MediatorIF {
 	/**
 	 * parser for parsing component composition XML
 	 */
-	private XMLParserIF m_componentCompositionParser;
+	private XMLParserIF m_componentCompositionXMLReader;
+	
+	/**
+	 * parser for reading the rules file
+	 */
+	private XMLParserIF m_contextRuleXMLReader;
 
 	/**
 	 * component comosition list
@@ -108,7 +119,17 @@ public class CASMediator implements MediatorIF {
 	 * constant string for the interface component
 	 */
 	private static final String m_componentInterfacePackage = "at.fhooe.mc.lbcas.component.ComponentIF";
-
+	
+	/**
+	 * Hash map for storing different rules as list and key as type of rule
+	 */
+	private static Map<String, List<RulesEntity>> m_ruleMap = new HashMap<>();
+	
+	/**
+	 * Hash map for storing Rules Entity and its corresponding tree node
+	 */
+	private static Map<String , Map <TreeNode, RulesEntity>> m_treeNodeRulesMap = new HashMap<>();
+	
 	/**
 	 * private constructor to avoid external initialization for singleton
 	 * pattern
@@ -164,11 +185,46 @@ public class CASMediator implements MediatorIF {
 		m_JFrame.add(messagePanel, BorderLayout.SOUTH);
 
 		// get the required parser
-		m_componentCompositionParser = FactoryCreator
-				.factoryMethod("ContextRuleXMLReader");
+		m_componentCompositionXMLReader = FactoryCreator
+				.factoryMethod("ContextCompositionXMLReader");
 
-		m_componentCompositionList = m_componentCompositionParser
+		m_componentCompositionList = m_componentCompositionXMLReader
 				.readComponentComposition("at/fhooe/mc/lbcas/componentcompositionparser/ComponentComposition.xml");
+		
+		// create the rule parser
+		m_contextRuleXMLReader = FactoryCreator.factoryMethod("ContextRuleXMLReader");
+		
+		// read the xml file
+		List<RulesEntity> gisRules = m_contextRuleXMLReader.readContextRules("at/fhooe/mc/lbcas/contextruleparser/GISRules.xml");
+		m_ruleMap.put("GISRules", gisRules);
+		
+		List<RulesEntity> poiRules = m_contextRuleXMLReader.readContextRules("at/fhooe/mc/lbcas/contextruleparser/POIRules.xml");
+		m_ruleMap.put("POIRules", poiRules);
+		
+		List<RulesEntity> temperatureRules = m_contextRuleXMLReader.readContextRules("at/fhooe/mc/lbcas/contextruleparser/TemperatureRules.xml");
+		m_ruleMap.put("TemperatureRules", temperatureRules);
+		
+		try {
+			
+			for(String key : m_ruleMap.keySet()){
+				Map<TreeNode, RulesEntity> tempHashMap = new HashMap<>();
+				
+				for(RulesEntity tempRulesEntity : m_ruleMap.get(key)){
+					
+					String rule = tempRulesEntity.getM_ruleCondition();
+					System.out.println("************"+rule);
+					ContextRuleParser contextRuleParser = new ContextRuleParser(new ByteArrayInputStream(rule.getBytes()));
+					TreeNode treeNode = contextRuleParser.execute();
+					tempHashMap.put(treeNode, tempRulesEntity);
+				}
+				m_treeNodeRulesMap.put(key, tempHashMap);
+				System.out.println("******************************************");
+			}
+			
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		// add the Reflection API component
 		m_ReflectionAPIFrame = new ReflectionAPIFrame(

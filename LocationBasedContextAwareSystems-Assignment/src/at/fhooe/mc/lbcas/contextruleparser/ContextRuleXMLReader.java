@@ -5,7 +5,9 @@ package at.fhooe.mc.lbcas.contextruleparser;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -53,10 +55,10 @@ public class ContextRuleXMLReader implements XMLParserIF {
 	 * @return {@link HashMap} {@link ComponentComposition}
 	 */
 	@Override
-	public HashMap<String, RulesEntity> readContextRules(String _filePath) {
+	public List<RulesEntity> readContextRules(String _filePath) {
 
 		// for storing list of components
-		HashMap<String, RulesEntity> rulesFromXML = new HashMap<String, RulesEntity>();
+		List<RulesEntity> rulesFromXML = new ArrayList<>();
 
 		try {
 
@@ -119,7 +121,7 @@ public class ContextRuleXMLReader implements XMLParserIF {
 					rulesEntity.setM_ruleType("GISRules");
 
 					// add it to the Map
-					rulesFromXML.put(rulesEntity.getM_ruleType(), rulesEntity);
+					rulesFromXML.add( rulesEntity);
 				}
 			}
 

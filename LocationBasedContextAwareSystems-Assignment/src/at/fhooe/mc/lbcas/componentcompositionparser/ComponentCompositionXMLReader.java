@@ -6,6 +6,7 @@ package at.fhooe.mc.lbcas.componentcompositionparser;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -288,7 +289,7 @@ public class ComponentCompositionXMLReader implements XMLParserIF {
 	 * .String)
 	 */
 	@Override
-	public HashMap<String, RulesEntity> readContextRules(String _filePath) {
+	public List<RulesEntity> readContextRules(String _filePath) {
 		// Do nothing
 		return null;
 	}

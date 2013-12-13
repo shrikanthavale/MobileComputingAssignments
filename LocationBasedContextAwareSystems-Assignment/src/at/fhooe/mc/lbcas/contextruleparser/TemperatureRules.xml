@@ -4,7 +4,7 @@
 	<rule>
 		<ruleId>1</ruleId>
 	    <rulename>Rainy</rulename>
-	    <rulecondition>&& ( temperature_now > 04 , temperature_now < 10)</rulecondition>
+	    <rulecondition> &amp;&amp; ( temperature_now &gt; 04 , temperature_now &lt; 10)</rulecondition>
         <methodName>updateTemperature</methodName>
         <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.RainyTemperature</parameter>
 	</rule>	
@@ -12,7 +12,7 @@
     <rule>
 		<ruleId>2</ruleId>
 	    <rulename>Snow</rulename>
-        <rulecondition>temperature_now < 04</rulecondition>
+        <rulecondition>temperature_now &lt; 04</rulecondition>
         <methodName>updateTemperature</methodName>
         <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.SnowTemperature</parameter>
     </rule>
@@ -20,7 +20,7 @@
     <rule>
 		<ruleId>3</ruleId>
 	    <rulename>Sunny</rulename>
-        <rulecondition>&& ( temperature_now > 15, temperature < 25)</rulecondition>
+        <rulecondition> &amp;&amp; ( temperature_now &gt; 15, temperature_now &lt; 25)</rulecondition>
         <methodName>updateTemperature</methodName>
         <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.SunnyTemperature</parameter>
     </rule>
@@ -28,7 +28,7 @@
     <rule>
 		<ruleId>4</ruleId>
 	    <rulename>Hot</rulename>
-        <rulecondition>&& ( temperature_now > 26, temperature_now < 40)</rulecondition>
+        <rulecondition> &amp;&amp; ( temperature_now &gt; 26, temperature_now &lt; 40)</rulecondition>
         <methodName>updateTemperature</methodName>
         <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.HOTTemperature</parameter>
     </rule>

@@ -12,7 +12,7 @@
 	<rule>
 		<ruleId>2</ruleId>
 	    <rulename>OfficePOI</rulename>
-	    <rulecondition> && (time_now > 08:00 AM , time_now < 10:00 AM)</rulecondition>
+	    <rulecondition> &amp;&amp; (time_now &gt; 08:00 AM , time_now &lt; 10:00 AM)</rulecondition>
         <methodName>updatePOIs</methodName>
         <parameter>at.fhooe.mc.lbcas.component.poicomponent.OfficePOI</parameter>
 	</rule>
@@ -20,7 +20,7 @@
 	<rule>
 		<ruleId>3</ruleId>
 	    <rulename>HomePOI</rulename>
-	    <condition> && (time_now > 06:00 PM , time_now < 08:00 PM)</condition>
+	    <rulecondition> &amp;&amp; (time_now &gt; 06:00 PM , time_now &lt; 08:00 PM)</rulecondition>
         <methodName>updatePOIs</methodName>
         <parameter>at.fhooe.mc.lbcas.component.poicomponent.HomePOI</parameter>
 	</rule>

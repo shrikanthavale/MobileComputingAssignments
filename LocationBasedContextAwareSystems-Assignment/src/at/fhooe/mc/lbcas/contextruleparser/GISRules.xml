@@ -17,28 +17,28 @@
 	<rule>
 		<ruleId>3</ruleId>
 	    <rulename>DayNightMode</rulename>
-	    <condition>daynight_mode == DAY</condition>
+	    <rulecondition>daynight_mode == DAY</rulecondition>
         <methodName>activateDayNightMode</methodName>
         <parameter></parameter>
 	</rule>
 	<rule>
 		<ruleId>4</ruleId>
 	    <rulename>DayNightMode</rulename>
-	    <condition>daynight_mode == NIGHT</condition>
+	    <rulecondition>daynight_mode == NIGHT</rulecondition>
         <methodName>activateDayNightMode</methodName>
         <parameter></parameter>
 	</rule>	
 	<rule>
 		<ruleId>5</ruleId>
 	    <rulename>WalkingDrivingMode</rulename>
-	    <condition>user_mode == DRIVING</condition>
+	    <rulecondition>user_mode == DRIVING</rulecondition>
         <methodName>activateWalkingDrivingMode</methodName>
         <parameter></parameter>
 	</rule>
 	<rule>
 		<ruleId>6</ruleId>
 	    <rulename>WalkingDrivingMode</rulename>
-	    <condition>user_mode == WALKING</condition>
+	    <rulecondition>user_mode == WALKING</rulecondition>
         <methodName>activateWalkingDrivingMode</methodName>
         <parameter></parameter>
 	</rule>	

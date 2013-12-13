@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -87,7 +88,7 @@ public class JAXBParser implements XMLParserIF {
 	 * .String)
 	 */
 	@Override
-	public HashMap<String, RulesEntity> readContextRules(String _filePath) {
+	public List<RulesEntity> readContextRules(String _filePath) {
 		// Do Nothing
 		return null;
 	}

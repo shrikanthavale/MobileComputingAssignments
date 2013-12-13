@@ -23,51 +23,61 @@ public interface ContextRuleParserConstants {
   /** RegularExpression Id. */
   int OR = 10;
   /** RegularExpression Id. */
-  int POSITION_NOW = 11;
+  int OPENING_BRACKET = 11;
   /** RegularExpression Id. */
-  int DAYNIGHT_MODE = 12;
+  int CLOSING_BRACKET = 12;
   /** RegularExpression Id. */
-  int USER_MODE = 13;
+  int COMMA = 13;
   /** RegularExpression Id. */
-  int TIME_NOW = 14;
+  int POSITION_NOW = 14;
   /** RegularExpression Id. */
-  int TEMPERATURE_NOW = 15;
+  int DAYNIGHT_MODE = 15;
   /** RegularExpression Id. */
-  int UNIVERSITY_CAMPUS = 16;
+  int USER_MODE = 16;
   /** RegularExpression Id. */
-  int DAY = 17;
+  int TIME_NOW = 17;
   /** RegularExpression Id. */
-  int NIGHT = 18;
+  int TEMPERATURE_NOW = 18;
   /** RegularExpression Id. */
-  int DRIVING = 19;
+  int UNIVERSITY_CAMPUS = 19;
   /** RegularExpression Id. */
-  int WALKING = 20;
+  int DAY = 20;
   /** RegularExpression Id. */
-  int AM = 21;
+  int NIGHT = 21;
   /** RegularExpression Id. */
-  int PM = 22;
+  int DRIVING = 22;
   /** RegularExpression Id. */
-  int DECIMAL = 23;
+  int WALKING = 23;
   /** RegularExpression Id. */
-  int NUMBERZERO = 24;
+  int AM = 24;
   /** RegularExpression Id. */
-  int NUMBERONE = 25;
+  int PM = 25;
   /** RegularExpression Id. */
-  int NUMBERTWO = 26;
+  int DECIMAL = 26;
   /** RegularExpression Id. */
-  int NUMBERTHREE = 27;
+  int TIMECONSTANT = 27;
   /** RegularExpression Id. */
-  int NUMBERFOUR = 28;
+  int TEMPERATURECONSTANT = 28;
   /** RegularExpression Id. */
-  int NUMBERFIVE = 29;
+  int NUMBERZERO = 29;
   /** RegularExpression Id. */
-  int NUMBERSIX = 30;
+  int NUMBERONE = 30;
   /** RegularExpression Id. */
-  int NUMBERSEVEN = 31;
+  int NUMBERTWO = 31;
   /** RegularExpression Id. */
-  int NUMBEREIGHT = 32;
+  int NUMBERTHREE = 32;
   /** RegularExpression Id. */
-  int NUMBERNINE = 33;
+  int NUMBERFOUR = 33;
+  /** RegularExpression Id. */
+  int NUMBERFIVE = 34;
+  /** RegularExpression Id. */
+  int NUMBERSIX = 35;
+  /** RegularExpression Id. */
+  int NUMBERSEVEN = 36;
+  /** RegularExpression Id. */
+  int NUMBEREIGHT = 37;
+  /** RegularExpression Id. */
+  int NUMBERNINE = 38;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -85,6 +95,9 @@ public interface ContextRuleParserConstants {
     "\"!=\"",
     "\"&&\"",
     "\"||\"",
+    "\"(\"",
+    "\")\"",
+    "\",\"",
     "\"position_now\"",
     "\"daynight_mode\"",
     "\"user_mode\"",
@@ -98,6 +111,8 @@ public interface ContextRuleParserConstants {
     "\"AM\"",
     "\"PM\"",
     "\"DECIMAL\"",
+    "<TIMECONSTANT>",
+    "<TEMPERATURECONSTANT>",
     "<NUMBERZERO>",
     "<NUMBERONE>",
     "<NUMBERTWO>",

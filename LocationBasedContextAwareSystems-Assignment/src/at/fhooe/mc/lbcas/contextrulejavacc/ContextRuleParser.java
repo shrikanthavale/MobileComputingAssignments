@@ -21,7 +21,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
       {
         System.out.println("NOK.");
         System.out.println(e.getMessage());
-        ContextRuleParser.ReInit(System.in);
+        parser.ReInit(System.in);
       }
       catch (Error e)
       {
@@ -32,7 +32,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
     }
   }
 
-  static final public TreeNode execute() throws ParseException {
+  final public TreeNode execute() throws ParseException {
   TreeNode nodeA = null;
   TreeNode nodeB = null;
   TreeNode nodeC = null;
@@ -41,21 +41,6 @@ public class ContextRuleParser implements ContextRuleParserConstants {
   TreeNode intermediateSecondNode = null;
   TreeNode rootNode = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case GREATER:
-    case LESS:
-    case EQUAL:
-    case NOTEQUAL:
-      intermediateFirstNode = comparison_statement();
-      nodeB = constant_node_statement();
-      rootNode = logical_node_statement();
-      nodeC = variable_node_statement();
-      intermediateSecondNode = comparison_statement();
-      nodeD = constant_node_statement();
-    intermediateFirstNode.setChildNodes(new TreeNode[]{nodeA,nodeB});
-    intermediateSecondNode.setChildNodes(new TreeNode[]{nodeC,nodeD});
-    rootNode.setChildNodes(new TreeNode[]{intermediateFirstNode,intermediateSecondNode});
-    {if (true) return rootNode;}
-      break;
     case POSITION_NOW:
     case DAYNIGHT_MODE:
     case USER_MODE:
@@ -67,6 +52,23 @@ public class ContextRuleParser implements ContextRuleParserConstants {
     rootNode.setChildNodes(new TreeNode[]{nodeA,nodeB});
     {if (true) return rootNode;}
       break;
+    case AND:
+    case OR:
+      rootNode = logical_node_statement();
+      jj_consume_token(OPENING_BRACKET);
+      nodeA = variable_node_statement();
+      intermediateFirstNode = comparison_statement();
+      nodeB = constant_node_statement();
+      jj_consume_token(COMMA);
+      nodeC = variable_node_statement();
+      intermediateSecondNode = comparison_statement();
+      nodeD = constant_node_statement();
+      jj_consume_token(CLOSING_BRACKET);
+    intermediateFirstNode.setChildNodes(new TreeNode[]{nodeA,nodeB});
+    intermediateSecondNode.setChildNodes(new TreeNode[]{nodeC,nodeD});
+    rootNode.setChildNodes(new TreeNode[]{intermediateFirstNode,intermediateSecondNode});
+    {if (true) return rootNode;}
+      break;
     default:
       jj_la1[0] = jj_gen;
       jj_consume_token(-1);
@@ -76,7 +78,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
   }
 
 /******************************************************* Variable Nodes ********************************************************************/
-  static final public TreeNode variable_node_statement() throws ParseException {
+  final public TreeNode variable_node_statement() throws ParseException {
   Token variableToken = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case POSITION_NOW:
@@ -110,7 +112,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
 /******************************************************* Variable Nodes ********************************************************************/
 
 /******************************************************* Comparison Nodes ********************************************************************/
-  static final public TreeNode comparison_statement() throws ParseException {
+  final public TreeNode comparison_statement() throws ParseException {
   TreeNode node = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case EQUAL:
@@ -137,7 +139,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public ComparisonEqualNode equalto() throws ParseException {
+  final public ComparisonEqualNode equalto() throws ParseException {
   Token token;
     token = jj_consume_token(EQUAL);
     ComparisonEqualNode comparisonNode = new ComparisonEqualNode();
@@ -145,7 +147,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public ComparisonNotEqualNode notequalto() throws ParseException {
+  final public ComparisonNotEqualNode notequalto() throws ParseException {
   Token token;
     token = jj_consume_token(NOTEQUAL);
     ComparisonNotEqualNode comparisonNode = new ComparisonNotEqualNode();
@@ -153,7 +155,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public ComparisonGreaterNode greaterthan() throws ParseException {
+  final public ComparisonGreaterNode greaterthan() throws ParseException {
   Token token;
     token = jj_consume_token(GREATER);
     ComparisonGreaterNode comparisonNode = new ComparisonGreaterNode();
@@ -161,7 +163,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public ComparisonLessNode lessthan() throws ParseException {
+  final public ComparisonLessNode lessthan() throws ParseException {
   Token token;
     token = jj_consume_token(LESS);
     ComparisonLessNode comparisonNode = new ComparisonLessNode();
@@ -174,45 +176,44 @@ public class ContextRuleParser implements ContextRuleParserConstants {
 
 
 /******************************************************* Constant Nodes ********************************************************************/
-  static final public ConstantNode constant_node_statement() throws ParseException {
+  final public ConstantNode constant_node_statement() throws ParseException {
   Token token = null;
   ConstantNode constantNode = null;
   String time = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case UNIVERSITY_CAMPUS:
-      token = jj_consume_token(UNIVERSITY_CAMPUS);
-      break;
     case DAY:
-      jj_consume_token(DAY);
-      break;
     case NIGHT:
-      jj_consume_token(NIGHT);
-      break;
     case DRIVING:
-      jj_consume_token(DRIVING);
-      break;
     case WALKING:
-      jj_consume_token(WALKING);
+      token = constanttoken();
     constantNode = new ConstantNode();
     constantNode.setValueForConstantNode(token.image);
     {if (true) return constantNode;}
       break;
-    case NUMBERZERO:
-    case NUMBERONE:
-    case NUMBERTWO:
-      token = timeconstant();
+    case TIMECONSTANT:
+      token = jj_consume_token(TIMECONSTANT);
         time = token.image;
         try
         {
-            SimpleDateFormat df = new SimpleDateFormat("HH:mm AA");
+            SimpleDateFormat df = new SimpleDateFormat("HH:mm aa");
             Date date = df.parse(time);
             constantNode = new ConstantNode();
-            constantNode.setValueForConstantNode(token.image);
-        } catch(Exception exception)
+            constantNode.setValueForConstantNode(date);
+
+        }
+        catch(Exception exception)
         {
           exception.printStackTrace();
         }
     {if (true) return constantNode;}
+      break;
+    case TEMPERATURECONSTANT:
+      token = temperatureconstant();
+          Integer temperature = Integer.parseInt(token.image);
+          constantNode = new ConstantNode();
+          constantNode.setValueForConstantNode(temperature);
+          {if (true) return constantNode;}
       break;
     default:
       jj_la1[3] = jj_gen;
@@ -222,66 +223,45 @@ public class ContextRuleParser implements ContextRuleParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public Token timeconstant() throws ParseException {
-  Token token = null;
-    token = hourcheck();
-    ampmcheck();
-    {if (true) return token;}
-    throw new Error("Missing return statement in function");
-  }
-
-  static final public Token hourcheck() throws ParseException {
+  final public Token constanttoken() throws ParseException {
   Token token = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case NUMBERZERO:
-      token = jj_consume_token(NUMBERZERO);
-      allNumbersOneOccurrence();
+    case UNIVERSITY_CAMPUS:
+      token = jj_consume_token(UNIVERSITY_CAMPUS);
+    {if (true) return token;}
       break;
-    case NUMBERONE:
-      jj_consume_token(NUMBERONE);
-      allNumbersOneOccurrence();
+    case DAY:
+      token = jj_consume_token(DAY);
+    {if (true) return token;}
       break;
-    case NUMBERTWO:
-      jj_consume_token(NUMBERTWO);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case NUMBERZERO:
-      case NUMBERONE:
-      case NUMBERTWO:
-      case NUMBERTHREE:
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case NUMBERZERO:
-          jj_consume_token(NUMBERZERO);
-          break;
-        case NUMBERONE:
-          jj_consume_token(NUMBERONE);
-          break;
-        case NUMBERTWO:
-          jj_consume_token(NUMBERTWO);
-          break;
-        case NUMBERTHREE:
-          jj_consume_token(NUMBERTHREE);
-          break;
-        default:
-          jj_la1[4] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
-        break;
-      default:
-        jj_la1[5] = jj_gen;
-        ;
-      }
-        {if (true) return token;}
+    case NIGHT:
+      token = jj_consume_token(NIGHT);
+    {if (true) return token;}
+      break;
+    case DRIVING:
+      token = jj_consume_token(DRIVING);
+    {if (true) return token;}
+      break;
+    case WALKING:
+      token = jj_consume_token(WALKING);
+    {if (true) return token;}
       break;
     default:
-      jj_la1[6] = jj_gen;
+      jj_la1[4] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
     throw new Error("Missing return statement in function");
   }
 
-  static final public Token allNumbersOneOccurrence() throws ParseException {
+  final public Token temperatureconstant() throws ParseException {
+  Token token = null;
+    token = jj_consume_token(TEMPERATURECONSTANT);
+    {if (true) return token;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public Token allNumbersOneOccurrence() throws ParseException {
   Token token = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case NUMBERZERO:
@@ -316,25 +296,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
            {if (true) return token;}
       break;
     default:
-      jj_la1[7] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
-    throw new Error("Missing return statement in function");
-  }
-
-  static final public Token ampmcheck() throws ParseException {
-  Token ampm;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case AM:
-      token = jj_consume_token(AM);
-      break;
-    case PM:
-      jj_consume_token(PM);
-    {if (true) return token;}
-      break;
-    default:
-      jj_la1[8] = jj_gen;
+      jj_la1[5] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -345,7 +307,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
 
 
 /******************************************************* Logical Nodes ********************************************************************/
-  static final public TreeNode logical_node_statement() throws ParseException {
+  final public TreeNode logical_node_statement() throws ParseException {
   Token token = null;
   TreeNode logicalNode = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -360,24 +322,23 @@ public class ContextRuleParser implements ContextRuleParserConstants {
                 {if (true) return logicalNode;}
       break;
     default:
-      jj_la1[9] = jj_gen;
+      jj_la1[6] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
     throw new Error("Missing return statement in function");
   }
 
-  static private boolean jj_initialized_once = false;
   /** Generated Token Manager. */
-  static public ContextRuleParserTokenManager token_source;
-  static SimpleCharStream jj_input_stream;
+  public ContextRuleParserTokenManager token_source;
+  SimpleCharStream jj_input_stream;
   /** Current token. */
-  static public Token token;
+  public Token token;
   /** Next token. */
-  static public Token jj_nt;
-  static private int jj_ntk;
-  static private int jj_gen;
-  static final private int[] jj_la1 = new int[10];
+  public Token jj_nt;
+  private int jj_ntk;
+  private int jj_gen;
+  final private int[] jj_la1 = new int[7];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -385,10 +346,10 @@ public class ContextRuleParser implements ContextRuleParserConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0xf9e0,0xf800,0x1e0,0x71f0000,0xf000000,0xf000000,0x7000000,0xff000000,0x600000,0x600,};
+      jj_la1_0 = new int[] {0x7c600,0x7c000,0x1e0,0x18f80000,0xf80000,0xe0000000,0x600,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x3,0x0,0x0,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x7f,0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -397,76 +358,55 @@ public class ContextRuleParser implements ContextRuleParserConstants {
   }
   /** Constructor with InputStream and supplied encoding */
   public ContextRuleParser(java.io.InputStream stream, String encoding) {
-    if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser.  ");
-      System.out.println("       You must either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
-      throw new Error();
-    }
-    jj_initialized_once = true;
     try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
     token_source = new ContextRuleParserTokenManager(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
-  static public void ReInit(java.io.InputStream stream) {
+  public void ReInit(java.io.InputStream stream) {
      ReInit(stream, null);
   }
   /** Reinitialise. */
-  static public void ReInit(java.io.InputStream stream, String encoding) {
+  public void ReInit(java.io.InputStream stream, String encoding) {
     try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
     token_source.ReInit(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
   public ContextRuleParser(java.io.Reader stream) {
-    if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser. ");
-      System.out.println("       You must either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
-      throw new Error();
-    }
-    jj_initialized_once = true;
     jj_input_stream = new SimpleCharStream(stream, 1, 1);
     token_source = new ContextRuleParserTokenManager(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
-  static public void ReInit(java.io.Reader stream) {
+  public void ReInit(java.io.Reader stream) {
     jj_input_stream.ReInit(stream, 1, 1);
     token_source.ReInit(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
   public ContextRuleParser(ContextRuleParserTokenManager tm) {
-    if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser. ");
-      System.out.println("       You must either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
-      throw new Error();
-    }
-    jj_initialized_once = true;
     token_source = tm;
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -475,10 +415,10 @@ public class ContextRuleParser implements ContextRuleParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
-  static private Token jj_consume_token(int kind) throws ParseException {
+  private Token jj_consume_token(int kind) throws ParseException {
     Token oldToken;
     if ((oldToken = token).next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
@@ -494,7 +434,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
 
 
 /** Get the next Token. */
-  static final public Token getNextToken() {
+  final public Token getNextToken() {
     if (token.next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
     jj_ntk = -1;
@@ -503,7 +443,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
   }
 
 /** Get the specific Token. */
-  static final public Token getToken(int index) {
+  final public Token getToken(int index) {
     Token t = token;
     for (int i = 0; i < index; i++) {
       if (t.next != null) t = t.next;
@@ -512,26 +452,26 @@ public class ContextRuleParser implements ContextRuleParserConstants {
     return t;
   }
 
-  static private int jj_ntk() {
+  private int jj_ntk() {
     if ((jj_nt=token.next) == null)
       return (jj_ntk = (token.next=token_source.getNextToken()).kind);
     else
       return (jj_ntk = jj_nt.kind);
   }
 
-  static private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
-  static private int[] jj_expentry;
-  static private int jj_kind = -1;
+  private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
+  private int[] jj_expentry;
+  private int jj_kind = -1;
 
   /** Generate ParseException. */
-  static public ParseException generateParseException() {
+  public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[34];
+    boolean[] la1tokens = new boolean[39];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 7; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -543,7 +483,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
         }
       }
     }
-    for (int i = 0; i < 34; i++) {
+    for (int i = 0; i < 39; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
@@ -558,11 +498,11 @@ public class ContextRuleParser implements ContextRuleParserConstants {
   }
 
   /** Enable tracing. */
-  static final public void enable_tracing() {
+  final public void enable_tracing() {
   }
 
   /** Disable tracing. */
-  static final public void disable_tracing() {
+  final public void disable_tracing() {
   }
 
 }

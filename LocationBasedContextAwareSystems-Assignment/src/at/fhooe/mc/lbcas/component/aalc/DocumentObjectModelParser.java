@@ -6,6 +6,7 @@ package at.fhooe.mc.lbcas.component.aalc;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -465,7 +466,7 @@ public class DocumentObjectModelParser implements XMLParserIF {
 	 * .String)
 	 */
 	@Override
-	public HashMap<String, RulesEntity> readContextRules(String _filePath) {
+	public List<RulesEntity> readContextRules(String _filePath) {
 		// Do Nothing
 		return null;
 	}

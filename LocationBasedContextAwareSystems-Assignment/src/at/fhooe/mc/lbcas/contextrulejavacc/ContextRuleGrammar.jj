@@ -1,12 +1,12 @@
 /**
  * JavaCC template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
- */options{  JDK_VERSION = "1.5";  static = true;}PARSER_BEGIN(ContextRuleParser)package at.fhooe.mc.lbcas.contextrulejavacc;
+ */options{  JDK_VERSION = "1.5";  static = false;}PARSER_BEGIN(ContextRuleParser)package at.fhooe.mc.lbcas.contextrulejavacc;
 
 import at.fhooe.mc.lbcas.contextruleparser.*;
 import java.util.*;
 import java.text.*;
 
-public class ContextRuleParser{  public static void main(String args []) throws ParseException  {    ContextRuleParser parser = new ContextRuleParser(System.in);    while (true)    {      System.out.println("Reading from standard input...");      System.out.print("Enter Rule from Rules XML File:");      try      {        TreeNode treeNode = parser.execute();      }      catch (Exception e)      {        System.out.println("NOK.");        System.out.println(e.getMessage());        ContextRuleParser.ReInit(System.in);      }      catch (Error e)      {        System.out.println("Oops.");        System.out.println(e.getMessage());        break;      }    }  }}PARSER_END(ContextRuleParser)
+public class ContextRuleParser{  public static void main(String args []) throws ParseException  {    ContextRuleParser parser = new ContextRuleParser(System.in);    while (true)    {      System.out.println("Reading from standard input...");      System.out.print("Enter Rule from Rules XML File:");      try      {        TreeNode treeNode = parser.execute();      }      catch (Exception e)      {        System.out.println("NOK.");        System.out.println(e.getMessage());        parser.ReInit(System.in);      }      catch (Error e)      {        System.out.println("Oops.");        System.out.println(e.getMessage());        break;      }    }  }}PARSER_END(ContextRuleParser)
 /**
 Tokens to be skipped
 **/SKIP :{  " "| "\r"| "\t"| "\n"}

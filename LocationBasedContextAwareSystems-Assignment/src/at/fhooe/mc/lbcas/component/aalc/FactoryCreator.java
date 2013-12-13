@@ -4,6 +4,7 @@
 package at.fhooe.mc.lbcas.component.aalc;
 
 import at.fhooe.mc.lbcas.componentcompositionparser.ComponentCompositionXMLReader;
+import at.fhooe.mc.lbcas.contextruleparser.ContextRuleXMLReader;
 
 /**
  * @author Shrikant Havale
@@ -29,9 +30,11 @@ public abstract class FactoryCreator {
 			return new DocumentObjectModelParser();
 		} else if ("JAXBParser".equals(_parserType)) {
 			return new JAXBParser();
-		} else if ("ContextRuleXMLReader".equals(_parserType))
+		} else if ("ContextCompositionXMLReader".equals(_parserType))
 			return new ComponentCompositionXMLReader();
-		else
+		else if("ContextRuleXMLReader".equals(_parserType)){
+			return new ContextRuleXMLReader();
+		}
 			return null;
 
 	}

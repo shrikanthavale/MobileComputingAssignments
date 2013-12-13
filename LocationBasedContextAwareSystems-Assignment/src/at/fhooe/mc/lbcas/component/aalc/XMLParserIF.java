@@ -4,6 +4,7 @@
 package at.fhooe.mc.lbcas.component.aalc;
 
 import java.util.HashMap;
+import java.util.List;
 
 import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement;
 import at.fhooe.mc.lbcas.componentcompositionparser.ComponentComposition;
@@ -45,5 +46,5 @@ public interface XMLParserIF {
 	 * @param _filePath
 	 * @return
 	 */
-	public HashMap<String, RulesEntity> readContextRules(String _filePath);
+	public List<RulesEntity> readContextRules(String _filePath);
 }
