@@ -40,6 +40,7 @@ import at.fhooe.mc.lbcas.component.gis.GeoObjectObservable;
 import at.fhooe.mc.lbcas.componentcompositionparser.ComponentComposition;
 import at.fhooe.mc.lbcas.contextrulejavacc.ContextRuleParser;
 import at.fhooe.mc.lbcas.contextrulejavacc.ParseException;
+import at.fhooe.mc.lbcas.contextruleparser.NodeError;
 import at.fhooe.mc.lbcas.contextruleparser.RulesEntity;
 import at.fhooe.mc.lbcas.contextruleparser.TreeNode;
 import at.fhooe.mc.lbcas.entities.GeoObject;
@@ -205,24 +206,17 @@ public class CASMediator implements MediatorIF {
 		m_ruleMap.put("TemperatureRules", temperatureRules);
 		
 		try {
-			
 			for(String key : m_ruleMap.keySet()){
 				Map<TreeNode, RulesEntity> tempHashMap = new HashMap<>();
-				
 				for(RulesEntity tempRulesEntity : m_ruleMap.get(key)){
-					
 					String rule = tempRulesEntity.getM_ruleCondition();
-					System.out.println("************"+rule);
 					ContextRuleParser contextRuleParser = new ContextRuleParser(new ByteArrayInputStream(rule.getBytes()));
 					TreeNode treeNode = contextRuleParser.execute();
 					tempHashMap.put(treeNode, tempRulesEntity);
 				}
 				m_treeNodeRulesMap.put(key, tempHashMap);
-				System.out.println("******************************************");
 			}
-			
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -324,6 +318,16 @@ public class CASMediator implements MediatorIF {
 
 		// notify observers
 		m_conteContextSituationObservable.notifyObservers(_contextSituation);
+		
+		 for(TreeNode treeNode : m_treeNodeRulesMap.get("GISRules").keySet()){
+			 try {
+				treeNode.setVariableParameters(_contextSituation); 
+				treeNode.calculate();
+			} catch (NodeError e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 }
 
 	}
 

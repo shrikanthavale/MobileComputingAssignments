@@ -73,9 +73,9 @@ TOKEN :
 |	< DAYNIGHT_MODE : "daynight_mode" >
 	{		System.out.println("Day Night Mode");
 	}
-|	< USER_MODE : "user_mode" >
+|	< LANGUAGE_MODE : "language_mode" >
 	{
-		System.out.println("User Mode");
+		System.out.println("Language Mode");
 	}
 | 	< TIME_NOW : "time_now" >
 	{
@@ -101,13 +101,13 @@ CONSTANT - SPECIFIC TO RULES
   {
 	System.out.println("Day Night Mode is : NIGHT");
   }
-| < DRIVING : "DRIVING" >
+| < ENGLISH : "ENGLISH" >
   {
-	System.out.println("User Mode : DRIVING");
+	System.out.println("Language Mode : ENGLISH");
   }
-| < WALKING : "WALKING" >
+| < GERMAN : "GERMAN" >
   {
-	System.out.println("User Mode : WALKING");
+	System.out.println("Language Mode : GERMAN");
   }
 | < AM : "AM" >
   {
@@ -194,9 +194,9 @@ TreeNode variable_node_statement() :
     return new DayNightModeVariableNode();
   }
 |
-  variableToken = < USER_MODE >
+  variableToken = < LANGUAGE_MODE >
   {
-    return new DayNightModeVariableNode();
+    return new NationalityLanguageVariableNode();
   }
 |
   variableToken = < TIME_NOW >
@@ -283,7 +283,7 @@ ComparisonLessNode lessthan() :
   token = constanttoken()
   {
     constantNode = new ConstantNode();
-    constantNode.setValueForConstantNode(token.image);
+    constantNode.setValueForNode(token.image);
     return constantNode;
   }
 | 
@@ -292,7 +292,7 @@ ComparisonLessNode lessthan() :
 	try	{	    SimpleDateFormat df = new SimpleDateFormat("HH:mm aa");
 	    Date date = df.parse(time);
 	    constantNode = new ConstantNode();
-	    constantNode.setValueForConstantNode(date);
+	    constantNode.setValueForNode(date);
 	    
 	}
 	catch(Exception exception)	{	  exception.printStackTrace();
@@ -303,7 +303,7 @@ ComparisonLessNode lessthan() :
 	token = temperatureconstant()
 	{	  Integer temperature = Integer.parseInt(token.image);
 	  constantNode = new ConstantNode();
-	  constantNode.setValueForConstantNode(temperature);
+	  constantNode.setValueForNode(temperature);
 	  return constantNode;
 	}
 }
@@ -323,11 +323,11 @@ Token constanttoken() :{
   {
     return token;
   }
-|   token =  < DRIVING >
+|   token =  < GERMAN >
   {
     return token;
   }
-|   token =  < WALKING >
+|   token =  < ENGLISH >
   {
     return token;
   }  

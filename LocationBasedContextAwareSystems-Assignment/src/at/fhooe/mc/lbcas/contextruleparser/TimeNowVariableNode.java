@@ -3,6 +3,12 @@
  */
 package at.fhooe.mc.lbcas.contextruleparser;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Vector;
+
+import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement;
 import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
 
 /**
@@ -10,12 +16,16 @@ import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
  * 
  */
 public class TimeNowVariableNode extends TreeNode {
-
+	
 	/**
-	 * 
+	 * value to store variable
+	 */
+	private Object m_value;
+	
+	/**
+	 * default constructor
 	 */
 	public TimeNowVariableNode() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/*
@@ -25,8 +35,7 @@ public class TimeNowVariableNode extends TreeNode {
 	 */
 	@Override
 	public Object calculate() throws NodeError {
-		// TODO Auto-generated method stub
-		return null;
+		return m_value;
 	}
 
 	/*
@@ -38,8 +47,24 @@ public class TimeNowVariableNode extends TreeNode {
 	 */
 	@Override
 	public void setVariableParameters(ContextSituation _contextSituation) {
-		// TODO Auto-generated method stub
+		// cast to context element
+		Vector<ContextElement> contextElements = _contextSituation.getContextElements();
 
+		for (ContextElement contextElement : contextElements) {
+
+			if ("timecontext".equals(contextElement.getContexttype())) {
+				int hour = contextElement.getTimeContextElement().getTime().getHour();
+				int seconds = contextElement.getTimeContextElement().getTime().getSeconds();
+				String amPM = contextElement.getTimeContextElement().getTime().getAMPM();
+			    SimpleDateFormat df = new SimpleDateFormat("HH:mm aa");
+			    try {
+					 m_value = df.parse(hour + ":" + seconds + " " + amPM);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	/*
@@ -49,8 +74,7 @@ public class TimeNowVariableNode extends TreeNode {
 	 */
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-
+		m_value = null;
 	}
 
 }

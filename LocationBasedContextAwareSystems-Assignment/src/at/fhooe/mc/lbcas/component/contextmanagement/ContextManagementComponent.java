@@ -509,28 +509,6 @@ public class ContextManagementComponent extends JPanel implements ComponentIF {
 		m_groupradioButtonsDayNight.add(m_timeContextDayRadio);
 		m_groupradioButtonsDayNight.add(m_timeContextNightRadio);
 
-		m_timeContextDayRadio.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				if (m_timeContextDayRadio.isSelected()) {
-					m_timeContextPanel.setBackground(Color.ORANGE);
-				} else {
-					m_timeContextPanel.setBackground(Color.GRAY);
-				}
-			}
-		});
-
-		m_timeContextNightRadio.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				if (m_timeContextNightRadio.isSelected()) {
-					m_timeContextPanel.setBackground(Color.GRAY);
-				} else {
-					m_timeContextPanel.setBackground(Color.ORANGE);
-				}
-			}
-		});
-
 		m_positionContextPanel = new JPanel();
 		m_positionContextPanel.setBorder(new TitledBorder(new LineBorder(
 				new Color(0, 0, 0), 1, true), "Position Context",
@@ -748,25 +726,6 @@ public class ContextManagementComponent extends JPanel implements ComponentIF {
 		m_deviceContextBatteryPercentageSlider.setBounds(122, 73, 250, 26);
 		m_deviceContextPanel.add(m_deviceContextBatteryPercentageSlider);
 
-		m_deviceContextBatteryPercentageSlider
-				.addChangeListener(new ChangeListener() {
-					@Override
-					public void stateChanged(ChangeEvent e) {
-						int temperature = m_deviceContextBatteryPercentageSlider
-								.getValue();
-						if (temperature < 10) {
-							m_deviceContextPanel.setBackground(new Color(0,
-									191, 255));
-						} else if (temperature >= 10 && temperature <= 25) {
-							m_deviceContextPanel.setBackground(new Color(255,
-									140, 0));
-						} else if (temperature > 25) {
-							m_deviceContextPanel.setBackground(new Color(220,
-									20, 60));
-						}
-					}
-				});
-
 		// temperature context panel
 		m_TemperatureContextPanel = new JPanel();
 		m_TemperatureContextPanel.setBorder(new TitledBorder(new LineBorder(
@@ -783,47 +742,6 @@ public class ContextManagementComponent extends JPanel implements ComponentIF {
 		m_temperatureText.setBounds(140, 46, 86, 20);
 		m_TemperatureContextPanel.add(m_temperatureText);
 		m_temperatureText.setColumns(10);
-		m_temperatureText.getDocument().addDocumentListener(
-				new DocumentListener() {
-					public void changedUpdate(DocumentEvent e) {
-
-						if (m_temperatureText.getText().trim() != "") {
-							int temperature = Integer
-									.parseInt(m_temperatureText.getText());
-							if (temperature < 10) {
-								m_TemperatureContextPanel
-										.setBackground(new Color(0, 191, 255));
-							} else if (temperature >= 10 && temperature <= 25) {
-								m_TemperatureContextPanel
-										.setBackground(new Color(255, 140, 0));
-							} else if (temperature > 25) {
-								m_TemperatureContextPanel
-										.setBackground(new Color(220, 20, 60));
-							}
-						}
-					}
-
-					public void removeUpdate(DocumentEvent e) {
-						// do nothing
-					}
-
-					public void insertUpdate(DocumentEvent e) {
-						if (m_temperatureText.getText().trim() != "") {
-							int temperature = Integer
-									.parseInt(m_temperatureText.getText());
-							if (temperature < 10) {
-								m_TemperatureContextPanel
-										.setBackground(new Color(0, 191, 255));
-							} else if (temperature >= 10 && temperature <= 25) {
-								m_TemperatureContextPanel
-										.setBackground(new Color(255, 140, 0));
-							} else if (temperature > 25) {
-								m_TemperatureContextPanel
-										.setBackground(new Color(220, 20, 60));
-							}
-						}
-					}
-				});
 
 		m_transmissionFrequencyPanel = new JPanel();
 		m_transmissionFrequencyPanel.setBorder(new TitledBorder(new LineBorder(

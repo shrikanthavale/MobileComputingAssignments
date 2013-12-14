@@ -3,6 +3,9 @@
  */
 package at.fhooe.mc.lbcas.contextruleparser;
 
+import java.util.Vector;
+
+import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement;
 import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
 
 /**
@@ -12,10 +15,14 @@ import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
 public class PositionNowVariableNode extends TreeNode {
 
 	/**
-	 * 
+	 * value of the variable node
+	 */
+	private Object m_value;
+
+	/**
+	 * default constructor
 	 */
 	public PositionNowVariableNode() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
@@ -23,8 +30,7 @@ public class PositionNowVariableNode extends TreeNode {
 	 */
 	@Override
 	public Object calculate() throws NodeError {
-		// TODO Auto-generated method stub
-		return null;
+		return m_value;
 	}
 
 	/* (non-Javadoc)
@@ -32,8 +38,16 @@ public class PositionNowVariableNode extends TreeNode {
 	 */
 	@Override
 	public void setVariableParameters(ContextSituation _contextSituation) {
-		// TODO Auto-generated method stub
+		// cast to context element
+		Vector<ContextElement> contextElements = _contextSituation.getContextElements();
 
+		for (ContextElement contextElement : contextElements) {
+
+			if ("locationcontext".equals(contextElement.getContexttype())) {
+				m_value = contextElement.getLocationContextElement().getGeographicalLocation().getAltitude() > 260 
+						? "UNIVERSITY_CAMPUS" : "";
+			}
+		}
 	}
 
 	/* (non-Javadoc)
@@ -41,8 +55,7 @@ public class PositionNowVariableNode extends TreeNode {
 	 */
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-
+		m_value = null;
 	}
 
 }

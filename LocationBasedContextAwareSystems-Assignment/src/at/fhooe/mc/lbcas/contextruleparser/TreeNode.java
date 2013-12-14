@@ -88,7 +88,7 @@ public abstract class TreeNode {
 		return m_childs;
 	}
 
-	public void setValueForConstantNode(Object _value) {
+	public void setValueForNode(Object _value) {
 
 	}
 }

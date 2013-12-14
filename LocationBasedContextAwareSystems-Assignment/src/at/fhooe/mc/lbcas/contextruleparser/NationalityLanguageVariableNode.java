@@ -3,8 +3,6 @@
  */
 package at.fhooe.mc.lbcas.contextruleparser;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement;
@@ -14,18 +12,17 @@ import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
  * @author Shrikant Havale
  *
  */
-public class TemperatureNowVariableNode extends TreeNode {
-	
+public class NationalityLanguageVariableNode extends TreeNode {
+
 	/**
-	 * value to store variable
+	 * value of the variable node
 	 */
 	private Object m_value;
 
 	/**
 	 * default constructor
 	 */
-	public TemperatureNowVariableNode() {
-		// TODO Auto-generated constructor stub
+	public NationalityLanguageVariableNode() {
 	}
 
 	/* (non-Javadoc)
@@ -43,11 +40,11 @@ public class TemperatureNowVariableNode extends TreeNode {
 	public void setVariableParameters(ContextSituation _contextSituation) {
 		// cast to context element
 		Vector<ContextElement> contextElements = _contextSituation.getContextElements();
-
+		
 		for (ContextElement contextElement : contextElements) {
-
-			if ("temperaturecontext".equals(contextElement.getContexttype())) {
-				m_value = contextElement.getTemperatureContextElement().getCurrentTemperature().getTemperaturevalue();
+			if ("usercontext".equals(contextElement.getContexttype())) {
+				m_value = contextElement.getUserContextElement().getUserProfile().getNationality().equals("Austrian")
+						? "GERMAN" : "ENGLISH" ;
 			}
 		}
 	}

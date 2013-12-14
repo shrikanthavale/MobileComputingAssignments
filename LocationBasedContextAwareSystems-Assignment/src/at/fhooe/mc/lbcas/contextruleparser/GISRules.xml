@@ -30,15 +30,15 @@
 	</rule>	
 	<rule>
 		<ruleId>5</ruleId>
-	    <rulename>WalkingDrivingMode</rulename>
-	    <rulecondition>user_mode == DRIVING</rulecondition>
+	    <rulename>NationalityLanguageMode</rulename>
+	    <rulecondition>language_mode == ENGLISH</rulecondition>
         <methodName>activateWalkingDrivingMode</methodName>
         <parameter></parameter>
 	</rule>
 	<rule>
 		<ruleId>6</ruleId>
-	    <rulename>WalkingDrivingMode</rulename>
-	    <rulecondition>user_mode == WALKING</rulecondition>
+	    <rulename>NationalityLanguageMode</rulename>
+	    <rulecondition>language_mode == GERMAN</rulecondition>
         <methodName>activateWalkingDrivingMode</methodName>
         <parameter></parameter>
 	</rule>	

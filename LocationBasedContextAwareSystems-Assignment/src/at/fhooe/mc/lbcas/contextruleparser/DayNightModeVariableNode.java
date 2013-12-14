@@ -3,6 +3,9 @@
  */
 package at.fhooe.mc.lbcas.contextruleparser;
 
+import java.util.Vector;
+
+import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement;
 import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
 
 /**
@@ -10,12 +13,16 @@ import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
  *
  */
 public class DayNightModeVariableNode extends TreeNode {
+	
+	/**
+	 * to store current value of the node
+	 */
+	private Object m_value = null;
 
 	/**
-	 * 
+	 * Default constructor
 	 */
 	public DayNightModeVariableNode() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
@@ -23,8 +30,7 @@ public class DayNightModeVariableNode extends TreeNode {
 	 */
 	@Override
 	public Object calculate() throws NodeError {
-		// TODO Auto-generated method stub
-		return null;
+		return  m_value;
 	}
 
 	/* (non-Javadoc)
@@ -32,8 +38,19 @@ public class DayNightModeVariableNode extends TreeNode {
 	 */
 	@Override
 	public void setVariableParameters(ContextSituation _contextSituation) {
-		// TODO Auto-generated method stub
 
+		// cast to context element
+		Vector<ContextElement> contextElements = _contextSituation.getContextElements();
+		
+		for (ContextElement contextElement : contextElements) {
+
+			if ("timecontext".equals(contextElement.getContexttype())) {
+	
+				String dayNight = contextElement.getTimeContextElement().getTime().getAMPM();
+				m_value = dayNight.equals("AM") ? "DAY" : "NIGHT"; 
+				
+			}
+		}
 	}
 
 	/* (non-Javadoc)
@@ -41,8 +58,7 @@ public class DayNightModeVariableNode extends TreeNode {
 	 */
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-
+		m_value = null;
 	}
 
 }

@@ -33,7 +33,7 @@ public interface ContextRuleParserConstants {
   /** RegularExpression Id. */
   int DAYNIGHT_MODE = 15;
   /** RegularExpression Id. */
-  int USER_MODE = 16;
+  int LANGUAGE_MODE = 16;
   /** RegularExpression Id. */
   int TIME_NOW = 17;
   /** RegularExpression Id. */
@@ -45,9 +45,9 @@ public interface ContextRuleParserConstants {
   /** RegularExpression Id. */
   int NIGHT = 21;
   /** RegularExpression Id. */
-  int DRIVING = 22;
+  int ENGLISH = 22;
   /** RegularExpression Id. */
-  int WALKING = 23;
+  int GERMAN = 23;
   /** RegularExpression Id. */
   int AM = 24;
   /** RegularExpression Id. */
@@ -100,14 +100,14 @@ public interface ContextRuleParserConstants {
     "\",\"",
     "\"position_now\"",
     "\"daynight_mode\"",
-    "\"user_mode\"",
+    "\"language_mode\"",
     "\"time_now\"",
     "\"temperature_now\"",
     "\"UNIVERSITY_CAMPUS\"",
     "\"DAY\"",
     "\"NIGHT\"",
-    "\"DRIVING\"",
-    "\"WALKING\"",
+    "\"ENGLISH\"",
+    "\"GERMAN\"",
     "\"AM\"",
     "\"PM\"",
     "\"DECIMAL\"",

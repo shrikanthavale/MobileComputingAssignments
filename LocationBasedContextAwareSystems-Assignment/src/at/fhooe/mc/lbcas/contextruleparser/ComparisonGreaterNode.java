@@ -7,7 +7,7 @@ import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
 
 /**
  * @author Shrikant Havale
- *
+ * 
  */
 public class ComparisonGreaterNode extends TreeNode {
 
@@ -18,7 +18,9 @@ public class ComparisonGreaterNode extends TreeNode {
 		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see at.fhooe.mc.lbcas.contextruleparser.TreeNode#calculate()
 	 */
 	@Override
@@ -27,16 +29,25 @@ public class ComparisonGreaterNode extends TreeNode {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see at.fhooe.mc.lbcas.contextruleparser.TreeNode#setVariableParameters(at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * at.fhooe.mc.lbcas.contextruleparser.TreeNode#setVariableParameters(at
+	 * .fhooe.mc.lbcas.component.contextmanagement.ContextSituation)
 	 */
 	@Override
 	public void setVariableParameters(ContextSituation _contextSituation) {
-		// TODO Auto-generated method stub
+		TreeNode[] childNodes = getChilds();
 
+		for (TreeNode temp : childNodes) {
+			temp.setVariableParameters(_contextSituation);
+		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see at.fhooe.mc.lbcas.contextruleparser.TreeNode#clear()
 	 */
 	@Override

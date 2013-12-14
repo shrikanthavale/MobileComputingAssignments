@@ -43,7 +43,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case POSITION_NOW:
     case DAYNIGHT_MODE:
-    case USER_MODE:
+    case LANGUAGE_MODE:
     case TIME_NOW:
     case TEMPERATURE_NOW:
       nodeA = variable_node_statement();
@@ -89,9 +89,9 @@ public class ContextRuleParser implements ContextRuleParserConstants {
       variableToken = jj_consume_token(DAYNIGHT_MODE);
     {if (true) return new DayNightModeVariableNode();}
       break;
-    case USER_MODE:
-      variableToken = jj_consume_token(USER_MODE);
-    {if (true) return new DayNightModeVariableNode();}
+    case LANGUAGE_MODE:
+      variableToken = jj_consume_token(LANGUAGE_MODE);
+    {if (true) return new NationalityLanguageVariableNode();}
       break;
     case TIME_NOW:
       variableToken = jj_consume_token(TIME_NOW);
@@ -184,11 +184,11 @@ public class ContextRuleParser implements ContextRuleParserConstants {
     case UNIVERSITY_CAMPUS:
     case DAY:
     case NIGHT:
-    case DRIVING:
-    case WALKING:
+    case ENGLISH:
+    case GERMAN:
       token = constanttoken();
     constantNode = new ConstantNode();
-    constantNode.setValueForConstantNode(token.image);
+    constantNode.setValueForNode(token.image);
     {if (true) return constantNode;}
       break;
     case TIMECONSTANT:
@@ -199,7 +199,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
             SimpleDateFormat df = new SimpleDateFormat("HH:mm aa");
             Date date = df.parse(time);
             constantNode = new ConstantNode();
-            constantNode.setValueForConstantNode(date);
+            constantNode.setValueForNode(date);
 
         }
         catch(Exception exception)
@@ -212,7 +212,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
       token = temperatureconstant();
           Integer temperature = Integer.parseInt(token.image);
           constantNode = new ConstantNode();
-          constantNode.setValueForConstantNode(temperature);
+          constantNode.setValueForNode(temperature);
           {if (true) return constantNode;}
       break;
     default:
@@ -238,12 +238,12 @@ public class ContextRuleParser implements ContextRuleParserConstants {
       token = jj_consume_token(NIGHT);
     {if (true) return token;}
       break;
-    case DRIVING:
-      token = jj_consume_token(DRIVING);
+    case GERMAN:
+      token = jj_consume_token(GERMAN);
     {if (true) return token;}
       break;
-    case WALKING:
-      token = jj_consume_token(WALKING);
+    case ENGLISH:
+      token = jj_consume_token(ENGLISH);
     {if (true) return token;}
       break;
     default:
