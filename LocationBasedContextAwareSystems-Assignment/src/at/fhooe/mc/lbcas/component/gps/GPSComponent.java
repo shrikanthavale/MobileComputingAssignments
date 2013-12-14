@@ -25,8 +25,6 @@ import at.fhooe.mc.lbcas.component.ComponentIF;
 import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement;
 import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement.LocationContextElement;
 import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement.LocationContextElement.GeographicalLocation;
-import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement.TimeContextElement;
-import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement.TimeContextElement.Time;
 import at.fhooe.mc.lbcas.mediator.CASMediator;
 import at.fhooe.mc.lbcas.mediator.MediatorIF;
 
@@ -139,21 +137,6 @@ public class GPSComponent extends JPanel implements ComponentIF {
 			// set in the context element
 			contextElement.setLocationContextElement(locationContextElement);
 			// add it to vector
-			contextElementVector.addElement(contextElement);
-
-			// create the time context element
-			contextElement = new ContextElement();
-			TimeContextElement timeContextElement = new TimeContextElement();
-			Time time = new Time();
-			time.setHour((int) (nmeaInfo.getZeit() / 10000));
-			time.setMinutes((int) ((nmeaInfo.getZeit() % 10000) / 100));
-			time.setSeconds((int) ((nmeaInfo.getZeit() % 10000) % 100));
-			// set context id and time
-			timeContextElement.setContextid(1001);
-			timeContextElement.setTime(time);
-			// set into context element
-			contextElement.setContexttype("timecontext");
-			contextElement.setTimeContextElement(timeContextElement);
 			contextElementVector.addElement(contextElement);
 
 			// communicate to CAS Mediator

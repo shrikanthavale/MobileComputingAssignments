@@ -75,7 +75,7 @@ public class CASMediator implements MediatorIF {
 	 * Main Tab Pane
 	 */
 	private JTabbedPane m_mainTabbedPane;
-	
+
 	/**
 	 * new frame to be added
 	 */
@@ -105,7 +105,7 @@ public class CASMediator implements MediatorIF {
 	 * parser for parsing component composition XML
 	 */
 	private XMLParserIF m_componentCompositionXMLReader;
-	
+
 	/**
 	 * parser for reading the rules file
 	 */
@@ -120,17 +120,17 @@ public class CASMediator implements MediatorIF {
 	 * constant string for the interface component
 	 */
 	private static final String m_componentInterfacePackage = "at.fhooe.mc.lbcas.component.ComponentIF";
-	
+
 	/**
 	 * Hash map for storing different rules as list and key as type of rule
 	 */
 	private static Map<String, List<RulesEntity>> m_ruleMap = new HashMap<>();
-	
+
 	/**
 	 * Hash map for storing Rules Entity and its corresponding tree node
 	 */
-	private static Map<String , Map <TreeNode, RulesEntity>> m_treeNodeRulesMap = new HashMap<>();
-	
+	private static Map<String, Map<TreeNode, RulesEntity>> m_treeNodeRulesMap = new HashMap<>();
+
 	/**
 	 * private constructor to avoid external initialization for singleton
 	 * pattern
@@ -191,26 +191,31 @@ public class CASMediator implements MediatorIF {
 
 		m_componentCompositionList = m_componentCompositionXMLReader
 				.readComponentComposition("at/fhooe/mc/lbcas/componentcompositionparser/ComponentComposition.xml");
-		
+
 		// create the rule parser
-		m_contextRuleXMLReader = FactoryCreator.factoryMethod("ContextRuleXMLReader");
-		
+		m_contextRuleXMLReader = FactoryCreator
+				.factoryMethod("ContextRuleXMLReader");
+
 		// read the xml file
-		List<RulesEntity> gisRules = m_contextRuleXMLReader.readContextRules("at/fhooe/mc/lbcas/contextruleparser/GISRules.xml");
+		List<RulesEntity> gisRules = m_contextRuleXMLReader
+				.readContextRules("at/fhooe/mc/lbcas/contextruleparser/GISRules.xml");
 		m_ruleMap.put("GISRules", gisRules);
-		
-		List<RulesEntity> poiRules = m_contextRuleXMLReader.readContextRules("at/fhooe/mc/lbcas/contextruleparser/POIRules.xml");
+
+		List<RulesEntity> poiRules = m_contextRuleXMLReader
+				.readContextRules("at/fhooe/mc/lbcas/contextruleparser/POIRules.xml");
 		m_ruleMap.put("POIRules", poiRules);
-		
-		List<RulesEntity> temperatureRules = m_contextRuleXMLReader.readContextRules("at/fhooe/mc/lbcas/contextruleparser/TemperatureRules.xml");
+
+		List<RulesEntity> temperatureRules = m_contextRuleXMLReader
+				.readContextRules("at/fhooe/mc/lbcas/contextruleparser/TemperatureRules.xml");
 		m_ruleMap.put("TemperatureRules", temperatureRules);
-		
+
 		try {
-			for(String key : m_ruleMap.keySet()){
+			for (String key : m_ruleMap.keySet()) {
 				Map<TreeNode, RulesEntity> tempHashMap = new HashMap<>();
-				for(RulesEntity tempRulesEntity : m_ruleMap.get(key)){
+				for (RulesEntity tempRulesEntity : m_ruleMap.get(key)) {
 					String rule = tempRulesEntity.getM_ruleCondition();
-					ContextRuleParser contextRuleParser = new ContextRuleParser(new ByteArrayInputStream(rule.getBytes()));
+					ContextRuleParser contextRuleParser = new ContextRuleParser(
+							new ByteArrayInputStream(rule.getBytes()));
 					TreeNode treeNode = contextRuleParser.execute();
 					tempHashMap.put(treeNode, tempRulesEntity);
 				}
@@ -318,16 +323,20 @@ public class CASMediator implements MediatorIF {
 
 		// notify observers
 		m_conteContextSituationObservable.notifyObservers(_contextSituation);
-		
-		 for(TreeNode treeNode : m_treeNodeRulesMap.get("GISRules").keySet()){
-			 try {
-				treeNode.setVariableParameters(_contextSituation); 
-				treeNode.calculate();
+
+		for (TreeNode treeNode : m_treeNodeRulesMap.get("TemperatureRules")
+				.keySet()) {
+			try {
+				treeNode.setVariableParameters(_contextSituation);
+				Boolean result = (Boolean) treeNode.calculate();
+				System.out.println(m_treeNodeRulesMap.get("TemperatureRules")
+						.get(treeNode).getM_ruleCondition()
+						+ "******************" + result);
 			} catch (NodeError e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		 }
+		}
 
 	}
 

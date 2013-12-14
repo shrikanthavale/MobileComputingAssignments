@@ -16,17 +16,6 @@ import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
  * 
  */
 public class TimeNowVariableNode extends TreeNode {
-	
-	/**
-	 * value to store variable
-	 */
-	private Object m_value;
-	
-	/**
-	 * default constructor
-	 */
-	public TimeNowVariableNode() {
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -48,19 +37,20 @@ public class TimeNowVariableNode extends TreeNode {
 	@Override
 	public void setVariableParameters(ContextSituation _contextSituation) {
 		// cast to context element
-		Vector<ContextElement> contextElements = _contextSituation.getContextElements();
+		Vector<ContextElement> contextElements = _contextSituation
+				.getContextElements();
 
 		for (ContextElement contextElement : contextElements) {
 
 			if ("timecontext".equals(contextElement.getContexttype())) {
-				int hour = contextElement.getTimeContextElement().getTime().getHour();
-				int seconds = contextElement.getTimeContextElement().getTime().getSeconds();
-				String amPM = contextElement.getTimeContextElement().getTime().getAMPM();
-			    SimpleDateFormat df = new SimpleDateFormat("HH:mm aa");
-			    try {
-					 m_value = df.parse(hour + ":" + seconds + " " + amPM);
+				int hour = contextElement.getTimeContextElement().getTime()
+						.getHour();
+				int minutes = contextElement.getTimeContextElement().getTime()
+						.getMinutes();
+				SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+				try {
+					m_value = df.parse(hour + ":" + minutes);
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -77,4 +67,103 @@ public class TimeNowVariableNode extends TreeNode {
 		m_value = null;
 	}
 
+	@Override
+	public Boolean equalTo(TreeNode _node) throws NodeError {
+
+		Date firstValue = null;
+		Date secondValue = null;
+
+		Object nodeValue = _node.calculate();
+
+		if (m_value instanceof Date) {
+			firstValue = (Date) m_value;
+		}
+
+		if (nodeValue instanceof Date) {
+			secondValue = (Date) nodeValue;
+		}
+
+		return firstValue.equals(secondValue);
+	}
+
+	@Override
+	public Boolean notEqualTo(TreeNode _node) throws NodeError {
+
+		Date firstValue = null;
+		Date secondValue = null;
+
+		Object nodeValue = _node.calculate();
+
+		if (m_value instanceof Date) {
+			firstValue = (Date) m_value;
+		}
+
+		if (nodeValue instanceof Date) {
+			secondValue = (Date) nodeValue;
+		}
+
+		return !firstValue.equals(secondValue);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public Boolean greaterThan(TreeNode _node) throws NodeError {
+
+		Date firstValue = null;
+		Date secondValue = null;
+
+		Object nodeValue = _node.calculate();
+
+		if (m_value instanceof Date) {
+			firstValue = (Date) m_value;
+		}
+
+		if (nodeValue instanceof Date) {
+			secondValue = (Date) nodeValue;
+		}
+
+		if (firstValue.getHours() > secondValue.getHours()) {
+			return true;
+		} else if (firstValue.getHours() < secondValue.getHours()) {
+			return false;
+		} else {
+			if (firstValue.getSeconds() > secondValue.getSeconds()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public Boolean lessThan(TreeNode _node) throws NodeError {
+
+		Date firstValue = null;
+		Date secondValue = null;
+
+		Object nodeValue = _node.calculate();
+
+		if (m_value instanceof Date) {
+			firstValue = (Date) m_value;
+		}
+
+		if (nodeValue instanceof Date) {
+			secondValue = (Date) nodeValue;
+		}
+
+		if (firstValue.getHours() < secondValue.getHours()) {
+			return true;
+		} else if (firstValue.getHours() > secondValue.getHours()) {
+			return false;
+		} else {
+			if (firstValue.getSeconds() < secondValue.getSeconds()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+	}
 }

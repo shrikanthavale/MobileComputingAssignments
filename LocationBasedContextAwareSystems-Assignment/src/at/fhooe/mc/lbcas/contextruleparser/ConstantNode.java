@@ -11,17 +11,6 @@ import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
  */
 public class ConstantNode extends TreeNode {
 
-	/**
-	 * value of the constant nodes
-	 */
-	private Object m_value;
-
-	/**
-	 * default constructor for the constant node
-	 */
-	public ConstantNode() {
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -39,7 +28,7 @@ public class ConstantNode extends TreeNode {
 	 */
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
+		m_value = null;
 	}
 
 	/*
@@ -52,19 +41,6 @@ public class ConstantNode extends TreeNode {
 	@Override
 	public void setVariableParameters(ContextSituation _contextSituation) {
 		// Do nothing - as this is constant node
-	}
-
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * at.fhooe.mc.lbcas.contextruleparser.TreeNode#setValueForConstantNode(
-	 * java.lang.Object)
-	 */
-	@Override
-	public void setValueForNode(Object _value) {
-		this.m_value = _value;
 	}
 
 }

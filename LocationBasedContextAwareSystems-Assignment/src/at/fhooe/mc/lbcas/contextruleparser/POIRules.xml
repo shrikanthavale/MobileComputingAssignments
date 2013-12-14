@@ -4,7 +4,7 @@
 	<rule>
 		<ruleId>1</ruleId>
 	    <rulename>RestaurantPOI</rulename>
-	    <rulecondition> || (time_now == 12:00 PM , time_now == 09:00 PM)</rulecondition>
+	    <rulecondition> || (time_now == 12:00 , time_now == 21:00)</rulecondition>
         <methodName>updatePOIs</methodName>
         <parameter>at.fhooe.mc.lbcas.component.poicomponent.RestaurantPOI</parameter>
 	</rule>
@@ -12,7 +12,7 @@
 	<rule>
 		<ruleId>2</ruleId>
 	    <rulename>OfficePOI</rulename>
-	    <rulecondition> &amp;&amp; (time_now &gt; 08:00 AM , time_now &lt; 10:00 AM)</rulecondition>
+	    <rulecondition> &amp;&amp; (time_now &gt; 08:00 , time_now &lt; 10:00 )</rulecondition>
         <methodName>updatePOIs</methodName>
         <parameter>at.fhooe.mc.lbcas.component.poicomponent.OfficePOI</parameter>
 	</rule>
@@ -20,7 +20,7 @@
 	<rule>
 		<ruleId>3</ruleId>
 	    <rulename>HomePOI</rulename>
-	    <rulecondition> &amp;&amp; (time_now &gt; 06:00 PM , time_now &lt; 08:00 PM)</rulecondition>
+	    <rulecondition> &amp;&amp; (time_now &gt; 18:00 , time_now &lt; 20:00 )</rulecondition>
         <methodName>updatePOIs</methodName>
         <parameter>at.fhooe.mc.lbcas.component.poicomponent.HomePOI</parameter>
 	</rule>

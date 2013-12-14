@@ -50,6 +50,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
       rootNode = comparison_statement();
       nodeB = constant_node_statement();
     rootNode.setChildNodes(new TreeNode[]{nodeA,nodeB});
+    rootNode.setRoot(rootNode);
     {if (true) return rootNode;}
       break;
     case AND:
@@ -65,8 +66,14 @@ public class ContextRuleParser implements ContextRuleParserConstants {
       nodeD = constant_node_statement();
       jj_consume_token(CLOSING_BRACKET);
     intermediateFirstNode.setChildNodes(new TreeNode[]{nodeA,nodeB});
+    intermediateFirstNode.setRoot(intermediateFirstNode);
+
     intermediateSecondNode.setChildNodes(new TreeNode[]{nodeC,nodeD});
+    intermediateSecondNode.setRoot(intermediateSecondNode);
+
     rootNode.setChildNodes(new TreeNode[]{intermediateFirstNode,intermediateSecondNode});
+    rootNode.setRoot(rootNode);
+
     {if (true) return rootNode;}
       break;
     default:
@@ -196,7 +203,7 @@ public class ContextRuleParser implements ContextRuleParserConstants {
         time = token.image;
         try
         {
-            SimpleDateFormat df = new SimpleDateFormat("HH:mm aa");
+            SimpleDateFormat df = new SimpleDateFormat("HH:mm");
             Date date = df.parse(time);
             constantNode = new ConstantNode();
             constantNode.setValueForNode(date);

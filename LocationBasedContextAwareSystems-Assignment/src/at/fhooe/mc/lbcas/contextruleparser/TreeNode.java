@@ -15,6 +15,11 @@ public abstract class TreeNode {
 	protected TreeNode m_root = null;
 
 	/**
+	 * value node
+	 */
+	protected Object m_value = null;
+
+	/**
 	 * The method calculate triggers the calculation of the dedicated node, she
 	 * returns a responding result object
 	 * 
@@ -39,17 +44,6 @@ public abstract class TreeNode {
 	 * 
 	 */
 	public abstract void clear();
-
-	/**
-	 * Needs to be overwritten. Delivers which context element types are needed
-	 * in this part of the tree.
-	 * 
-	 * @return an int[] with the context element types considered in this part
-	 *         of the tree.
-	 */
-	public int[] getContextElements() {
-		return new int[0];
-	}
 
 	/**
 	 * Delivers the root of the processing tree.
@@ -88,7 +82,60 @@ public abstract class TreeNode {
 		return m_childs;
 	}
 
+	/**
+	 * set the value for node
+	 * 
+	 * @param _value
+	 */
 	public void setValueForNode(Object _value) {
-
+		m_value = _value;
 	}
+
+	/**
+	 * return the value of the node
+	 */
+	public Object getValueForNode() {
+		return m_value;
+	}
+
+	/**
+	 * greater than method logic, every variable node should implement as per
+	 * their needs
+	 * 
+	 * @throws NodeError
+	 */
+	public Boolean greaterThan(TreeNode _node) throws NodeError {
+		return null;
+	}
+
+	/**
+	 * less than method logic, every variable node should implement as per their
+	 * needs
+	 * 
+	 * @throws NodeError
+	 */
+	public Boolean lessThan(TreeNode _node) throws NodeError {
+		return null;
+	}
+
+	/**
+	 * equal to method logic, every variable node should implement as per their
+	 * needs
+	 * 
+	 * @throws NodeError
+	 */
+	public Boolean equalTo(TreeNode _node) throws NodeError {
+		return null;
+	}
+
+	/**
+	 * not equal to method logic, every variable node should implement as per
+	 * their needs
+	 * 
+	 * @throws NodeError
+	 */
+	public Boolean notEqualTo(TreeNode _node) throws NodeError {
+		return null;
+	}
+
 }

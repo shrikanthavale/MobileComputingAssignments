@@ -11,12 +11,6 @@ import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
  */
 public class ComparisonEqualNode extends TreeNode {
 
-	/**
-	 * default constructor
-	 */
-	public ComparisonEqualNode() {
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -24,8 +18,10 @@ public class ComparisonEqualNode extends TreeNode {
 	 */
 	@Override
 	public Object calculate() throws NodeError {
-		TreeNode [] childNodes = getChilds();
-		return childNodes[0].equals(childNodes[1]);
+
+		TreeNode[] childNodes = getChilds();
+
+		return childNodes[0].equalTo(childNodes[1]);
 	}
 
 	/*
@@ -37,12 +33,12 @@ public class ComparisonEqualNode extends TreeNode {
 	 */
 	@Override
 	public void setVariableParameters(ContextSituation _contextSituation) {
-		
-		TreeNode [] childNodes = getChilds();
-		for(TreeNode temp : childNodes){
+
+		TreeNode[] childNodes = getChilds();
+		for (TreeNode temp : childNodes) {
 			temp.setVariableParameters(_contextSituation);
 		}
-	
+
 	}
 
 	/*
@@ -52,7 +48,6 @@ public class ComparisonEqualNode extends TreeNode {
 	 */
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
 	}
 
 }

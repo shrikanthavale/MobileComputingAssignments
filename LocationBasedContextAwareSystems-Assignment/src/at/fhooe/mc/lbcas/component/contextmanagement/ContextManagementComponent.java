@@ -24,8 +24,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 import at.fhooe.mc.lbcas.component.ComponentIF;
 import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement;
@@ -35,6 +33,8 @@ import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement.DeviceContext
 import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement.LocationContextElement;
 import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement.LocationContextElement.GeographicalLocation;
 import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement.LocationContextElement.PhysicalLocation;
+import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement.TemperatureContextElement;
+import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement.TemperatureContextElement.CurrentTemperature;
 import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement.TimeContextElement;
 import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement.TimeContextElement.Date;
 import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement.TimeContextElement.Time;
@@ -407,6 +407,14 @@ public class ContextManagementComponent extends JPanel implements ComponentIF {
 	 */
 	private JLabel m_temperatureLabel;
 
+	private JLabel m_userContextNationalityLabel;
+
+	private JRadioButton m_userContextRadioNationalityAustrian;
+
+	private JRadioButton m_userContextRadioNationalityOther;
+
+	private ButtonGroup m_groupradioButtonsNationalityAustrianOther;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -499,6 +507,7 @@ public class ContextManagementComponent extends JPanel implements ComponentIF {
 		m_timeContextDayRadio = new JRadioButton("Day");
 		m_timeContextDayRadio.setBounds(164, 19, 60, 23);
 		m_timeContextPanel.add(m_timeContextDayRadio);
+		m_timeContextDayRadio.setSelected(true);
 
 		m_timeContextNightRadio = new JRadioButton("Night");
 		m_timeContextNightRadio.setBounds(226, 19, 88, 23);
@@ -623,6 +632,24 @@ public class ContextManagementComponent extends JPanel implements ComponentIF {
 		m_userContextHealthVoiceTone.setColumns(10);
 		m_userContextHealthVoiceTone.setBounds(226, 89, 58, 20);
 		m_userContextPanel.add(m_userContextHealthVoiceTone);
+
+		m_userContextNationalityLabel = new JLabel("Nationality");
+		m_userContextNationalityLabel.setBounds(10, 130, 100, 14);
+		m_userContextPanel.add(m_userContextNationalityLabel);
+
+		m_userContextRadioNationalityAustrian = new JRadioButton("Austrian");
+		m_userContextRadioNationalityAustrian.setBounds(120, 130, 80, 23);
+		m_userContextPanel.add(m_userContextRadioNationalityAustrian);
+
+		m_userContextRadioNationalityOther = new JRadioButton("Other");
+		m_userContextRadioNationalityOther.setBounds(200, 130, 80, 23);
+		m_userContextPanel.add(m_userContextRadioNationalityOther);
+
+		m_groupradioButtonsNationalityAustrianOther = new ButtonGroup();
+		m_groupradioButtonsNationalityAustrianOther
+				.add(m_userContextRadioNationalityAustrian);
+		m_groupradioButtonsNationalityAustrianOther
+				.add(m_userContextRadioNationalityOther);
 
 		m_userContextUpdateButton = new JButton("Update User Context");
 		m_userContextUpdateButton.setBounds(101, 141, 148, 23);
@@ -894,13 +921,6 @@ public class ContextManagementComponent extends JPanel implements ComponentIF {
 							.getTimeContextElement().getTime().getSeconds()
 							+ "");
 
-					if (contextElement.getTimeContextElement().getTime()
-							.getHour() < 12) {
-						m_timeContextDayRadio.setSelected(true);
-					} else {
-						m_timeContextNightRadio.setSelected(true);
-					}
-
 					if (contextElement.getTimeContextElement().getDate() != null) {
 
 						Date date = contextElement.getTimeContextElement()
@@ -940,6 +960,13 @@ public class ContextManagementComponent extends JPanel implements ComponentIF {
 							.getBloodPressure());
 					m_userContextHealthHeartRate.setText(health.getHeartRate());
 					m_userContextHealthVoiceTone.setText(health.getVoiceTone());
+
+					if (userProfile.getNationality()
+							.equalsIgnoreCase("Austria")) {
+						m_userContextRadioNationalityAustrian.setSelected(true);
+					} else {
+						m_userContextRadioNationalityOther.setSelected(true);
+					}
 
 				} else if ("devicecontext".equals(contextElement
 						.getContexttype())) {
@@ -1011,7 +1038,7 @@ public class ContextManagementComponent extends JPanel implements ComponentIF {
 					.getText()));
 			time.setSeconds(Integer.parseInt(m_timeContextTimeSecondsText
 					.getText()));
-			time.setAMPM(m_timeContextDayRadio.isSelected() ? "AM" : "PM");
+			time.setAMPM(m_timeContextDayRadio.isSelected() ? "DAY" : "NIGHT");
 			contextElement.setTimeContextElement(timeContextElement);
 			contextElements.addElement(contextElement);
 
@@ -1069,6 +1096,8 @@ public class ContextManagementComponent extends JPanel implements ComponentIF {
 							: "Married");
 			userProfile.setSex(m_userContextRadioMale.isSelected() ? "Male"
 					: "Female");
+			userProfile.setNationality(m_userContextRadioNationalityAustrian
+					.isSelected() ? "Austrian" : "Other");
 			health.setBloodPressure(m_userContextHealthBloodPressure.getText());
 			health.setHeartRate(m_userContextHealthHeartRate.getText());
 			health.setVoiceTone(m_userContextHealthVoiceTone.getText());
@@ -1094,6 +1123,19 @@ public class ContextManagementComponent extends JPanel implements ComponentIF {
 			software.setVersion(Float.parseFloat(m_deviceOperatingSystemVersion
 					.getText()));
 			contextElement.setDeviceContextElement(deviceContextElement);
+			contextElements.addElement(contextElement);
+
+			// get the temperature context
+			contextElement = new ContextElement();
+			contextElement.setContexttype("temperaturecontext");
+			TemperatureContextElement temperatureContextElement = new TemperatureContextElement();
+			CurrentTemperature currentTemperature = new CurrentTemperature();
+			currentTemperature.setTemperaturevalue(Integer
+					.parseInt(m_temperatureText.getText()));
+			temperatureContextElement.setCurrentTemperature(currentTemperature);
+			temperatureContextElement.setContextid(501);
+			contextElement
+					.setTemperatureContextElement(temperatureContextElement);
 			contextElements.addElement(contextElement);
 
 			// put the context elements in context situation

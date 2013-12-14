@@ -130,8 +130,7 @@ TOKEN :
 {  < TIMECONSTANT : (["0"-"1"] ["0"-"9"] | ["2"]["0"-"3"])
   				   (":")
   				   (["0"-"5"] ["0"-"9"])
-  				   (" ")  				     
-  				   ("AM" | "PM")>
+  				   >
 | < TEMPERATURECONSTANT : (["0"-"9"] | ["0"-"9"]["0"-"9"] | ["0"-"9"]["0"-"9"]["0"]) >
 | < NUMBERZERO : ["0"] >
 | < NUMBERONE : ["1"] >
@@ -158,6 +157,7 @@ TOKEN :
   nodeB = constant_node_statement()
   {
     rootNode.setChildNodes(new TreeNode[]{nodeA,nodeB});
+    rootNode.setRoot(rootNode);
     return rootNode;
   }
 |
@@ -174,8 +174,14 @@ TOKEN :
   < CLOSING_BRACKET >
   {
     intermediateFirstNode.setChildNodes(new TreeNode[]{nodeA,nodeB});
+    intermediateFirstNode.setRoot(intermediateFirstNode);
+    
     intermediateSecondNode.setChildNodes(new TreeNode[]{nodeC,nodeD});
+    intermediateSecondNode.setRoot(intermediateSecondNode);
+    
     rootNode.setChildNodes(new TreeNode[]{intermediateFirstNode,intermediateSecondNode});
+    rootNode.setRoot(rootNode);
+    
     return rootNode;
   }
 }
@@ -289,7 +295,7 @@ ComparisonLessNode lessthan() :
 | 
   token = < TIMECONSTANT >
   {	time = token.image;
-	try	{	    SimpleDateFormat df = new SimpleDateFormat("HH:mm aa");
+	try	{	    SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 	    Date date = df.parse(time);
 	    constantNode = new ConstantNode();
 	    constantNode.setValueForNode(date);

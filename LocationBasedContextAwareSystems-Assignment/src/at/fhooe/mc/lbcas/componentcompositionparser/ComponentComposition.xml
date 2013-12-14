@@ -6,7 +6,7 @@
 		<componentname>GIS Component</componentname>
 		<shouldbeloaded>true</shouldbeloaded>
 		<dynamicmoduleproperties>
-			<ComponentProperty method="setServer">at.fhooe.mc.lbcas.server.SDEServer</ComponentProperty>
+			<ComponentProperty method="setServer">at.fhooe.mc.lbcas.server.SDEServerSerializedData</ComponentProperty>
 		</dynamicmoduleproperties>
 	</component>
 

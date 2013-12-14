@@ -25,8 +25,12 @@ public class LogicalNodeOr extends TreeNode {
 	 */
 	@Override
 	public Object calculate() throws NodeError {
-		// TODO Auto-generated method stub
-		return null;
+		TreeNode[] childNodes = getChilds();
+
+		Boolean firsEvaluation = (Boolean) childNodes[0].calculate();
+		Boolean secondEvaluation = (Boolean) childNodes[1].calculate();
+
+		return firsEvaluation || secondEvaluation;
 	}
 
 	/*
@@ -38,8 +42,11 @@ public class LogicalNodeOr extends TreeNode {
 	 */
 	@Override
 	public void setVariableParameters(ContextSituation _contextSituation) {
-		// TODO Auto-generated method stub
+		TreeNode[] childNodes = getChilds();
 
+		for (TreeNode temp : childNodes) {
+			temp.setVariableParameters(_contextSituation);
+		}
 	}
 
 	/*

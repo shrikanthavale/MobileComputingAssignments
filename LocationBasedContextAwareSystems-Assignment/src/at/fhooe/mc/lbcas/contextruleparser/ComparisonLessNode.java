@@ -11,13 +11,6 @@ import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
  */
 public class ComparisonLessNode extends TreeNode {
 
-	/**
-	 * 
-	 */
-	public ComparisonLessNode() {
-		// TODO Auto-generated constructor stub
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -25,8 +18,8 @@ public class ComparisonLessNode extends TreeNode {
 	 */
 	@Override
 	public Object calculate() throws NodeError {
-		// TODO Auto-generated method stub
-		return null;
+		TreeNode[] childNodes = getChilds();
+		return childNodes[0].lessThan(childNodes[1]);
 	}
 
 	/*

@@ -11,13 +11,6 @@ import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
  */
 public class ComparisonNotEqualNode extends TreeNode {
 
-	/**
-	 * 
-	 */
-	public ComparisonNotEqualNode() {
-		// TODO Auto-generated constructor stub
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -25,8 +18,10 @@ public class ComparisonNotEqualNode extends TreeNode {
 	 */
 	@Override
 	public Object calculate() throws NodeError {
-		// TODO Auto-generated method stub
-		return null;
+
+		TreeNode[] childNodes = getChilds();
+
+		return childNodes[0].notEqualTo(childNodes[1]);
 	}
 
 	/*
@@ -53,8 +48,7 @@ public class ComparisonNotEqualNode extends TreeNode {
 	 */
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-
+		// Nothing to do here
 	}
 
 }
