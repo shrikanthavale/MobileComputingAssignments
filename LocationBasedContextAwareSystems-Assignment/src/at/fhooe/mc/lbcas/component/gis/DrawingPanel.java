@@ -12,7 +12,8 @@ import at.fhooe.mc.lbcas.entities.GeoDoublePoint;
 import at.fhooe.mc.lbcas.entities.GeoObject;
 import at.fhooe.mc.lbcas.entities.POIObject;
 import at.fhooe.mc.lbcas.geo.GeoTransformationMatrix;
-import at.fhooe.mc.lbcas.mapcolors.DrawingContext;
+import at.fhooe.mc.lbcas.mapcolors.DayDrawingContext;
+import at.fhooe.mc.lbcas.mapcolors.DrawingContextIF;
 
 public class DrawingPanel extends Panel {
 
@@ -35,6 +36,9 @@ public class DrawingPanel extends Panel {
 
 	// / the DPI amount of the screen
 	private double m_dotPerInch = 72.0;
+
+	// drawing context
+	private static DrawingContextIF m_drawingContextIF = null;
 
 	/**
 	 * The default constructor
@@ -328,14 +332,14 @@ public class DrawingPanel extends Panel {
 			// drawing all the GEO Objects
 			for (int i = 0; i < m_objects.size(); i++) {
 				GeoObject obj = (GeoObject) m_objects.elementAt(i);
-				DrawingContext.drawObject(obj, _g, m_matrix);
+				getDrawingContextIF().drawObject(obj, _g, m_matrix);
 			} // for i
 
 			// drawing first 6 POI objects
 			if (m_pois != null) {
 				for (int j = 0; j < m_pois.size(); j++) {
 					POIObject obj = m_pois.get(j);
-					DrawingContext.drawObject(obj, _g, m_matrix);
+					getDrawingContextIF().drawObject(obj, _g, m_matrix);
 				} // for j
 			} // if m_pois
 
@@ -356,5 +360,23 @@ public class DrawingPanel extends Panel {
 	 */
 	public void setM_matrix(GeoTransformationMatrix m_matrix) {
 		this.m_matrix = m_matrix;
+	}
+
+	/**
+	 * @return the drawingContextIF
+	 */
+	public static DrawingContextIF getDrawingContextIF() {
+		if (m_drawingContextIF == null) {
+			return new DayDrawingContext();
+		}
+		return m_drawingContextIF;
+	}
+
+	/**
+	 * @param drawingContextIF
+	 *            the drawingContextIF to set
+	 */
+	public static void setDrawingContextIF(DrawingContextIF drawingContextIF) {
+		DrawingPanel.m_drawingContextIF = drawingContextIF;
 	}
 }

@@ -13,7 +13,7 @@ import at.fhooe.mc.lbcas.geo.GeoTransformationMatrix;
  * @author Shrikant Havale
  * 
  */
-public class DrawingContext {
+public class DayDrawingContext implements DrawingContextIF {
 
 	/**
 	 * Set the color values for the GEO objects based on their type rivers -->
@@ -27,7 +27,8 @@ public class DrawingContext {
 	 *            matrix for adjusting coordinates of polygons and lines and
 	 *            points
 	 */
-	public static void drawObject(GeoObject _obj, Graphics _g,
+	@Override
+	public void drawObject(GeoObject _obj, Graphics _g,
 			GeoTransformationMatrix _matrix) {
 
 		// check for the null
@@ -42,7 +43,8 @@ public class DrawingContext {
 			}
 				break;
 			case 233: {
-				_obj.paint(_g, _matrix, Color.BLACK, Color.WHITE);
+				_obj.paint(_g, _matrix, Color.LIGHT_GRAY, new Color(238, 250,
+						238));
 			}
 				break;
 			// this case is used for drawing image of POI objects
@@ -51,47 +53,54 @@ public class DrawingContext {
 			}
 				break;
 			case 931: {
-				_obj.paint(_g, _matrix, Color.BLACK, Color.RED);
+				_obj.paint(_g, _matrix, Color.LIGHT_GRAY, new Color(240, 199,
+						209));
 			}
 				break;
 			case 932: {
-				_obj.paint(_g, _matrix, Color.RED, Color.ORANGE);
+				_obj.paint(_g, _matrix, new Color(240, 199, 209), new Color(
+						225, 153, 120));
 			}
 				break;
 			case 933: {
-				_obj.paint(_g, _matrix, Color.BLACK, null);
+				_obj.paint(_g, _matrix, Color.LIGHT_GRAY, null);
 			}
 				break;
 			case 934: {
-				_obj.paint(_g, _matrix, Color.BLACK, null);
+				_obj.paint(_g, _matrix, Color.LIGHT_GRAY, null);
 			}
 				break;
 			case 1101: {
-				_obj.paint(_g, _matrix, Color.GREEN, Color.MAGENTA);
+				_obj.paint(_g, _matrix, new Color(202, 230, 177), new Color(
+						177, 230, 216));
 			}
 				break;
 			case 4310:
 			case 4330:
 			case 4335: {
-				_obj.paint(_g, _matrix, Color.BLUE, Color.BLUE);
+				_obj.paint(_g, _matrix, new Color(193, 196, 231), new Color(
+						193, 196, 231));
 			}
 				break;
 			case 7110:
 			case 3110: {
-				_obj.paint(_g, _matrix, Color.RED, Color.RED);
+				_obj.paint(_g, _matrix, new Color(255, 127, 127), new Color(
+						255, 127, 127));
 			}
 				break;
 			case 7120:
 			case 7170: {
-				_obj.paint(_g, _matrix, Color.GREEN, Color.GREEN);
+				_obj.paint(_g, _matrix, new Color(202, 230, 177), new Color(
+						202, 230, 177));
 			}
 				break;
 			case 7180: {
-				_obj.paint(_g, _matrix, Color.DARK_GRAY, Color.DARK_GRAY);
+				_obj.paint(_g, _matrix, Color.GRAY, Color.GRAY);
 			}
 				break;
 			case 4210: {
-				_obj.paint(_g, _matrix, Color.YELLOW, Color.YELLOW);
+				_obj.paint(_g, _matrix, new Color(241, 243, 170), new Color(
+						241, 243, 170));
 			}
 				break;
 			case 7314:
@@ -130,15 +139,16 @@ public class DrawingContext {
 			case 7356:
 			case 7365:
 			case 9999: {
-				_obj.paint(_g, _matrix, Color.MAGENTA, Color.MAGENTA);
+				_obj.paint(_g, _matrix, new Color(177, 230, 216), new Color(
+						177, 230, 216));
 			}
 				break;
 			case 1111: {
-				_obj.paint(_g, _matrix, Color.BLACK, null);
+				_obj.paint(_g, _matrix, Color.LIGHT_GRAY, null);
 			}
 				break;
 			default: {
-				_obj.paint(_g, _matrix, Color.BLACK, Color.BLACK);
+				_obj.paint(_g, _matrix, Color.LIGHT_GRAY, Color.LIGHT_GRAY);
 			}
 			} // switch
 		}

@@ -4,6 +4,7 @@
 		<ruleId>1</ruleId>
 	    <rulename>GeoServer</rulename>
 	    <rulecondition>position_now == UNIVERSITY_CAMPUS</rulecondition>
+	    <componentaffected>GISComponent</componentaffected>
         <methodName>setServer</methodName>
         <parameter>at.fhooe.mc.lbcas.server.SDEServer</parameter>
 	</rule>	
@@ -11,6 +12,7 @@
 		<ruleId>2</ruleId>
 	    <rulename>GeoServer</rulename>
 	    <rulecondition>position_now != UNIVERSITY_CAMPUS</rulecondition>
+	    <componentaffected>GISComponent</componentaffected>
         <methodName>setServer</methodName>
         <parameter>at.fhooe.mc.lbcas.server.SDEServerSerializedData</parameter>
 	</rule>	
@@ -18,20 +20,23 @@
 		<ruleId>3</ruleId>
 	    <rulename>DayNightMode</rulename>
 	    <rulecondition>daynight_mode == DAY</rulecondition>
+	    <componentaffected>GISComponent</componentaffected>
         <methodName>activateDayNightMode</methodName>
-        <parameter></parameter>
+        <parameter>at.fhooe.mc.lbcas.mapcolors.DayDrawingContext</parameter>
 	</rule>
 	<rule>
 		<ruleId>4</ruleId>
 	    <rulename>DayNightMode</rulename>
 	    <rulecondition>daynight_mode == NIGHT</rulecondition>
+	    <componentaffected>GISComponent</componentaffected>
         <methodName>activateDayNightMode</methodName>
-        <parameter></parameter>
+        <parameter>at.fhooe.mc.lbcas.mapcolors.NightDrawingContext</parameter>
 	</rule>	
 	<rule>
 		<ruleId>5</ruleId>
 	    <rulename>NationalityLanguageMode</rulename>
 	    <rulecondition>language_mode == ENGLISH</rulecondition>
+	    <componentaffected>GISComponent</componentaffected>
         <methodName>activateWalkingDrivingMode</methodName>
         <parameter></parameter>
 	</rule>
@@ -39,6 +44,7 @@
 		<ruleId>6</ruleId>
 	    <rulename>NationalityLanguageMode</rulename>
 	    <rulecondition>language_mode == GERMAN</rulecondition>
+	    <componentaffected>GISComponent</componentaffected>
         <methodName>activateWalkingDrivingMode</methodName>
         <parameter></parameter>
 	</rule>	

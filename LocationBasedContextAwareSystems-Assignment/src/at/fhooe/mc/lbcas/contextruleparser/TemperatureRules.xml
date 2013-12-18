@@ -5,6 +5,7 @@
 		<ruleId>1</ruleId>
 	    <rulename>Rainy</rulename>
 	    <rulecondition> &amp;&amp; ( temperature_now &gt; 04 , temperature_now &lt; 10)</rulecondition>
+	    <componentaffected>GISComponent</componentaffected>
         <methodName>updateTemperature</methodName>
         <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.RainyTemperature</parameter>
 	</rule>	
@@ -13,6 +14,7 @@
 		<ruleId>2</ruleId>
 	    <rulename>Snow</rulename>
         <rulecondition>temperature_now &lt; 05</rulecondition>
+        <componentaffected>GISComponent</componentaffected>
         <methodName>updateTemperature</methodName>
         <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.SnowTemperature</parameter>
     </rule>
@@ -21,6 +23,7 @@
 		<ruleId>3</ruleId>
 	    <rulename>Sunny</rulename>
         <rulecondition> &amp;&amp; ( temperature_now &gt; 09, temperature_now &lt; 25)</rulecondition>
+        <componentaffected>GISComponent</componentaffected>
         <methodName>updateTemperature</methodName>
         <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.SunnyTemperature</parameter>
     </rule>
@@ -29,6 +32,7 @@
 		<ruleId>4</ruleId>
 	    <rulename>Hot</rulename>
         <rulecondition> &amp;&amp; ( temperature_now &gt; 26, temperature_now &lt; 100)</rulecondition>
+        <componentaffected>GISComponent</componentaffected>
         <methodName>updateTemperature</methodName>
         <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.HOTTemperature</parameter>
     </rule>

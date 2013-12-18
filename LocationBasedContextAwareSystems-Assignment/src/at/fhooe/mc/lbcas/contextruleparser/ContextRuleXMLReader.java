@@ -101,6 +101,8 @@ public class ContextRuleXMLReader implements XMLParserIF {
 							component.getChildNodes());
 					Node ruleConditionNode = getNode("rulecondition",
 							component.getChildNodes());
+					Node affectedComponentNode = getNode("componentaffected",
+							component.getChildNodes());
 					Node methodNameNode = getNode("methodName",
 							component.getChildNodes());
 					Node parameterNode = getNode("parameter",
@@ -110,6 +112,7 @@ public class ContextRuleXMLReader implements XMLParserIF {
 					String ruleID = getNodeValue(ruleIDNode);
 					String ruleName = getNodeValue(ruleNameNode);
 					String ruleCondition = getNodeValue(ruleConditionNode);
+					String affectedComponent = getNodeValue(affectedComponentNode);
 					String methodName = getNodeValue(methodNameNode);
 					String parameter = getNodeValue(parameterNode);
 
@@ -118,10 +121,10 @@ public class ContextRuleXMLReader implements XMLParserIF {
 					rulesEntity.setM_ruleCondition(ruleCondition);
 					rulesEntity.setM_ruleID(Integer.parseInt(ruleID));
 					rulesEntity.setM_ruleName(ruleName);
-					rulesEntity.setM_ruleType("GISRules");
+					rulesEntity.setM_affectedComponent(affectedComponent);
 
 					// add it to the Map
-					rulesFromXML.add( rulesEntity);
+					rulesFromXML.add(rulesEntity);
 				}
 			}
 

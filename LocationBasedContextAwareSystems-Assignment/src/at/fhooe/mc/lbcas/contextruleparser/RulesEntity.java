@@ -15,7 +15,7 @@ public class RulesEntity {
 	/**
 	 * Rule Type - GIS, POI, Temperature
 	 */
-	private String m_ruleType = null;
+	private String m_affectedComponent = null;
 
 	/**
 	 * rule id
@@ -45,16 +45,16 @@ public class RulesEntity {
 	/**
 	 * @return the m_ruleType
 	 */
-	public String getM_ruleType() {
-		return m_ruleType;
+	public String getM_affectedComponent() {
+		return m_affectedComponent;
 	}
 
 	/**
 	 * @param m_ruleType
 	 *            the m_ruleType to set
 	 */
-	public void setM_ruleType(String m_ruleType) {
-		this.m_ruleType = m_ruleType;
+	public void setM_affectedComponent(String m_affectedComponent) {
+		this.m_affectedComponent = m_affectedComponent;
 	}
 
 	/**

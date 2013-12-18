@@ -480,4 +480,8 @@ public class POIComponent extends JPanel implements ComponentIF {
 		return m_casMediator;
 	}
 
+	// updatemetho(Interface POI)
+	// if instance resta
+	// panel show
+
 }

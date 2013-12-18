@@ -32,7 +32,6 @@ public class ComparisonGreaterNode extends TreeNode {
 	@Override
 	public void setVariableParameters(ContextSituation _contextSituation) {
 		TreeNode[] childNodes = getChilds();
-
 		for (TreeNode temp : childNodes) {
 			temp.setVariableParameters(_contextSituation);
 		}

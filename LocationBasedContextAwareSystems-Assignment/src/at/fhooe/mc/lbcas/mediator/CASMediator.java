@@ -40,7 +40,6 @@ import at.fhooe.mc.lbcas.component.gis.GeoObjectObservable;
 import at.fhooe.mc.lbcas.componentcompositionparser.ComponentComposition;
 import at.fhooe.mc.lbcas.contextrulejavacc.ContextRuleParser;
 import at.fhooe.mc.lbcas.contextrulejavacc.ParseException;
-import at.fhooe.mc.lbcas.contextruleparser.NodeError;
 import at.fhooe.mc.lbcas.contextruleparser.RulesEntity;
 import at.fhooe.mc.lbcas.contextruleparser.TreeNode;
 import at.fhooe.mc.lbcas.entities.GeoObject;
@@ -124,7 +123,7 @@ public class CASMediator implements MediatorIF {
 	/**
 	 * Hash map for storing different rules as list and key as type of rule
 	 */
-	private static Map<String, List<RulesEntity>> m_ruleMap = new HashMap<>();
+	private Map<String, List<RulesEntity>> m_ruleMap = new HashMap<>();
 
 	/**
 	 * Hash map for storing Rules Entity and its corresponding tree node
@@ -203,11 +202,11 @@ public class CASMediator implements MediatorIF {
 
 		List<RulesEntity> poiRules = m_contextRuleXMLReader
 				.readContextRules("at/fhooe/mc/lbcas/contextruleparser/POIRules.xml");
-		m_ruleMap.put("POIRules", poiRules);
+		// m_ruleMap.put("POIRules", poiRules);
 
 		List<RulesEntity> temperatureRules = m_contextRuleXMLReader
 				.readContextRules("at/fhooe/mc/lbcas/contextruleparser/TemperatureRules.xml");
-		m_ruleMap.put("TemperatureRules", temperatureRules);
+		// m_ruleMap.put("TemperatureRules", temperatureRules);
 
 		try {
 			for (String key : m_ruleMap.keySet()) {
@@ -323,20 +322,6 @@ public class CASMediator implements MediatorIF {
 
 		// notify observers
 		m_conteContextSituationObservable.notifyObservers(_contextSituation);
-
-		for (TreeNode treeNode : m_treeNodeRulesMap.get("TemperatureRules")
-				.keySet()) {
-			try {
-				treeNode.setVariableParameters(_contextSituation);
-				Boolean result = (Boolean) treeNode.calculate();
-				System.out.println(m_treeNodeRulesMap.get("TemperatureRules")
-						.get(treeNode).getM_ruleCondition()
-						+ "******************" + result);
-			} catch (NodeError e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 
 	}
 
@@ -498,6 +483,13 @@ public class CASMediator implements MediatorIF {
 	public void setM_componentDisplayMessages(
 			ComponentIF m_componentDisplayMessages) {
 		this.m_componentDisplayMessages = m_componentDisplayMessages;
+	}
+
+	/**
+	 * @return the m_treeNodeRulesMap
+	 */
+	public static Map<String, Map<TreeNode, RulesEntity>> getM_treeNodeRulesMap() {
+		return m_treeNodeRulesMap;
 	}
 
 }

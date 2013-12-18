@@ -27,6 +27,9 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Vector;
 
@@ -40,13 +43,20 @@ import javax.swing.border.TitledBorder;
 
 import at.fhooe.mc.lbcas.component.ComponentIF;
 import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement;
+import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
 import at.fhooe.mc.lbcas.component.displaymessages.DisplayMessagesComponent;
+import at.fhooe.mc.lbcas.contextruleparser.NodeError;
+import at.fhooe.mc.lbcas.contextruleparser.RulesEntity;
+import at.fhooe.mc.lbcas.contextruleparser.TreeNode;
 import at.fhooe.mc.lbcas.entities.GeoObject;
 import at.fhooe.mc.lbcas.entities.POIObject;
 import at.fhooe.mc.lbcas.geo.GaussKruegerBMN;
 import at.fhooe.mc.lbcas.geo.GeographischWGS84;
+import at.fhooe.mc.lbcas.mapcolors.DrawingContextIF;
 import at.fhooe.mc.lbcas.mediator.CASMediator;
 import at.fhooe.mc.lbcas.mediator.MediatorIF;
+import at.fhooe.mc.lbcas.reflectionapi.ClientController;
+import at.fhooe.mc.lbcas.reflectionapi.ClientControllerIF;
 import at.fhooe.mc.lbcas.server.DummyServer;
 import at.fhooe.mc.lbcas.server.GEOServerInterface;
 import at.fhooe.mc.lbcas.server.SDEServer;
@@ -115,12 +125,12 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 	/**
 	 * radio button to allow users to choose from Dummy Server or SDE Server
 	 */
-	private JRadioButton m_dummyServerRadioButton = null;
+	private static JRadioButton m_dummyServerRadioButton = null;
 
 	/**
 	 * radio button for SDE server
 	 */
-	private JRadioButton m_sdeServerRadioButton = null;
+	private static JRadioButton m_sdeServerRadioButton = null;
 
 	/**
 	 * grouping the radio button
@@ -201,7 +211,7 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 	/**
 	 * radio button for serialized data
 	 */
-	private JRadioButton m_sdeServerSerialized;
+	private static JRadioButton m_sdeServerSerialized;
 
 	/**
 	 * CAS mediator for communicating with other panels
@@ -216,7 +226,7 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 	/**
 	 * server connection interface
 	 */
-	private GEOServerInterface m_geoServerInterface;
+	private static GEOServerInterface m_geoServerInterface;
 
 	/*
 	 * (non-Javadoc)
@@ -460,8 +470,99 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 
 		// observable instance of ContextSituation
 		if (_observable instanceof ContextSituationObservable) {
-			// do nothing right now
-			System.out.println("Do something in 4th assignment");
+
+			// set the values from context situation and validate the tree
+			setContextSituationValuesTreeAndValidate(_arg);
+		}
+
+	}
+
+	private void setContextSituationValuesTreeAndValidate(Object _arg) {
+
+		// cast to context situation
+		ContextSituation contextSituation = (ContextSituation) _arg;
+
+		// tree node rules map
+		Map<String, Map<TreeNode, RulesEntity>> m_treeNodeRulesMap = CASMediator
+				.getM_treeNodeRulesMap();
+
+		// iterate through the tree node map rule
+		for (String key : m_treeNodeRulesMap.keySet()) {
+
+			for (TreeNode treeNode : m_treeNodeRulesMap.get(key).keySet()) {
+
+				try {
+
+					treeNode.setVariableParameters(contextSituation);
+					Boolean result = (Boolean) treeNode.calculate();
+					if (result) {
+						adaptGISComponent(m_treeNodeRulesMap.get(key).get(
+								treeNode));
+					}
+
+				} catch (NodeError e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
+	private void adaptGISComponent(RulesEntity rulesEntity) {
+
+		// create the client controller
+		ClientControllerIF m_clientController = new ClientController();
+
+		// interface package
+		String m_componentInterfacePackage = "at.fhooe.mc.lbcas.component.ComponentIF";
+
+		try {
+			// get the class component
+			Class<?> component = m_clientController.findModule(
+					m_componentInterfacePackage,
+					rulesEntity.getM_affectedComponent());
+
+			if (component != null) {
+				// create new object
+				Object object = component.newInstance();
+
+				// get the method name
+				String methodName = rulesEntity.getM_methodName();
+
+				// get the method parameter
+				String methodParameterClass = rulesEntity.getM_parameterClass();
+
+				// find the parameter class
+				Class<?> parameterClass = m_clientController
+						.findClass(methodParameterClass);
+
+				if (parameterClass != null) {
+
+					Object parameterClassInstance = parameterClass
+							.newInstance();
+
+					Class<?>[] interfaces = parameterClass.getInterfaces();
+
+					for (Class<?> tempClass : interfaces) {
+						try {
+							Method method = component.getDeclaredMethod(
+									methodName, tempClass);
+							method.invoke(object, parameterClassInstance);
+							break;
+						} catch (NoSuchMethodException e) {
+							// Do Nothing
+						}
+					}
+				}
+			}
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -629,8 +730,8 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 				&& m_drawingPanel.getM_matrix() != null) {
 			m_stopPoint = _event.getPoint();
 			int delta = 6; // 6 dots as delta ... if distance is greater than a
-							// drag
-							// movement has been detected
+			// drag
+			// movement has been detected
 			boolean zittern = false;
 			Rectangle test = new Rectangle(m_startPoint.x - (delta >> 1),
 					m_startPoint.y - (delta >> 1), delta, delta);
@@ -1071,7 +1172,7 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 	 */
 	public void setM_dummyServerRadioButton(
 			JRadioButton m_dummyServerRadioButton) {
-		this.m_dummyServerRadioButton = m_dummyServerRadioButton;
+		GISComponent.m_dummyServerRadioButton = m_dummyServerRadioButton;
 	}
 
 	/**
@@ -1086,7 +1187,7 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 	 *            the m_sdeServerRadioButton to set
 	 */
 	public void setM_sdeServerRadioButton(JRadioButton m_sdeServerRadioButton) {
-		this.m_sdeServerRadioButton = m_sdeServerRadioButton;
+		GISComponent.m_sdeServerRadioButton = m_sdeServerRadioButton;
 	}
 
 	/**
@@ -1298,20 +1399,21 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 	 * @param geoServerInterface
 	 */
 	public void setServer(GEOServerInterface _geoServerInterface) {
-
 		if (_geoServerInterface instanceof SDEServer) {
-
 			m_sdeServerRadioButton.setSelected(true);
-
 		} else if (_geoServerInterface instanceof DummyServer) {
-
 			m_dummyServerRadioButton.setSelected(true);
-
 		} else if (_geoServerInterface instanceof SDEServerSerializedData) {
-
 			m_sdeServerSerialized.setSelected(true);
 		}
-
 		m_geoServerInterface = _geoServerInterface;
+	}
+
+	/**
+	 * 
+	 * @param drawingContextIF
+	 */
+	public void activateDayNightMode(DrawingContextIF drawingContextIF) {
+		DrawingPanel.setDrawingContextIF(drawingContextIF);
 	}
 }
