@@ -62,6 +62,7 @@ public class ApplicationMainView {
 		mMainWindow.getContentPane().add(InstructionsManualView.getInstance(),
 				BorderLayout.WEST);
 
+		// add a separator
 		JSeparator separator = new JSeparator();
 		separator.setForeground(UIManager.getColor("Button.foreground"));
 		separator.setBackground(UIManager.getColor("Button.darkShadow"));
@@ -69,6 +70,7 @@ public class ApplicationMainView {
 		separator.setOrientation(SwingConstants.VERTICAL);
 		mMainWindow.add(separator, BorderLayout.EAST);
 
+		// developer label name
 		JLabel lblNewLabel = new JLabel("Developed By Shrikant Havale");
 		lblNewLabel.setFont(new Font("Viner Hand ITC", Font.BOLD | Font.ITALIC,
 				16));
