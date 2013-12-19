@@ -22,7 +22,7 @@
 	    <rulecondition>daynight_mode == DAY</rulecondition>
 	    <componentaffected>GISComponent</componentaffected>
         <methodName>activateDayNightMode</methodName>
-        <parameter>at.fhooe.mc.lbcas.mapcolors.DayDrawingContext</parameter>
+        <parameter>at.fhooe.mc.lbcas.gis.drawingcontext.DayDrawingContext</parameter>
 	</rule>
 	<rule>
 		<ruleId>4</ruleId>
@@ -30,7 +30,7 @@
 	    <rulecondition>daynight_mode == NIGHT</rulecondition>
 	    <componentaffected>GISComponent</componentaffected>
         <methodName>activateDayNightMode</methodName>
-        <parameter>at.fhooe.mc.lbcas.mapcolors.NightDrawingContext</parameter>
+        <parameter>at.fhooe.mc.lbcas.gis.drawingcontext.NightDrawingContext</parameter>
 	</rule>	
 	<rule>
 		<ruleId>5</ruleId>
@@ -38,14 +38,14 @@
 	    <rulecondition>language_mode == ENGLISH</rulecondition>
 	    <componentaffected>GISComponent</componentaffected>
         <methodName>activateLanguage</methodName>
-        <parameter></parameter>
+        <parameter>at.fhooe.mc.lbcas.gis.maplanguage.EnglishLanguage</parameter>
 	</rule>
 	<rule>
 		<ruleId>6</ruleId>
 	    <rulename>NationalityLanguageMode</rulename>
 	    <rulecondition>language_mode == GERMAN</rulecondition>
 	    <componentaffected>GISComponent</componentaffected>
-        <methodName>activateWalkingDrivingMode</methodName>
-        <parameter></parameter>
+        <methodName>activateLanguage</methodName>
+        <parameter>at.fhooe.mc.lbcas.gis.maplanguage.GermanLanguage</parameter>
 	</rule>	
 </rules>

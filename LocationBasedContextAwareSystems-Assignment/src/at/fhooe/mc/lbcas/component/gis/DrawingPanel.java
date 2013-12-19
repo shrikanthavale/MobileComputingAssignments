@@ -12,8 +12,8 @@ import at.fhooe.mc.lbcas.entities.GeoDoublePoint;
 import at.fhooe.mc.lbcas.entities.GeoObject;
 import at.fhooe.mc.lbcas.entities.POIObject;
 import at.fhooe.mc.lbcas.geo.GeoTransformationMatrix;
-import at.fhooe.mc.lbcas.mapcolors.DayDrawingContext;
-import at.fhooe.mc.lbcas.mapcolors.DrawingContextIF;
+import at.fhooe.mc.lbcas.gis.drawingcontext.DayDrawingContext;
+import at.fhooe.mc.lbcas.gis.drawingcontext.DrawingContextIF;
 
 public class DrawingPanel extends Panel {
 

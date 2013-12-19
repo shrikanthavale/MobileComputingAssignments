@@ -3,6 +3,7 @@
  */
 package at.fhooe.mc.lbcas.component.gis;
 
+import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -14,8 +15,8 @@ import java.util.ResourceBundle;
 public class Messages {
 	private static final String BUNDLE_NAME = "at.fhooe.mc.lbcas.component.gis.messages"; //$NON-NLS-1$
 
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
-			.getBundle(BUNDLE_NAME);
+	private static ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(
+			BUNDLE_NAME, new Locale("en"));
 
 	private Messages() {
 	}
@@ -26,5 +27,9 @@ public class Messages {
 		} catch (MissingResourceException e) {
 			return '!' + key + '!';
 		}
+	}
+
+	public static void setBundleLocale(Locale _locale) {
+		RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, _locale);
 	}
 }

@@ -29,7 +29,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Vector;
@@ -53,7 +52,8 @@ import at.fhooe.mc.lbcas.entities.GeoObject;
 import at.fhooe.mc.lbcas.entities.POIObject;
 import at.fhooe.mc.lbcas.geo.GaussKruegerBMN;
 import at.fhooe.mc.lbcas.geo.GeographischWGS84;
-import at.fhooe.mc.lbcas.mapcolors.DrawingContextIF;
+import at.fhooe.mc.lbcas.gis.drawingcontext.DrawingContextIF;
+import at.fhooe.mc.lbcas.gis.maplanguage.LanguageIF;
 import at.fhooe.mc.lbcas.mediator.CASMediator;
 import at.fhooe.mc.lbcas.mediator.MediatorIF;
 import at.fhooe.mc.lbcas.reflectionapi.ClientController;
@@ -141,61 +141,65 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 	/**
 	 * button to load the map
 	 */
-	private Button m_ldButton = new Button(
+	private static Button m_ldButton = new Button(
 			Messages.getString("GISComponent.LoadButton")); //$NON-NLS-1$
 
 	/**
 	 * button to zoom to fit
 	 */
-	private Button m_ztfButton = new Button(
+	private static Button m_ztfButton = new Button(
 			Messages.getString("GISComponent.ZoomToFit")); //$NON-NLS-1$
 
 	/**
 	 * button to zoom in
 	 */
-	private Button m_zinButton = new Button("+"); //$NON-NLS-1$
+	private static Button m_zinButton = new Button("+"); //$NON-NLS-1$
 
 	/**
 	 * button to zoom out
 	 */
-	private Button m_zoutButton = new Button("-"); //$NON-NLS-1$
+	private static Button m_zoutButton = new Button("-"); //$NON-NLS-1$
 
 	/**
 	 * button to navigate north
 	 */
-	private Button m_upButton = new Button("N"); //$NON-NLS-1$
+	private static Button m_upButton = new Button(
+			Messages.getString("GISComponent.NorthButton")); //$NON-NLS-1$
 
 	/**
 	 * button to navigate south
 	 */
-	private Button m_downButton = new Button("S"); //$NON-NLS-1$
+	private static Button m_downButton = new Button(
+			Messages.getString("GISComponent.SouthButton")); //$NON-NLS-1$
 
 	/**
 	 * button to navigate west
 	 */
-	private Button m_leftButton = new Button("W"); //$NON-NLS-1$
+	private static Button m_leftButton = new Button(
+			Messages.getString("GISComponent.WestButton")); //$NON-NLS-1$
 
 	/**
 	 * button to navigate east
 	 */
-	private Button m_rightButton = new Button("E"); //$NON-NLS-1$
+	private static Button m_rightButton = new Button(
+			Messages.getString("GISComponent.EastButton")); //$NON-NLS-1$
 
 	/**
 	 * button to identify point of interest
 	 */
-	private Button m_poiButton = new Button(
+	private static Button m_poiButton = new Button(
 			Messages.getString("GISComponent.PointOfInterest")); //$NON-NLS-1$
 
 	/**
 	 * button to store
 	 */
-	private Button m_storeButton = new Button(
+	private static Button m_storeButton = new Button(
 			Messages.getString("GISComponent.Store")); // not really needed //$NON-NLS-1$
 
 	/**
 	 * button to sticky
 	 */
-	private Button m_stickyButton = new Button(
+	private static Button m_stickyButton = new Button(
 			Messages.getString("GISComponent.Sticky")); // not really needed //$NON-NLS-1$
 
 	/**
@@ -227,7 +231,7 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 	/**
 	 * server connection interface
 	 */
-	private static GEOServerInterface m_geoServerInterface;
+	private static GEOServerInterface m_geoServerInterface = null;
 
 	/*
 	 * (non-Javadoc)
@@ -237,6 +241,7 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 	@Override
 	public JPanel createPanel() {
 
+		// set the layout
 		this.setLayout(new BorderLayout());
 
 		// button bar panel
@@ -276,6 +281,39 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 		m_dummyServerRadioButton.setToolTipText(Messages
 				.getString("GISComponent.RadioButtonDummyServerToolTip")); //$NON-NLS-1$
 		m_panelRadioButton.add(m_dummyServerRadioButton);
+		m_dummyServerRadioButton.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (m_dummyServerRadioButton.isSelected()) {
+					m_geoServerInterface = new DummyServer();
+				}
+			}
+		});
 
 		// radio button for SDE server
 		m_sdeServerRadioButton = new JRadioButton(
@@ -283,6 +321,39 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 		m_sdeServerRadioButton.setToolTipText(Messages
 				.getString("GISComponent.RadioButtonSDEServerToolTip")); //$NON-NLS-1$
 		m_panelRadioButton.add(m_sdeServerRadioButton);
+		m_sdeServerRadioButton.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (m_sdeServerRadioButton.isSelected()) {
+					m_geoServerInterface = new SDEServer();
+				}
+			}
+		});
 
 		// radio button for SDE server serialized
 		m_sdeServerSerialized = new JRadioButton(
@@ -291,6 +362,39 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 				.setToolTipText(Messages
 						.getString("GISComponent.RadioButtonSDEServerSerializedToolTip")); //$NON-NLS-1$
 		m_panelRadioButton.add(m_sdeServerSerialized);
+		m_sdeServerSerialized.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (m_sdeServerSerialized.isSelected()) {
+					m_geoServerInterface = new SDEServerSerializedData();
+				}
+			}
+		});
 
 		// add the panel radio button to bar
 		buttonBar.add(m_panelRadioButton);
@@ -1058,11 +1162,8 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 
 		// iterate through the tree node map rule
 		for (String key : m_treeNodeRulesMap.keySet()) {
-
 			for (TreeNode treeNode : m_treeNodeRulesMap.get(key).keySet()) {
-
 				try {
-
 					treeNode.setVariableParameters(contextSituation);
 					Boolean result = (Boolean) treeNode.calculate();
 					if (result) {
@@ -1103,45 +1204,28 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 				// get the method parameter
 				String methodParameterClass = rulesEntity.getM_parameterClass();
 
-				if (methodParameterClass != "") {
+				// find the parameter class
+				Class<?> parameterClass = m_clientController
+						.findClass(methodParameterClass);
 
-					// find the parameter class
-					Class<?> parameterClass = m_clientController
-							.findClass(methodParameterClass);
+				if (parameterClass != null) {
 
-					if (parameterClass != null) {
+					Object parameterClassInstance = parameterClass
+							.newInstance();
 
-						Object parameterClassInstance = parameterClass
-								.newInstance();
+					Class<?>[] interfaces = parameterClass.getInterfaces();
 
-						Class<?>[] interfaces = parameterClass.getInterfaces();
-
-						for (Class<?> tempClass : interfaces) {
-							try {
-								Method method = component.getDeclaredMethod(
-										methodName, tempClass);
-								method.invoke(object, parameterClassInstance);
-								break;
-							} catch (NoSuchMethodException e) {
-								// Do Nothing
-							}
+					for (Class<?> tempClass : interfaces) {
+						try {
+							Method method = component.getDeclaredMethod(
+									methodName, tempClass);
+							method.invoke(object, parameterClassInstance);
+							break;
+						} catch (NoSuchMethodException e) {
+							// Do Nothing
 						}
 					}
-				} else {
-
-					// no parameter class array
-					Class<?>[] noParams = {};
-
-					try {
-						Method method = component.getDeclaredMethod(methodName,
-								noParams);
-						method.invoke(object, noParams);
-					} catch (NoSuchMethodException e) {
-						// Do Nothing
-					}
-
 				}
-
 			}
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
@@ -1155,8 +1239,34 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 
 	}
 
-	public void activateLanguage() {
-		Locale.setDefault(Locale.GERMAN);
+	public void activateLanguage(LanguageIF _language) {
+
+		Messages.setBundleLocale(_language.getLocale());
+
+		m_ldButton.setLabel(Messages.getString("GISComponent.LoadButton"));
+		m_ztfButton.setLabel(Messages.getString("GISComponent.ZoomToFit"));
+		m_upButton.setLabel(Messages.getString("GISComponent.NorthButton"));
+		m_downButton.setLabel(Messages.getString("GISComponent.SouthButton"));
+		m_leftButton.setLabel(Messages.getString("GISComponent.WestButton"));
+		m_rightButton.setLabel(Messages.getString("GISComponent.EastButton"));
+		m_poiButton
+				.setLabel(Messages.getString("GISComponent.PointOfInterest"));
+		m_storeButton.setLabel(Messages.getString("GISComponent.Store"));
+		m_stickyButton.setLabel(Messages.getString("GISComponent.Sticky"));
+		m_dummyServerRadioButton.setText(Messages
+				.getString("GISComponent.RadioButtonDummyServer"));
+		m_dummyServerRadioButton.setToolTipText(Messages
+				.getString("GISComponent.RadioButtonDummyServerToolTip"));
+		m_sdeServerRadioButton.setText(Messages
+				.getString("GISComponent.RadioButtonSDEServer"));
+		m_sdeServerRadioButton.setToolTipText(Messages
+				.getString("GISComponent.RadioButtonSDEServerToolTip"));
+		m_sdeServerSerialized.setText(Messages
+				.getString("GISComponent.RadioButtonSDEServerSerialized"));
+		m_sdeServerSerialized
+				.setToolTipText(Messages
+						.getString("GISComponent.RadioButtonSDEServerSerializedToolTip"));
+
 	}
 
 	/**
@@ -1251,171 +1361,6 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 	 */
 	public void setM_group(ButtonGroup m_group) {
 		this.m_group = m_group;
-	}
-
-	/**
-	 * @return the m_ldButton
-	 */
-	public Button getM_ldButton() {
-		return m_ldButton;
-	}
-
-	/**
-	 * @param m_ldButton
-	 *            the m_ldButton to set
-	 */
-	public void setM_ldButton(Button m_ldButton) {
-		this.m_ldButton = m_ldButton;
-	}
-
-	/**
-	 * @return the m_ztfButton
-	 */
-	public Button getM_ztfButton() {
-		return m_ztfButton;
-	}
-
-	/**
-	 * @param m_ztfButton
-	 *            the m_ztfButton to set
-	 */
-	public void setM_ztfButton(Button m_ztfButton) {
-		this.m_ztfButton = m_ztfButton;
-	}
-
-	/**
-	 * @return the m_zinButton
-	 */
-	public Button getM_zinButton() {
-		return m_zinButton;
-	}
-
-	/**
-	 * @param m_zinButton
-	 *            the m_zinButton to set
-	 */
-	public void setM_zinButton(Button m_zinButton) {
-		this.m_zinButton = m_zinButton;
-	}
-
-	/**
-	 * @return the m_zoutButton
-	 */
-	public Button getM_zoutButton() {
-		return m_zoutButton;
-	}
-
-	/**
-	 * @param m_zoutButton
-	 *            the m_zoutButton to set
-	 */
-	public void setM_zoutButton(Button m_zoutButton) {
-		this.m_zoutButton = m_zoutButton;
-	}
-
-	/**
-	 * @return the m_upButton
-	 */
-	public Button getM_upButton() {
-		return m_upButton;
-	}
-
-	/**
-	 * @param m_upButton
-	 *            the m_upButton to set
-	 */
-	public void setM_upButton(Button m_upButton) {
-		this.m_upButton = m_upButton;
-	}
-
-	/**
-	 * @return the m_downButton
-	 */
-	public Button getM_downButton() {
-		return m_downButton;
-	}
-
-	/**
-	 * @param m_downButton
-	 *            the m_downButton to set
-	 */
-	public void setM_downButton(Button m_downButton) {
-		this.m_downButton = m_downButton;
-	}
-
-	/**
-	 * @return the m_leftButton
-	 */
-	public Button getM_leftButton() {
-		return m_leftButton;
-	}
-
-	/**
-	 * @param m_leftButton
-	 *            the m_leftButton to set
-	 */
-	public void setM_leftButton(Button m_leftButton) {
-		this.m_leftButton = m_leftButton;
-	}
-
-	/**
-	 * @return the m_rightButton
-	 */
-	public Button getM_rightButton() {
-		return m_rightButton;
-	}
-
-	/**
-	 * @param m_rightButton
-	 *            the m_rightButton to set
-	 */
-	public void setM_rightButton(Button m_rightButton) {
-		this.m_rightButton = m_rightButton;
-	}
-
-	/**
-	 * @return the m_poiButton
-	 */
-	public Button getM_poiButton() {
-		return m_poiButton;
-	}
-
-	/**
-	 * @param m_poiButton
-	 *            the m_poiButton to set
-	 */
-	public void setM_poiButton(Button m_poiButton) {
-		this.m_poiButton = m_poiButton;
-	}
-
-	/**
-	 * @return the m_storeButton
-	 */
-	public Button getM_storeButton() {
-		return m_storeButton;
-	}
-
-	/**
-	 * @param m_storeButton
-	 *            the m_storeButton to set
-	 */
-	public void setM_storeButton(Button m_storeButton) {
-		this.m_storeButton = m_storeButton;
-	}
-
-	/**
-	 * @return the m_stickyButton
-	 */
-	public Button getM_stickyButton() {
-		return m_stickyButton;
-	}
-
-	/**
-	 * @param m_stickyButton
-	 *            the m_stickyButton to set
-	 */
-	public void setM_stickyButton(Button m_stickyButton) {
-		this.m_stickyButton = m_stickyButton;
 	}
 
 	/**

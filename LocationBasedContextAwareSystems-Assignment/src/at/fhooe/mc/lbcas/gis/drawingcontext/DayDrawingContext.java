@@ -1,4 +1,4 @@
-package at.fhooe.mc.lbcas.mapcolors;
+package at.fhooe.mc.lbcas.gis.drawingcontext;
 
 import java.awt.Color;
 import java.awt.Graphics;
