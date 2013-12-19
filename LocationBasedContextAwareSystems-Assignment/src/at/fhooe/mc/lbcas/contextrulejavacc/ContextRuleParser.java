@@ -5,32 +5,8 @@ import at.fhooe.mc.lbcas.contextruleparser.*;
 import java.util.*;
 import java.text.*;
 
+@SuppressWarnings("all")
 public class ContextRuleParser implements ContextRuleParserConstants {
-  public static void main(String args []) throws ParseException
-  {
-    ContextRuleParser parser = new ContextRuleParser(System.in);
-    while (true)
-    {
-      System.out.println("Reading from standard input...");
-      System.out.print("Enter Rule from Rules XML File:");
-      try
-      {
-        TreeNode treeNode = parser.execute();
-      }
-      catch (Exception e)
-      {
-        System.out.println("NOK.");
-        System.out.println(e.getMessage());
-        parser.ReInit(System.in);
-      }
-      catch (Error e)
-      {
-        System.out.println("Oops.");
-        System.out.println(e.getMessage());
-        break;
-      }
-    }
-  }
 
   final public TreeNode execute() throws ParseException {
   TreeNode nodeA = null;

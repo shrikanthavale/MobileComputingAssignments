@@ -37,7 +37,7 @@
 	    <rulename>NationalityLanguageMode</rulename>
 	    <rulecondition>language_mode == ENGLISH</rulecondition>
 	    <componentaffected>GISComponent</componentaffected>
-        <methodName>activateWalkingDrivingMode</methodName>
+        <methodName>activateLanguage</methodName>
         <parameter></parameter>
 	</rule>
 	<rule>

@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Vector;
@@ -406,165 +407,6 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 	@Override
 	public String getPanelName() {
 		return Messages.getString("GISComponent.GISComponentHeading"); //$NON-NLS-1$
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void update(Observable _observable, Object _arg) {
-
-		// update the GEO objects in the GIS component, this is for listening
-		// POI objects from POI Component
-		if (_observable instanceof GeoObjectObservable
-				&& m_drawingPanel.getGeoObjects() != null)
-			m_drawingPanel.getGeoObjects().addAll((Vector<GeoObject>) _arg);
-
-		// for listening context elements, specifically position
-		if (_observable instanceof ContextElementObservable
-				&& m_drawingPanel.getGeoObjects() != null) {
-
-			// cast to context element
-			Vector<ContextElement> contextElements = (Vector<ContextElement>) _arg;
-
-			for (ContextElement contextElement : contextElements) {
-
-				if ("locationcontext".equals(contextElement.getContexttype())) {
-					// create the Geographic coordinate
-					GeographischWGS84 geographischWGS84 = new GeographischWGS84(
-							contextElement.getLocationContextElement()
-									.getGeographicalLocation().getLongitude(),
-							contextElement.getLocationContextElement()
-									.getGeographicalLocation().getLatitude());
-
-					// create the Gauss Krueger Coordinate
-					GaussKruegerBMN gaussKruegerBMNCorodinate = new GaussKruegerBMN(
-							geographischWGS84);
-
-					// capture the details in context element, gauss krueger
-					// coordinates
-					// are in cm, so divide them by 100 to get meters
-					Point point = new Point(
-							gaussKruegerBMNCorodinate.getRechts() / 100,
-							gaussKruegerBMNCorodinate.getHoch() / 100);
-					// check for the instance
-
-					// convert the point , using to multiply point method
-					point = m_drawingPanel.getM_matrix().multiply(point);
-
-					// draws the image
-					m_drawingPanel.getGraphics().drawImage(
-							POIObject.getM_image(), point.x, point.y,
-							new Panel());
-
-					// create a POI object and add it to POI
-					POIObject poiObject = new POIObject("", 9999, point);
-					m_drawingPanel.getGeoObjects().addElement(poiObject);
-
-				}
-			}
-		}
-
-		// observable instance of ContextSituation
-		if (_observable instanceof ContextSituationObservable) {
-
-			// set the values from context situation and validate the tree
-			setContextSituationValuesTreeAndValidate(_arg);
-		}
-
-	}
-
-	private void setContextSituationValuesTreeAndValidate(Object _arg) {
-
-		// cast to context situation
-		ContextSituation contextSituation = (ContextSituation) _arg;
-
-		// tree node rules map
-		Map<String, Map<TreeNode, RulesEntity>> m_treeNodeRulesMap = CASMediator
-				.getM_treeNodeRulesMap();
-
-		// iterate through the tree node map rule
-		for (String key : m_treeNodeRulesMap.keySet()) {
-
-			for (TreeNode treeNode : m_treeNodeRulesMap.get(key).keySet()) {
-
-				try {
-
-					treeNode.setVariableParameters(contextSituation);
-					Boolean result = (Boolean) treeNode.calculate();
-					if (result) {
-						adaptGISComponent(m_treeNodeRulesMap.get(key).get(
-								treeNode));
-					}
-
-				} catch (NodeError e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-	}
-
-	private void adaptGISComponent(RulesEntity rulesEntity) {
-
-		// create the client controller
-		ClientControllerIF m_clientController = new ClientController();
-
-		// interface package
-		String m_componentInterfacePackage = "at.fhooe.mc.lbcas.component.ComponentIF";
-
-		try {
-			// get the class component
-			Class<?> component = m_clientController.findModule(
-					m_componentInterfacePackage,
-					rulesEntity.getM_affectedComponent());
-
-			if (component != null) {
-				// create new object
-				Object object = component.newInstance();
-
-				// get the method name
-				String methodName = rulesEntity.getM_methodName();
-
-				// get the method parameter
-				String methodParameterClass = rulesEntity.getM_parameterClass();
-
-				// find the parameter class
-				Class<?> parameterClass = m_clientController
-						.findClass(methodParameterClass);
-
-				if (parameterClass != null) {
-
-					Object parameterClassInstance = parameterClass
-							.newInstance();
-
-					Class<?>[] interfaces = parameterClass.getInterfaces();
-
-					for (Class<?> tempClass : interfaces) {
-						try {
-							Method method = component.getDeclaredMethod(
-									methodName, tempClass);
-							method.invoke(object, parameterClassInstance);
-							break;
-						} catch (NoSuchMethodException e) {
-							// Do Nothing
-						}
-					}
-				}
-			}
-		} catch (InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	/**
@@ -1136,6 +978,212 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 		// Nothing to do here
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public void update(Observable _observable, Object _arg) {
+
+		// update the GEO objects in the GIS component, this is for listening
+		// POI objects from POI Component
+		if (_observable instanceof GeoObjectObservable
+				&& m_drawingPanel.getGeoObjects() != null)
+			m_drawingPanel.getGeoObjects().addAll((Vector<GeoObject>) _arg);
+
+		// for listening context elements, specifically position
+		if (_observable instanceof ContextElementObservable
+				&& m_drawingPanel.getGeoObjects() != null) {
+
+			// cast to context element
+			Vector<ContextElement> contextElements = (Vector<ContextElement>) _arg;
+
+			for (ContextElement contextElement : contextElements) {
+
+				if ("locationcontext".equals(contextElement.getContexttype())) {
+					// create the Geographic coordinate
+					GeographischWGS84 geographischWGS84 = new GeographischWGS84(
+							contextElement.getLocationContextElement()
+									.getGeographicalLocation().getLongitude(),
+							contextElement.getLocationContextElement()
+									.getGeographicalLocation().getLatitude());
+
+					// create the Gauss Krueger Coordinate
+					GaussKruegerBMN gaussKruegerBMNCorodinate = new GaussKruegerBMN(
+							geographischWGS84);
+
+					// capture the details in context element, gauss krueger
+					// coordinates
+					// are in cm, so divide them by 100 to get meters
+					Point point = new Point(
+							gaussKruegerBMNCorodinate.getRechts() / 100,
+							gaussKruegerBMNCorodinate.getHoch() / 100);
+					// check for the instance
+
+					// convert the point , using to multiply point method
+					point = m_drawingPanel.getM_matrix().multiply(point);
+
+					// draws the image
+					m_drawingPanel.getGraphics().drawImage(
+							POIObject.getM_image(), point.x, point.y,
+							new Panel());
+
+					// create a POI object and add it to POI
+					POIObject poiObject = new POIObject("", 9999, point);
+					m_drawingPanel.getGeoObjects().addElement(poiObject);
+
+				}
+			}
+		}
+
+		// observable instance of ContextSituation
+		if (_observable instanceof ContextSituationObservable) {
+
+			// set the values from context situation and validate the tree
+			setContextSituationValuesTreeAndValidate(_arg);
+		}
+
+	}
+
+	private void setContextSituationValuesTreeAndValidate(Object _arg) {
+
+		// cast to context situation
+		ContextSituation contextSituation = (ContextSituation) _arg;
+
+		// tree node rules map
+		Map<String, Map<TreeNode, RulesEntity>> m_treeNodeRulesMap = CASMediator
+				.getM_treeNodeRulesMap();
+
+		// iterate through the tree node map rule
+		for (String key : m_treeNodeRulesMap.keySet()) {
+
+			for (TreeNode treeNode : m_treeNodeRulesMap.get(key).keySet()) {
+
+				try {
+
+					treeNode.setVariableParameters(contextSituation);
+					Boolean result = (Boolean) treeNode.calculate();
+					if (result) {
+						adaptGISComponent(m_treeNodeRulesMap.get(key).get(
+								treeNode));
+					}
+
+				} catch (NodeError e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
+	@SuppressWarnings("all")
+	private void adaptGISComponent(RulesEntity rulesEntity) {
+
+		// create the client controller
+		ClientControllerIF m_clientController = new ClientController();
+
+		// interface package
+		String m_componentInterfacePackage = "at.fhooe.mc.lbcas.component.ComponentIF";
+
+		try {
+			// get the class component
+			Class<?> component = m_clientController.findModule(
+					m_componentInterfacePackage,
+					rulesEntity.getM_affectedComponent());
+
+			if (component != null) {
+				// create new object
+				Object object = component.newInstance();
+
+				// get the method name
+				String methodName = rulesEntity.getM_methodName();
+
+				// get the method parameter
+				String methodParameterClass = rulesEntity.getM_parameterClass();
+
+				if (methodParameterClass != "") {
+
+					// find the parameter class
+					Class<?> parameterClass = m_clientController
+							.findClass(methodParameterClass);
+
+					if (parameterClass != null) {
+
+						Object parameterClassInstance = parameterClass
+								.newInstance();
+
+						Class<?>[] interfaces = parameterClass.getInterfaces();
+
+						for (Class<?> tempClass : interfaces) {
+							try {
+								Method method = component.getDeclaredMethod(
+										methodName, tempClass);
+								method.invoke(object, parameterClassInstance);
+								break;
+							} catch (NoSuchMethodException e) {
+								// Do Nothing
+							}
+						}
+					}
+				} else {
+
+					// no parameter class array
+					Class<?>[] noParams = {};
+
+					try {
+						Method method = component.getDeclaredMethod(methodName,
+								noParams);
+						method.invoke(object, noParams);
+					} catch (NoSuchMethodException e) {
+						// Do Nothing
+					}
+
+				}
+
+			}
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void activateLanguage() {
+		Locale.setDefault(Locale.GERMAN);
+	}
+
+	/**
+	 * Set server method for loading the data from particular server. SDE
+	 * Server, Dummy Server or Serialized Data
+	 * 
+	 * @param geoServerInterface
+	 */
+	public void setServer(GEOServerInterface _geoServerInterface) {
+		if (_geoServerInterface instanceof SDEServer) {
+			m_sdeServerRadioButton.setSelected(true);
+		} else if (_geoServerInterface instanceof DummyServer) {
+			m_dummyServerRadioButton.setSelected(true);
+		} else if (_geoServerInterface instanceof SDEServerSerializedData) {
+			m_sdeServerSerialized.setSelected(true);
+		}
+		m_geoServerInterface = _geoServerInterface;
+	}
+
+	/**
+	 * 
+	 * @param drawingContextIF
+	 */
+	public void activateDayNightMode(DrawingContextIF drawingContextIF) {
+		DrawingPanel.setDrawingContextIF(drawingContextIF);
+	}
+
 	/**
 	 * @param m_stickyRectangle
 	 *            the m_stickyRectangle to set
@@ -1392,28 +1440,4 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 		return m_stickyRectangle;
 	}
 
-	/**
-	 * Set server method for loading the data from particular server. SDE
-	 * Server, Dummy Server or Serialized Data
-	 * 
-	 * @param geoServerInterface
-	 */
-	public void setServer(GEOServerInterface _geoServerInterface) {
-		if (_geoServerInterface instanceof SDEServer) {
-			m_sdeServerRadioButton.setSelected(true);
-		} else if (_geoServerInterface instanceof DummyServer) {
-			m_dummyServerRadioButton.setSelected(true);
-		} else if (_geoServerInterface instanceof SDEServerSerializedData) {
-			m_sdeServerSerialized.setSelected(true);
-		}
-		m_geoServerInterface = _geoServerInterface;
-	}
-
-	/**
-	 * 
-	 * @param drawingContextIF
-	 */
-	public void activateDayNightMode(DrawingContextIF drawingContextIF) {
-		DrawingPanel.setDrawingContextIF(drawingContextIF);
-	}
 }

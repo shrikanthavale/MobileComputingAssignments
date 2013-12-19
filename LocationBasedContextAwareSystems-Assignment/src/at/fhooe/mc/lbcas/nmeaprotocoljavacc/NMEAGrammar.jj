@@ -2,6 +2,7 @@
  * JavaCC file for parsing the input from the NMEA-0183 protocol file to parse GPGGA statements
  */options{  JDK_VERSION = "1.6";  static = true;}PARSER_BEGIN(NMEAProtocolParser)package at.fhooe.mc.lbcas.nmeaprotocoljavacc;
 
+@SuppressWarnings("all")
 public class NMEAProtocolParser{  public static void main(String args []) throws ParseException,TokenMgrError  {    NMEAProtocolParser parser = new NMEAProtocolParser(System.in);    while (true)    {      System.out.println("Reading from standard input...");      System.out.print("Enter an NEMA Protocol String expression : ");      try      {        switch (parser.validate_line())        {          case 0 :           System.out.println("OK.");          break;          case 1 :           System.out.println("Goodbye.");          break;          default :           break;        }      }      catch (Exception e)      {        System.out.println("NOK.");        System.out.println(e.getMessage());        parser.ReInit(System.in);      }      catch (Error e)      {        System.out.println("Oops.");        System.out.println(e.getMessage());        break;      }    }  }}PARSER_END(NMEAProtocolParser)SKIP :{  < SPACE : " " >| < CARRIAGERETURN : "\r" >| < TAB : "\t" >| < NEWLINE : "\n" >}TOKEN : {  < DOLLAR : "$" >| < GTOKEN : ["G"] >
 | < PTOKEN : ["P"] >
 | < ATOKEN : ["A"] >
