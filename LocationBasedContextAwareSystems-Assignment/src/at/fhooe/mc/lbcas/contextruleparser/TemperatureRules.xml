@@ -6,8 +6,8 @@
 	    <rulename>Rainy</rulename>
 	    <rulecondition> &amp;&amp; ( temperature_now &gt; 04 , temperature_now &lt; 10)</rulecondition>
 	    <componentaffected>GISComponent</componentaffected>
-        <methodName>updateTemperature</methodName>
-        <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.RainyTemperature</parameter>
+        <methodName>setTemperatureImage</methodName>
+        <parameter>at.fhooe.mc.lbcas.gis.temperatureimage.RainyTemperature</parameter>
 	</rule>	
 	
     <rule>
@@ -15,8 +15,8 @@
 	    <rulename>Snow</rulename>
         <rulecondition>temperature_now &lt; 05</rulecondition>
         <componentaffected>GISComponent</componentaffected>
-        <methodName>updateTemperature</methodName>
-        <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.SnowTemperature</parameter>
+        <methodName>setTemperatureImage</methodName>
+        <parameter>at.fhooe.mc.lbcas.gis.temperatureimage.SnowTemperature</parameter>
     </rule>
     
     <rule>
@@ -24,8 +24,8 @@
 	    <rulename>Sunny</rulename>
         <rulecondition> &amp;&amp; ( temperature_now &gt; 09, temperature_now &lt; 25)</rulecondition>
         <componentaffected>GISComponent</componentaffected>
-        <methodName>updateTemperature</methodName>
-        <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.SunnyTemperature</parameter>
+        <methodName>setTemperatureImage</methodName>
+        <parameter>at.fhooe.mc.lbcas.gis.temperatureimage.SunnyTemperature</parameter>
     </rule>
     
     <rule>
@@ -33,8 +33,8 @@
 	    <rulename>Hot</rulename>
         <rulecondition> &amp;&amp; ( temperature_now &gt; 26, temperature_now &lt; 100)</rulecondition>
         <componentaffected>GISComponent</componentaffected>
-        <methodName>updateTemperature</methodName>
-        <parameter>at.fhooe.mc.lbcas.component.temperaturemodule.HOTTemperature</parameter>
+        <methodName>setTemperatureImage</methodName>
+        <parameter>at.fhooe.mc.lbcas.gis.temperatureimage.HotTemperature</parameter>
     </rule>
     
 </rules>

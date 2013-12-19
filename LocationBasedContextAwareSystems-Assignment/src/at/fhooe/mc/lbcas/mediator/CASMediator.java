@@ -206,7 +206,7 @@ public class CASMediator implements MediatorIF {
 
 		List<RulesEntity> temperatureRules = m_contextRuleXMLReader
 				.readContextRules("at/fhooe/mc/lbcas/contextruleparser/TemperatureRules.xml");
-		// m_ruleMap.put("TemperatureRules", temperatureRules);
+		m_ruleMap.put("TemperatureRules", temperatureRules);
 
 		try {
 			for (String key : m_ruleMap.keySet()) {
@@ -399,11 +399,8 @@ public class CASMediator implements MediatorIF {
 
 								Method method = component.getDeclaredMethod(
 										methodName, tempClass);
-
 								method.invoke(object, parameterClassInstance);
-
 								break;
-
 							} catch (NoSuchMethodException e) {
 								// Do Nothing
 							}

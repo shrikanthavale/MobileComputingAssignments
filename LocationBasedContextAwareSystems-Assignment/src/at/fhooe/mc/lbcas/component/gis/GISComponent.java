@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Vector;
@@ -36,6 +37,8 @@ import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.Border;
@@ -54,6 +57,7 @@ import at.fhooe.mc.lbcas.geo.GaussKruegerBMN;
 import at.fhooe.mc.lbcas.geo.GeographischWGS84;
 import at.fhooe.mc.lbcas.gis.drawingcontext.DrawingContextIF;
 import at.fhooe.mc.lbcas.gis.maplanguage.LanguageIF;
+import at.fhooe.mc.lbcas.gis.temperatureimage.TemperatureImagePathIF;
 import at.fhooe.mc.lbcas.mediator.CASMediator;
 import at.fhooe.mc.lbcas.mediator.MediatorIF;
 import at.fhooe.mc.lbcas.reflectionapi.ClientController;
@@ -229,6 +233,11 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 	private DrawingPanel m_drawingPanel = new DrawingPanel();
 
 	/**
+	 * button for setting the image icon
+	 */
+	private static JButton m_imageButton;
+
+	/**
 	 * server connection interface
 	 */
 	private static GEOServerInterface m_geoServerInterface = null;
@@ -243,6 +252,18 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 
 		// set the layout
 		this.setLayout(new BorderLayout());
+
+		// set the image in left side corner
+		JPanel imagePanel = new JPanel();
+		imagePanel.setLayout(new BorderLayout());
+		imagePanel.setBackground(Color.lightGray);
+
+		// just create the new button
+		m_imageButton = new JButton();
+		imagePanel.add(m_imageButton, BorderLayout.EAST);
+
+		// add the image panel
+		this.add(imagePanel, BorderLayout.SOUTH);
 
 		// button bar panel
 		JPanel buttonBar = new JPanel();
@@ -428,8 +449,8 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 		loadZoomButtonsPanel.add(scroll);
 		loadZoomButtonsPanel.add(m_scale);
 		loadZoomButtonsPanel.add(m_poiButton);
-		loadZoomButtonsPanel.add(m_storeButton);
-		loadZoomButtonsPanel.add(m_stickyButton);
+		// loadZoomButtonsPanel.add(m_storeButton);
+		// loadZoomButtonsPanel.add(m_stickyButton);
 		buttonBar.add(loadZoomButtonsPanel);
 
 		// listener for radio button
@@ -1284,6 +1305,17 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 			m_sdeServerSerialized.setSelected(true);
 		}
 		m_geoServerInterface = _geoServerInterface;
+	}
+
+	public void setTemperatureImage(
+			TemperatureImagePathIF temperatureImagePathIF) {
+
+		// get the image from package
+		URL resource = POIObject.class.getClassLoader().getResource(
+				temperatureImagePathIF.getTemperatureImagePath());
+
+		// set the image icon to button
+		m_imageButton.setIcon(new ImageIcon(resource));
 	}
 
 	/**

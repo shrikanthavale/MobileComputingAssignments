@@ -12,7 +12,6 @@ import at.fhooe.mc.lbcas.entities.GeoDoublePoint;
 import at.fhooe.mc.lbcas.entities.GeoObject;
 import at.fhooe.mc.lbcas.entities.POIObject;
 import at.fhooe.mc.lbcas.geo.GeoTransformationMatrix;
-import at.fhooe.mc.lbcas.gis.drawingcontext.DayDrawingContext;
 import at.fhooe.mc.lbcas.gis.drawingcontext.DrawingContextIF;
 
 public class DrawingPanel extends Panel {
@@ -366,9 +365,6 @@ public class DrawingPanel extends Panel {
 	 * @return the drawingContextIF
 	 */
 	public static DrawingContextIF getDrawingContextIF() {
-		if (m_drawingContextIF == null) {
-			return new DayDrawingContext();
-		}
 		return m_drawingContextIF;
 	}
 

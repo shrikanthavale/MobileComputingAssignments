@@ -7,6 +7,9 @@
 		<shouldbeloaded>true</shouldbeloaded>
 		<dynamicmoduleproperties>
 			<ComponentProperty method="setServer">at.fhooe.mc.lbcas.server.SDEServerSerializedData</ComponentProperty>
+			<ComponentProperty method="activateDayNightMode">at.fhooe.mc.lbcas.gis.drawingcontext.DayDrawingContext</ComponentProperty>
+			<ComponentProperty method="activateLanguage">at.fhooe.mc.lbcas.gis.maplanguage.EnglishLanguage</ComponentProperty>
+			<ComponentProperty method="setTemperatureImage">at.fhooe.mc.lbcas.gis.temperatureimage.RainyTemperature</ComponentProperty>
 		</dynamicmoduleproperties>
 	</component>
 
