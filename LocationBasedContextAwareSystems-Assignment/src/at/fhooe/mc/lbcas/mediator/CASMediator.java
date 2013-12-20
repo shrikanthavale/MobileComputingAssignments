@@ -381,22 +381,15 @@ public class CASMediator implements MediatorIF {
 					for (String key : methodNamesParameters.keySet()) {
 
 						String methodName = key;
-
 						String methodParameterClass = methodNamesParameters
 								.get(key);
-
 						Class<?> parameterClass = m_clientController
 								.findClass(methodParameterClass);
-
 						Object parameterClassInstance = parameterClass
 								.newInstance();
-
 						Class<?>[] interfaces = parameterClass.getInterfaces();
-
 						for (Class<?> tempClass : interfaces) {
-
 							try {
-
 								Method method = component.getDeclaredMethod(
 										methodName, tempClass);
 								method.invoke(object, parameterClassInstance);
@@ -405,15 +398,10 @@ public class CASMediator implements MediatorIF {
 								// Do Nothing
 							}
 						}
-
 					}
-
 				}
 			}
-
-		}
-
-		catch (InstantiationException | IllegalAccessException e) {
+		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
