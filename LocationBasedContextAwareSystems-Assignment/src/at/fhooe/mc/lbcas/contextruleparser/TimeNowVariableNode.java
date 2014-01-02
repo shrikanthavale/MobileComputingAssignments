@@ -127,7 +127,7 @@ public class TimeNowVariableNode extends TreeNode {
 		} else if (firstValue.getHours() < secondValue.getHours()) {
 			return false;
 		} else {
-			if (firstValue.getSeconds() > secondValue.getSeconds()) {
+			if (firstValue.getMinutes() > secondValue.getMinutes()) {
 				return true;
 			} else {
 				return false;
@@ -158,7 +158,7 @@ public class TimeNowVariableNode extends TreeNode {
 		} else if (firstValue.getHours() > secondValue.getHours()) {
 			return false;
 		} else {
-			if (firstValue.getSeconds() < secondValue.getSeconds()) {
+			if (firstValue.getMinutes() < secondValue.getMinutes()) {
 				return true;
 			} else {
 				return false;

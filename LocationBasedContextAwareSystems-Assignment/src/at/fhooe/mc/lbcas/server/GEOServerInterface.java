@@ -49,4 +49,6 @@ public interface GEOServerInterface {
 	 */
 	public Vector<GeoObject> loadData();
 
+	public Vector<GeoObject> clearPOIS();
+
 }

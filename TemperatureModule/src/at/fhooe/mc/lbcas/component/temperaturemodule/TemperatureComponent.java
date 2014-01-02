@@ -92,6 +92,8 @@ public class TemperatureComponent extends JPanel implements ComponentIF {
 		m_temperatureSlider.setPaintTicks(true);
 		m_temperatureSlider.setPaintLabels(true);
 		m_temperatureSlider.setBounds(187, 78, 404, 50);
+		m_temperatureSlider.setMinimum(-40);
+		m_temperatureSlider.setMaximum(40);
 		this.add(m_temperatureSlider);
 
 		// create the temperature label

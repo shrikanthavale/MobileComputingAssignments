@@ -3,7 +3,6 @@
  */
 package at.fhooe.mc.lbcas.server;
 
-import java.awt.Point;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -21,6 +20,12 @@ import at.fhooe.mc.lbcas.entities.PointObject;
  */
 public class SDEServerSerializedData implements GEOServerInterface {
 
+	// object container for storing GEO objects
+	private static Vector<GeoObject> m_objectContainer = null;
+
+	// point of interest container
+	private static Vector<GeoObject> m_pointInterestContainer = null;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -30,44 +35,41 @@ public class SDEServerSerializedData implements GEOServerInterface {
 	@Override
 	public Vector<GeoObject> typeQuery(List<Integer> _typeList) {
 
-		System.out.println("Started Creating POI Objects");
-		// container for storing list of GEO Objects
-		Vector<GeoObject> objectContainerTemp = new Vector<GeoObject>();
-		Vector<GeoObject> objectContainer = null;
+		System.out.println("LOADING POI .........");
 
-		objectContainer = loadData();
+		if (m_pointInterestContainer != null) {
+			m_objectContainer.removeAll(m_pointInterestContainer);
+		}
+		m_pointInterestContainer = new Vector<>();
 
-		for (GeoObject geoObject : objectContainer) {
+		for (GeoObject geoObject : m_objectContainer) {
 
-			List<ObjektTeil> m_listObjectParts = geoObject
-					.getM_listObjectParts();
+			int geoObjectType = geoObject.getM_type();
 
-			// iterate through the objects
-			for (ObjektTeil objektTeil : m_listObjectParts) {
+			String geoObjectID = geoObject.getM_id();
 
-				// check if it is point object
-				if (objektTeil instanceof PointObject) {
+			List<ObjektTeil> listObjectParts = geoObject.getM_listObjectParts();
+			ObjektTeil objektTeil = listObjectParts.get(0);
 
-					// cast to line object
-					PointObject pointObject = (PointObject) objektTeil;
+			POIObject poiObject = null;
 
-					// get the line
-					Point point = pointObject.getM_pointData();
+			if (objektTeil instanceof PointObject
+					&& _typeList.contains(geoObjectType)) {
+				// if the shape of the object is of type
+				// point
+				poiObject = new POIObject(geoObjectID, geoObjectType,
+						((PointObject) objektTeil).getM_pointData());
 
-					// create the POI object out of it
-					if (_typeList.contains(geoObject.getM_type())) {
-						POIObject poiObject = new POIObject(
-								geoObject.getM_id(), geoObject.getM_type(),
-								point);
-						objectContainerTemp.addElement(poiObject);
-					}
-				}
+				m_pointInterestContainer.addElement(poiObject);
+
 			}
-			objectContainerTemp.addElement(geoObject);
 		}
 
-		System.out.println("Done Creating POI Objects");
-		return objectContainerTemp;
+		m_objectContainer.addAll(m_pointInterestContainer);
+
+		System.out.println("Data Loaded Successfully ................ ");
+
+		return m_objectContainer;
 	}
 
 	/*
@@ -78,7 +80,7 @@ public class SDEServerSerializedData implements GEOServerInterface {
 	 */
 	@Override
 	public boolean login(String _user, String _pass, String _server) {
-		return false;
+		return true;
 	}
 
 	/*
@@ -89,31 +91,40 @@ public class SDEServerSerializedData implements GEOServerInterface {
 	@Override
 	public Vector<GeoObject> loadData() {
 
-		Vector<GeoObject> objectContainer = new Vector<>();
-		GeoObject geoObject = null;
-		try {
+		System.out.println("Loading Serialized Data ..... Plese Wait");
 
-			System.out.println("Loading Serialized Data ..... Plese Wait");
+		if (m_objectContainer == null) {
+			m_objectContainer = new Vector<>();
+			GeoObject geoObject = null;
+			try {
 
-			// load the serialized object located on F Drive of the computer
-			// hard disk
-			for (int geoObjectCounter = 0; geoObjectCounter <= 126510; geoObjectCounter++) {
-				FileInputStream fileIn = new FileInputStream(
-						"F:\\GeoObjectsSerialiazed\\GeoObject" + geoObjectCounter + ".ser"); //$NON-NLS-1$
-				ObjectInputStream in = new ObjectInputStream(fileIn);
-				geoObject = (GeoObject) in.readObject();
-				objectContainer.addElement(geoObject);
-				in.close();
-				fileIn.close();
+				// load the serialized object located on F Drive of the computer
+				// hard disk
+				for (int geoObjectCounter = 0; geoObjectCounter <= 126510; geoObjectCounter++) {
+					FileInputStream fileIn = new FileInputStream(
+							"F:\\GeoObjectsSerialiazed\\GeoObject" + geoObjectCounter + ".ser"); //$NON-NLS-1$
+					ObjectInputStream in = new ObjectInputStream(fileIn);
+					geoObject = (GeoObject) in.readObject();
+					m_objectContainer.addElement(geoObject);
+					in.close();
+					fileIn.close();
+				}
+			} catch (IOException ioException) {
+				ioException.printStackTrace();
+			} catch (ClassNotFoundException classNotFoundException) {
+				classNotFoundException.printStackTrace();
 			}
-		} catch (IOException ioException) {
-			ioException.printStackTrace();
-		} catch (ClassNotFoundException classNotFoundException) {
-			classNotFoundException.printStackTrace();
-		}
 
+		}
 		System.out.println("Loading Serialized Data Completed ......");
-		return objectContainer;
+		return m_objectContainer;
+	}
+
+	@Override
+	public Vector<GeoObject> clearPOIS() {
+		if (m_pointInterestContainer != null)
+			m_objectContainer.removeAll(m_pointInterestContainer);
+		return m_objectContainer;
 	}
 
 }

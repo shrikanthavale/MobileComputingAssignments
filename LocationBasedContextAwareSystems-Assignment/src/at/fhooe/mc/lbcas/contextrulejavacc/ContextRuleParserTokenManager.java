@@ -1028,6 +1028,10 @@ void TokenLexicalActions(Token matchedToken)
         lengthOfMatch = jjstrLiteralImages[26].length();
         System.out.println("Decimal : \u005c" . \u005c" ");
          break;
+      case 27 :
+        image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
+    System.out.println("Time Constant : " );
+         break;
       default :
          break;
    }

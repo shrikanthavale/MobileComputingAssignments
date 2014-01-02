@@ -129,6 +129,8 @@ public class DrawingPanel extends Panel {
 	 * visible on the canvas. Uses scaling, translation, and mirror aspects
 	 */
 	public void zoomToFit() {
+		if (m_pois != null)
+			m_pois.clear();
 		Rectangle winBounds = getBounds();
 		Rectangle mapBounds = getMapBounds(m_objects);
 		m_matrix = GeoTransformationMatrix.zoomToFit(mapBounds, winBounds);

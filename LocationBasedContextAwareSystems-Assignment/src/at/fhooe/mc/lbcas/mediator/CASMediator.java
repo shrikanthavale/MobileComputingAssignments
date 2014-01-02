@@ -202,7 +202,7 @@ public class CASMediator implements MediatorIF {
 
 		List<RulesEntity> poiRules = m_contextRuleXMLReader
 				.readContextRules("at/fhooe/mc/lbcas/contextruleparser/POIRules.xml");
-		// m_ruleMap.put("POIRules", poiRules);
+		m_ruleMap.put("POIRules", poiRules);
 
 		List<RulesEntity> temperatureRules = m_contextRuleXMLReader
 				.readContextRules("at/fhooe/mc/lbcas/contextruleparser/TemperatureRules.xml");

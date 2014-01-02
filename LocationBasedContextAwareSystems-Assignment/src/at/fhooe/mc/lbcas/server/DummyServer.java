@@ -214,4 +214,9 @@ public class DummyServer implements GEOServerInterface {
 		return objectContainer;
 	}
 
+	@Override
+	public Vector<GeoObject> clearPOIS() {
+		return null;
+	}
+
 }

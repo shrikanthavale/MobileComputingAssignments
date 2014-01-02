@@ -1115,8 +1115,11 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 		// update the GEO objects in the GIS component, this is for listening
 		// POI objects from POI Component
 		if (_observable instanceof GeoObjectObservable
-				&& m_drawingPanel.getGeoObjects() != null)
-			m_drawingPanel.getGeoObjects().addAll((Vector<GeoObject>) _arg);
+				&& m_drawingPanel.getGeoObjects() != null) {
+
+			Vector<GeoObject> objectContainer = (Vector<GeoObject>) _arg;
+			m_drawingPanel.setGeoObjects(objectContainer);
+		}
 
 		// for listening context elements, specifically position
 		if (_observable instanceof ContextElementObservable
@@ -1154,10 +1157,6 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 					m_drawingPanel.getGraphics().drawImage(
 							POIObject.getM_image(), point.x, point.y,
 							new Panel());
-
-					// create a POI object and add it to POI
-					POIObject poiObject = new POIObject("", 9999, point);
-					m_drawingPanel.getGeoObjects().addElement(poiObject);
 
 				}
 			}
@@ -1287,6 +1286,16 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 		m_sdeServerSerialized
 				.setToolTipText(Messages
 						.getString("GISComponent.RadioButtonSDEServerSerializedToolTip"));
+
+		if (m_drawingPanel.getGeoObjects() != null) {
+			getDisplayMessageComponent()
+					.updateMessage(
+							Messages.getString("GISComponent.SDEServerSerializedDataLoadedSuccess"));
+		} else {
+			getDisplayMessageComponent().updateMessage(
+					Messages.getString("GISComponent.RadioSelectionMessage"));
+
+		}
 
 	}
 

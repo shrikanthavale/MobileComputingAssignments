@@ -4,16 +4,22 @@
 package at.fhooe.mc.lbcas.component.poicomponent;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -23,13 +29,20 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import at.fhooe.mc.lbcas.component.ComponentIF;
+import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
 import at.fhooe.mc.lbcas.component.displaymessages.DisplayMessagesComponent;
+import at.fhooe.mc.lbcas.component.gis.ContextSituationObservable;
 import at.fhooe.mc.lbcas.component.gis.GISComponent;
+import at.fhooe.mc.lbcas.contextruleparser.NodeError;
+import at.fhooe.mc.lbcas.contextruleparser.RulesEntity;
+import at.fhooe.mc.lbcas.contextruleparser.TreeNode;
 import at.fhooe.mc.lbcas.entities.GeoObject;
+import at.fhooe.mc.lbcas.entities.POIObject;
 import at.fhooe.mc.lbcas.mediator.CASMediator;
 import at.fhooe.mc.lbcas.mediator.MediatorIF;
+import at.fhooe.mc.lbcas.reflectionapi.ClientController;
+import at.fhooe.mc.lbcas.reflectionapi.ClientControllerIF;
 import at.fhooe.mc.lbcas.server.GEOServerInterface;
-import at.fhooe.mc.lbcas.server.SDEServer;
 
 /**
  * @author Shrikant Havale
@@ -51,9 +64,14 @@ public class POIComponent extends JPanel implements ComponentIF {
 	private JCheckBox m_checkBoxPetrolStation;
 
 	/**
-	 * check box restaurant
+	 * check box context aware
 	 */
-	private JCheckBox m_checkBoxRestaurant;
+	private static JCheckBox m_contextAwareCheckBox;
+
+	/**
+	 * button for setting the image icon
+	 */
+	private static JButton m_imageButton;
 
 	/**
 	 * check box hospital
@@ -123,10 +141,24 @@ public class POIComponent extends JPanel implements ComponentIF {
 				.getString("POIComponent.POILabelFont"), Font.BOLD, 14)); //$NON-NLS-1$
 		this.add(panelInnerHeadingLabel, BorderLayout.NORTH);
 
+		// create the combined panel
+		JPanel combinePanel = new JPanel(new GridLayout(1, 2, 0, 0));
+		JPanel fixedPOIPanel = new JPanel(new BorderLayout());
+		JPanel variablePOIPane = new JPanel(new BorderLayout());
+		combinePanel.add(fixedPOIPanel);
+		combinePanel.add(variablePOIPane);
+		this.add(combinePanel, BorderLayout.CENTER);
+
 		// check box panel
 		JPanel panel_1 = new JPanel();
-		this.add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(new GridLayout(0, 1, 0, 0));
+		raisedbevel = BorderFactory.createRaisedBevelBorder();
+		loweredbevel = BorderFactory.createLoweredBevelBorder();
+		titledBorder = BorderFactory.createTitledBorder(raisedbevel,
+				"Fixed POI", TitledBorder.LEFT, TitledBorder.CENTER, new Font(
+						"Tahoma", Font.BOLD | Font.ITALIC, 12)); //$NON-NLS-1$
+		panel_1.setBorder(BorderFactory.createCompoundBorder(titledBorder,
+				loweredbevel));
 
 		// check box for petrol station
 		m_checkBoxPetrolStation = new JCheckBox(
@@ -134,17 +166,7 @@ public class POIComponent extends JPanel implements ComponentIF {
 		m_checkBoxPetrolStation.setToolTipText(Messages
 				.getString("POIComponent.POIPertolStationCode")); //$NON-NLS-1$
 		m_checkBoxPetrolStation.setHorizontalAlignment(SwingConstants.LEFT);
-		m_checkBoxPetrolStation.setEnabled(false);
 		panel_1.add(m_checkBoxPetrolStation);
-
-		// check box for restaurant
-		m_checkBoxRestaurant = new JCheckBox(
-				Messages.getString("POIComponent.POIRestaurant")); //$NON-NLS-1$
-		m_checkBoxRestaurant.setToolTipText(Messages
-				.getString("POIComponent.POIRestaurantCode")); //$NON-NLS-1$
-		m_checkBoxRestaurant.setHorizontalAlignment(SwingConstants.LEFT);
-		m_checkBoxRestaurant.setEnabled(false);
-		panel_1.add(m_checkBoxRestaurant);
 
 		// check box hospital
 		m_checkBoxHospital = new JCheckBox(
@@ -152,7 +174,6 @@ public class POIComponent extends JPanel implements ComponentIF {
 		m_checkBoxHospital.setToolTipText(Messages
 				.getString("POIComponent.POIHopsitalCode")); //$NON-NLS-1$
 		m_checkBoxHospital.setHorizontalAlignment(SwingConstants.LEFT);
-		m_checkBoxHospital.setEnabled(false);
 		panel_1.add(m_checkBoxHospital);
 
 		// check box police station
@@ -160,7 +181,6 @@ public class POIComponent extends JPanel implements ComponentIF {
 				Messages.getString("POIComponent.POIPoliceStation")); //$NON-NLS-1$
 		m_checkBoxPoliceStation.setToolTipText(Messages
 				.getString("POIComponent.POIPoliceStationCode")); //$NON-NLS-1$
-		m_checkBoxPoliceStation.setEnabled(false);
 		panel_1.add(m_checkBoxPoliceStation);
 
 		// check box bank
@@ -168,7 +188,6 @@ public class POIComponent extends JPanel implements ComponentIF {
 				Messages.getString("POIComponent.POIBank")); //$NON-NLS-1$
 		m_checkBoxBank.setToolTipText(Messages
 				.getString("POIComponent.POIBankCode")); //$NON-NLS-1$
-		m_checkBoxBank.setEnabled(false);
 		panel_1.add(m_checkBoxBank);
 
 		// check box airport
@@ -176,7 +195,6 @@ public class POIComponent extends JPanel implements ComponentIF {
 				Messages.getString("POIComponent.POIAirport")); //$NON-NLS-1$
 		m_checkBoxAirport.setToolTipText(Messages
 				.getString("POIComponent.POIAirportCode")); //$NON-NLS-1$
-		m_checkBoxAirport.setEnabled(false);
 		panel_1.add(m_checkBoxAirport);
 
 		// check box embassy
@@ -184,7 +202,6 @@ public class POIComponent extends JPanel implements ComponentIF {
 				Messages.getString("POIComponent.POIEmbassy")); //$NON-NLS-1$
 		m_checkBoxEmbassy.setToolTipText(Messages
 				.getString("POIComponent.POIEmbassyCode")); //$NON-NLS-1$
-		m_checkBoxEmbassy.setEnabled(false);
 		panel_1.add(m_checkBoxEmbassy);
 
 		// check box theater
@@ -192,8 +209,40 @@ public class POIComponent extends JPanel implements ComponentIF {
 				Messages.getString("POIComponent.POITheater")); //$NON-NLS-1$
 		m_checkBoxTheater.setToolTipText(Messages
 				.getString("POIComponent.POITheaterCode")); //$NON-NLS-1$
-		m_checkBoxTheater.setEnabled(false);
 		panel_1.add(m_checkBoxTheater);
+
+		// add the panel_1 to fixed POI
+		fixedPOIPanel.add(panel_1, BorderLayout.CENTER);
+
+		// check box panel
+		JPanel panelVariablePOI = new JPanel();
+		panelVariablePOI.setLayout(new GridLayout(0, 1, 0, 0));
+		raisedbevel = BorderFactory.createRaisedBevelBorder();
+		loweredbevel = BorderFactory.createLoweredBevelBorder();
+		titledBorder = BorderFactory.createTitledBorder(raisedbevel,
+				"Context Aware POI", TitledBorder.LEFT, TitledBorder.CENTER,
+				new Font("Tahoma", Font.BOLD | Font.ITALIC, 12)); //$NON-NLS-1$
+		panelVariablePOI.setBorder(BorderFactory.createCompoundBorder(
+				titledBorder, loweredbevel));
+
+		// check box for context aware
+		m_contextAwareCheckBox = new JCheckBox(); //$NON-NLS-1$
+		m_contextAwareCheckBox.setHorizontalAlignment(SwingConstants.LEFT);
+		m_contextAwareCheckBox.setSelected(true);
+		panelVariablePOI.add(m_contextAwareCheckBox);
+
+		// set the image in left side corner
+		JPanel imagePanel = new JPanel();
+		imagePanel.setLayout(new BorderLayout());
+		imagePanel.setBackground(Color.lightGray);
+
+		// just create the new button
+		m_imageButton = new JButton();
+		imagePanel.add(m_imageButton, BorderLayout.CENTER);
+		m_imageButton.setEnabled(false);
+
+		variablePOIPane.add(panelVariablePOI, BorderLayout.NORTH);
+		// variablePOIPane.add(imagePanel, BorderLayout.CENTER);
 
 		// button panel
 		JPanel panel_2 = new JPanel();
@@ -207,13 +256,9 @@ public class POIComponent extends JPanel implements ComponentIF {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				// get the geo objects - method should be used in actual
+				// get the GEO objects - method should be used in actual
 				// connection to server
 				Vector<GeoObject> objectContainer = getGeoObjectsForPOISelected();
-
-				// this is for hard coded serialized data
-				// Vector<GeoObject> objectContainer = SDEServerSerializedData
-				// .typeQuery(getSelectedObjectTypes());
 
 				if (objectContainer != null)
 					getCASMediator().communicateGeoObjects(objectContainer);
@@ -241,8 +286,8 @@ public class POIComponent extends JPanel implements ComponentIF {
 					m_checkBoxPetrolStation.setSelected(true);
 				if (m_checkBoxPoliceStation.isEnabled())
 					m_checkBoxPoliceStation.setSelected(true);
-				if (m_checkBoxRestaurant.isEnabled())
-					m_checkBoxRestaurant.setSelected(true);
+				if (m_contextAwareCheckBox.isEnabled())
+					m_contextAwareCheckBox.setSelected(true);
 				if (m_checkBoxTheater.isEnabled())
 					m_checkBoxTheater.setSelected(true);
 			}
@@ -269,8 +314,8 @@ public class POIComponent extends JPanel implements ComponentIF {
 					m_checkBoxPetrolStation.setSelected(false);
 				if (m_checkBoxPoliceStation.isEnabled())
 					m_checkBoxPoliceStation.setSelected(false);
-				if (m_checkBoxRestaurant.isEnabled())
-					m_checkBoxRestaurant.setSelected(false);
+				if (m_contextAwareCheckBox.isEnabled())
+					m_contextAwareCheckBox.setSelected(false);
 				if (m_checkBoxTheater.isEnabled())
 					m_checkBoxTheater.setSelected(false);
 
@@ -278,13 +323,8 @@ public class POIComponent extends JPanel implements ComponentIF {
 				// connection to server
 				Vector<GeoObject> objectContainer = removeSelectedPOIObjects();
 
-				// this is for hard coded serialized data
-				// Vector<GeoObject> objectContainer = SDEServerSerializedData
-				// .typeQuery(getSelectedObjectTypes());
-
 				if (objectContainer != null)
 					getCASMediator().communicateGeoObjects(objectContainer);
-
 			}
 
 		});
@@ -308,8 +348,120 @@ public class POIComponent extends JPanel implements ComponentIF {
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
 	 */
 	@Override
-	public void update(Observable o, Object arg) {
-		// nothing do here
+	public void update(Observable _observable, Object _arg) {
+		// observable instance of ContextSituation
+		if (_observable instanceof ContextSituationObservable) {
+
+			// set the values from context situation and validate the tree
+			setContextSituationValuesTreeAndValidate(_arg);
+		}
+
+	}
+
+	private void setContextSituationValuesTreeAndValidate(Object _arg) {
+
+		// cast to context situation
+		ContextSituation contextSituation = (ContextSituation) _arg;
+
+		// tree node rules map
+		Map<String, Map<TreeNode, RulesEntity>> m_treeNodeRulesMap = CASMediator
+				.getM_treeNodeRulesMap();
+
+		// iterate through the tree node map rule
+		for (TreeNode treeNode : m_treeNodeRulesMap.get("POIRules").keySet()) {
+			try {
+				treeNode.setVariableParameters(contextSituation);
+				Boolean result = (Boolean) treeNode.calculate();
+				if (result) {
+					adaptPOIComponent(m_treeNodeRulesMap.get("POIRules").get(
+							treeNode));
+				}
+			} catch (NodeError e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@SuppressWarnings("all")
+	private void adaptPOIComponent(RulesEntity rulesEntity) {
+
+		// create the client controller
+		ClientControllerIF m_clientController = new ClientController();
+
+		// interface package
+		String m_componentInterfacePackage = "at.fhooe.mc.lbcas.component.ComponentIF";
+
+		try {
+			// get the class component
+			Class<?> component = m_clientController.findModule(
+					m_componentInterfacePackage,
+					rulesEntity.getM_affectedComponent());
+
+			if (component != null) {
+				// create new object
+				Object object = component.newInstance();
+
+				// get the method name
+				String methodName = rulesEntity.getM_methodName();
+
+				// get the method parameter
+				String methodParameterClass = rulesEntity.getM_parameterClass();
+
+				// find the parameter class
+				Class<?> parameterClass = m_clientController
+						.findClass(methodParameterClass);
+
+				if (parameterClass != null) {
+
+					Object parameterClassInstance = parameterClass
+							.newInstance();
+
+					Class<?>[] interfaces = parameterClass.getInterfaces();
+
+					for (Class<?> tempClass : interfaces) {
+						try {
+							Method method = component.getDeclaredMethod(
+									methodName, tempClass);
+							method.invoke(object, parameterClassInstance);
+							break;
+						} catch (NoSuchMethodException e) {
+							// Do Nothing
+						}
+					}
+				}
+			}
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void setContextAwarePOI(PointOfInterstIF _poiInterstIF) {
+		// adapt the POI
+		_poiInterstIF.setPOIDetails(m_contextAwareCheckBox);
+
+		// get the image from package
+		URL resource = POIObject.class.getClassLoader().getResource(
+				_poiInterstIF.getPOIImagePath());
+
+		// set the image icon to button
+		m_imageButton.setIcon(new ImageIcon(resource));
+	}
+
+	/**
+	 * Set server method for loading the data from particular server. SDE
+	 * Server, Dummy Server or Serialized Data
+	 * 
+	 * @param geoServerInterface
+	 */
+	public void setServer(GEOServerInterface _geoServerInterface) {
+		m_geoServerInterface = _geoServerInterface;
 	}
 
 	/**
@@ -321,10 +473,7 @@ public class POIComponent extends JPanel implements ComponentIF {
 	private Vector<GeoObject> getGeoObjectsForPOISelected() {
 
 		// object container
-		Vector<GeoObject> objectContainer;
-
-		// create the instance
-		m_geoServerInterface = new SDEServer();
+		Vector<GeoObject> objectContainer = null;
 
 		// selected POI
 		List<Integer> selectedPOIs = getSelectedObjectTypes();
@@ -376,9 +525,6 @@ public class POIComponent extends JPanel implements ComponentIF {
 		// object container
 		Vector<GeoObject> objectContainer;
 
-		// create the instance
-		m_geoServerInterface = new SDEServer();
-
 		// establish the connection
 		boolean isConnectionEstablished = m_geoServerInterface
 				.login(Messages.getString("POIComponent.SDEServerUsername"), //$NON-NLS-1$
@@ -391,12 +537,11 @@ public class POIComponent extends JPanel implements ComponentIF {
 							Messages.getString("POIComponent.SDEServerConnectionEstablished")); //$NON-NLS-1$
 
 			// load the data from the server
-			objectContainer = m_geoServerInterface.loadData();
+			objectContainer = m_geoServerInterface.clearPOIS();
 
 		} else {
-			getDisplayMessageComponent()
-					.updateMessage(
-							Messages.getString("POIComponent.DummyServerConnectionFailed")); //$NON-NLS-1$
+			getDisplayMessageComponent().updateMessage(
+					Messages.getString("POIComponent.ServerConnectionFailed")); //$NON-NLS-1$
 			return null;
 		}
 
@@ -443,8 +588,8 @@ public class POIComponent extends JPanel implements ComponentIF {
 		if (m_checkBoxPetrolStation.isSelected())
 			checkedPOI.add(Integer.parseInt(m_checkBoxPetrolStation
 					.getToolTipText()));
-		if (m_checkBoxRestaurant.isSelected())
-			checkedPOI.add(Integer.parseInt(m_checkBoxRestaurant
+		if (m_contextAwareCheckBox.isSelected())
+			checkedPOI.add(Integer.parseInt(m_contextAwareCheckBox
 					.getToolTipText()));
 		if (m_checkBoxPoliceStation.isSelected())
 			checkedPOI.add(Integer.parseInt(m_checkBoxPoliceStation

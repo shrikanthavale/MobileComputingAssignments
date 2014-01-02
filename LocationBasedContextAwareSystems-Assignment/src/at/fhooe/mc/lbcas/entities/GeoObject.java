@@ -311,4 +311,5 @@ public class GeoObject implements Serializable {
 	public void setM_listObjectParts(List<ObjektTeil> m_listObjectParts) {
 		this.m_listObjectParts = m_listObjectParts;
 	}
+
 }

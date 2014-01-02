@@ -6,7 +6,7 @@
 		<componentname>GIS Component</componentname>
 		<shouldbeloaded>true</shouldbeloaded>
 		<dynamicmoduleproperties>
-			<ComponentProperty method="setServer">at.fhooe.mc.lbcas.server.SDEServer</ComponentProperty>
+			<ComponentProperty method="setServer">at.fhooe.mc.lbcas.server.SDEServerSerializedData</ComponentProperty>
 			<ComponentProperty method="activateDayNightMode">at.fhooe.mc.lbcas.gis.drawingcontext.DayDrawingContext</ComponentProperty>
 			<ComponentProperty method="activateLanguage">at.fhooe.mc.lbcas.gis.maplanguage.GermanLanguage</ComponentProperty>
 			<ComponentProperty method="setTemperatureImage">at.fhooe.mc.lbcas.gis.temperatureimage.RainyTemperature</ComponentProperty>
@@ -18,6 +18,8 @@
 		<componentname>POI Component</componentname>
 		<shouldbeloaded>true</shouldbeloaded>
 		<dynamicmoduleproperties>
+			<ComponentProperty method="setContextAwarePOI">at.fhooe.mc.lbcas.component.poicomponent.RestaurantPointOfInterset</ComponentProperty>
+			<ComponentProperty method="setServer">at.fhooe.mc.lbcas.server.SDEServerSerializedData</ComponentProperty>
 		</dynamicmoduleproperties>
 	</component>
 

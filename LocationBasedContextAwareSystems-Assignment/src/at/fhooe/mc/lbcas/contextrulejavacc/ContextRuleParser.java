@@ -183,13 +183,13 @@ public class ContextRuleParser implements ContextRuleParserConstants {
             Date date = df.parse(time);
             constantNode = new ConstantNode();
             constantNode.setValueForNode(date);
-
+            System.out.println(date);
+            {if (true) return constantNode;}
         }
         catch(Exception exception)
         {
           exception.printStackTrace();
         }
-    {if (true) return constantNode;}
       break;
     case TEMPERATURECONSTANT:
       token = temperatureconstant();

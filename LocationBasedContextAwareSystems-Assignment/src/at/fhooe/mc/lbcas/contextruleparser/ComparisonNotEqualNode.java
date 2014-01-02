@@ -18,9 +18,7 @@ public class ComparisonNotEqualNode extends TreeNode {
 	 */
 	@Override
 	public Object calculate() throws NodeError {
-
 		TreeNode[] childNodes = getChilds();
-
 		return childNodes[0].notEqualTo(childNodes[1]);
 	}
 

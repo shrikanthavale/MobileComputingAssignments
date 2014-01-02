@@ -3,29 +3,47 @@
 
 	<rule>
 		<ruleId>1</ruleId>
+	    <rulename>GeoServerPOI</rulename>
+	    <rulecondition>position_now == UNIVERSITY_CAMPUS</rulecondition>
+	    <componentaffected>POIComponent</componentaffected>
+        <methodName>setServer</methodName>
+        <parameter>at.fhooe.mc.lbcas.server.SDEServer</parameter>
+	</rule>	
+	
+	<rule>
+		<ruleId>2</ruleId>
+	    <rulename>GeoServerPOI</rulename>
+	    <rulecondition>position_now != UNIVERSITY_CAMPUS</rulecondition>
+	    <componentaffected>POIComponent</componentaffected>
+        <methodName>setServer</methodName>
+        <parameter>at.fhooe.mc.lbcas.server.SDEServerSerializedData</parameter>
+	</rule>	
+
+	<rule>
+		<ruleId>3</ruleId>
 	    <rulename>RestaurantPOI</rulename>
 	    <rulecondition> || (time_now == 12:00 , time_now == 21:00)</rulecondition>
 	    <componentaffected>POIComponent</componentaffected>
-        <methodName>updatePOIs</methodName>
-        <parameter>at.fhooe.mc.lbcas.component.poicomponent.RestaurantPOI</parameter>
+        <methodName>setContextAwarePOI</methodName>
+        <parameter>at.fhooe.mc.lbcas.component.poicomponent.RestaurantPointOfInterset</parameter>
 	</rule>
 		
 	<rule>
-		<ruleId>2</ruleId>
+		<ruleId>4</ruleId>
 	    <rulename>OfficePOI</rulename>
 	    <rulecondition> &amp;&amp; (time_now &gt; 08:00 , time_now &lt; 10:00 )</rulecondition>
-        <methodName>updatePOIs</methodName>
+        <methodName>setContextAwarePOI</methodName>
         <componentaffected>POIComponent</componentaffected>
-        <parameter>at.fhooe.mc.lbcas.component.poicomponent.OfficePOI</parameter>
+        <parameter>at.fhooe.mc.lbcas.component.poicomponent.OfficePointOfInterest</parameter>
 	</rule>
 		
 	<rule>
-		<ruleId>3</ruleId>
+		<ruleId>5</ruleId>
 	    <rulename>HomePOI</rulename>
 	    <rulecondition> &amp;&amp; (time_now &gt; 18:00 , time_now &lt; 20:00 )</rulecondition>
-        <methodName>updatePOIs</methodName>
+        <methodName>setContextAwarePOI</methodName>
         <componentaffected>POIComponent</componentaffected>
-        <parameter>at.fhooe.mc.lbcas.component.poicomponent.HomePOI</parameter>
+        <parameter>at.fhooe.mc.lbcas.component.poicomponent.HomePointOfInterest</parameter>
 	</rule>
 	
 </rules>

@@ -10,10 +10,10 @@ import java.text.*;
 public class ContextRuleParser
 {
 
-}PARSER_END(ContextRuleParser)
+}PARSER_END(ContextRuleParser)
 /**
 Tokens to be skipped
-**/SKIP :{  " "| "\r"| "\t"| "\n"}
+**/SKIP :{  " "| "\r"| "\t"| "\n"}
 /**
  OPERATORS - COMPARISON
  **/TOKEN : {  < GREATER : ">" >
@@ -31,7 +31,7 @@ Tokens to be skipped
 	{
 		System.out.println("NOT EQUAL OPERATOR \" != \" ");
 	}
-}
+}
 /**
  OPERATORS - LOGICAL
  **/
@@ -135,6 +135,8 @@ TOKEN :
   				   (":")
   				   (["0"-"5"] ["0"-"9"])
   				   >
+  {    System.out.println("Time Constant : " );
+  }  				   
 | < TEMPERATURECONSTANT : (["0"-"9"] | ["0"-"9"]["0"-"9"] | ["0"-"9"]["0"-"9"]["0"]) >
 | < NUMBERZERO : ["0"] >
 | < NUMBERONE : ["1"] >
@@ -281,7 +283,7 @@ ComparisonLessNode lessthan() :
 }
 
 /******************************************************* Comparison Nodes ********************************************************************/
- 
+ 
 
 /******************************************************* Constant Nodes ********************************************************************/ConstantNode constant_node_statement() :
 {
@@ -299,15 +301,16 @@ ComparisonLessNode lessthan() :
 | 
   token = < TIMECONSTANT >
   {	time = token.image;
-	try	{	    SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+	try	{
+	    SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 	    Date date = df.parse(time);
 	    constantNode = new ConstantNode();
 	    constantNode.setValueForNode(date);
-	    
+	    System.out.println(date);
+	    return constantNode;
 	}
 	catch(Exception exception)	{	  exception.printStackTrace();
 	}
-    return constantNode;
   }
 |
 	token = temperatureconstant()

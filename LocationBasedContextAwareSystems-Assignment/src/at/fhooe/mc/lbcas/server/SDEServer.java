@@ -37,6 +37,12 @@ public class SDEServer implements GEOServerInterface {
 	// connection object
 	protected SeConnection m_conn = null;
 
+	// object container for storing GEO objects
+	private static Vector<GeoObject> m_objectContainer = null;
+
+	// object container for POI
+	private static Vector<GeoObject> m_poicontainer = null;
+
 	/**
 	 * This method establishes connection to server and loads the data from
 	 * different layers of the map and converts them to GEOObject.
@@ -46,167 +52,174 @@ public class SDEServer implements GEOServerInterface {
 	@Override
 	public Vector<GeoObject> loadData() {
 
-		// container for storing list of GEO Objects
-		Vector<GeoObject> objectContainer = new Vector<GeoObject>();
+		System.out.println("Connected ............ Loading Data Please Wait");
 
-		try {
+		if (m_objectContainer == null) {
+			try {
 
-			System.out
-					.println("Connected ............ Loading Data Please Wait");
+				// container for storing list of GEO Objects
+				m_objectContainer = new Vector<GeoObject>();
 
-			// hard coded layer names for getting objects
-			String[] layerNames = new String[] {
-					"SDE.GEO_ADMIN.ADMINAREA_1_BUNDESLAENDER_BMN31",
-					"SDE.GEO_ADMIN.ADMINAREA_0_LANDESGRENZEN_BMN31",
-					"SDE.GEO_ADMIN.AREA_Wald_BMN31",
-					"SDE.GEO_ADMIN.AREA_GEWAESSER_BMN31",
-					"SDE.GEO_ADMIN.AREA_WOHNGEBIETE_BMN31",
-					"SDE.GEO_ADMIN.LINE_EISENBAHNGLEISE_BMN31",
-					"SDE.GEO_ADMIN.POINT_POI_BMN31" };
+				// hard coded layer names for getting objects
+				String[] layerNames = new String[] {
+						"SDE.GEO_ADMIN.ADMINAREA_1_BUNDESLAENDER_BMN31",
+						"SDE.GEO_ADMIN.ADMINAREA_0_LANDESGRENZEN_BMN31",
+						"SDE.GEO_ADMIN.AREA_Wald_BMN31",
+						"SDE.GEO_ADMIN.AREA_GEWAESSER_BMN31",
+						"SDE.GEO_ADMIN.AREA_WOHNGEBIETE_BMN31",
+						"SDE.GEO_ADMIN.LINE_EISENBAHNGLEISE_BMN31",
+						"SDE.GEO_ADMIN.POINT_POI_BMN31" };
 
-			// iterate through every layer
-			for (int layerCounter = 0; layerCounter < layerNames.length; layerCounter++) {
+				// iterate through every layer
+				for (int layerCounter = 0; layerCounter < layerNames.length; layerCounter++) {
 
-				// each layer gets queried separately
-				SeSqlConstruct sqlConstruct = new SeSqlConstruct(
-						layerNames[layerCounter]);
+					// each layer gets queried separately
+					SeSqlConstruct sqlConstruct = new SeSqlConstruct(
+							layerNames[layerCounter]);
 
-				// get the table of the corresponding layer
-				SeTable tableForLayer = new SeTable(m_conn,
-						layerNames[layerCounter]);
+					// get the table of the corresponding layer
+					SeTable tableForLayer = new SeTable(m_conn,
+							layerNames[layerCounter]);
 
-				// get the column definitions of the table
-				SeColumnDefinition[] columnDefinition = tableForLayer
-						.describe();
+					// get the column definitions of the table
+					SeColumnDefinition[] columnDefinition = tableForLayer
+							.describe();
 
-				// column array variable
-				String columnNames[] = new String[columnDefinition.length];
+					// column array variable
+					String columnNames[] = new String[columnDefinition.length];
 
-				// get the column names in the column array
-				for (int columnnCount = 0; columnnCount < columnDefinition.length; columnnCount++) {
-					// add only relevant columns
-					columnNames[columnnCount] = columnDefinition[columnnCount]
-							.getName();
-				}
+					// get the column names in the column array
+					for (int columnnCount = 0; columnnCount < columnDefinition.length; columnnCount++) {
+						// add only relevant columns
+						columnNames[columnnCount] = columnDefinition[columnnCount]
+								.getName();
+					}
 
-				// build the query
-				SeQuery query = new SeQuery(m_conn, columnNames, sqlConstruct);
+					// build the query
+					SeQuery query = new SeQuery(m_conn, columnNames,
+							sqlConstruct);
 
-				// prepare the query
-				query.prepareQuery();
+					// prepare the query
+					query.prepareQuery();
 
-				// execute the query
-				query.execute();
+					// execute the query
+					query.execute();
 
-				// string for GEO object type
-				String geoObjectID = null;
+					// string for GEO object type
+					String geoObjectID = null;
 
-				// for storing GEO object type
-				int geoObjectType = -1;
+					// for storing GEO object type
+					int geoObjectType = -1;
 
-				// area object for storing normal polygons
-				List<ObjektTeil> listObjectParts = null;
+					// area object for storing normal polygons
+					List<ObjektTeil> listObjectParts = null;
 
-				// create the row variable
-				SeRow row = null;
+					// create the row variable
+					SeRow row = null;
 
-				// iterate through the individual objects in the layer
-				while ((row = query.fetch()) != null) {
+					// iterate through the individual objects in the layer
+					while ((row = query.fetch()) != null) {
 
-					// Retrieve data from the first column
-					for (int columnCounter = 0; columnCounter < columnDefinition.length; columnCounter++) {
+						// Retrieve data from the first column
+						for (int columnCounter = 0; columnCounter < columnDefinition.length; columnCounter++) {
 
-						int dataType = columnDefinition[columnCounter]
-								.getType();
+							int dataType = columnDefinition[columnCounter]
+									.getType();
 
-						if (columnDefinition[columnCounter].getName().equals(
-								"OBJECTID")
-								|| columnDefinition[columnCounter].getName()
-										.equals("FEATTYP")
-								|| columnDefinition[columnCounter].getName()
-										.equals("SHAPE"))
-							switch (dataType) {
-							case SeColumnDefinition.TYPE_STRING:
-								break;
-							case SeColumnDefinition.TYPE_INT16:
-								geoObjectType = row.getShort(columnCounter);
-								break;
-							case SeColumnDefinition.TYPE_INT32:
-								geoObjectID = String.valueOf(row.getInteger(
-										columnCounter).intValue());
-								break;
-							case SeColumnDefinition.TYPE_INT64:
-								break;
-							case SeColumnDefinition.TYPE_FLOAT64:
-								break;
-							case SeColumnDefinition.TYPE_SHAPE:
-								// get the shape
-								SeShape shape = row.getShape(columnCounter);
+							if (columnDefinition[columnCounter].getName()
+									.equals("OBJECTID")
+									|| columnDefinition[columnCounter]
+											.getName().equals("FEATTYP")
+									|| columnDefinition[columnCounter]
+											.getName().equals("SHAPE"))
+								switch (dataType) {
+								case SeColumnDefinition.TYPE_STRING:
+									break;
+								case SeColumnDefinition.TYPE_INT16:
+									geoObjectType = row.getShort(columnCounter);
+									break;
+								case SeColumnDefinition.TYPE_INT32:
+									geoObjectID = String.valueOf(row
+											.getInteger(columnCounter)
+											.intValue());
+									break;
+								case SeColumnDefinition.TYPE_INT64:
+									break;
+								case SeColumnDefinition.TYPE_FLOAT64:
+									break;
+								case SeColumnDefinition.TYPE_SHAPE:
+									// get the shape
+									SeShape shape = row.getShape(columnCounter);
 
-								if (shape.getType() == SeShape.TYPE_POLYGON) {
-									// if the shape is of type POLYGON call the
-									// appropriate method
-									listObjectParts = this
-											.createAreaObjectForPolygons(shape);
-								} else if (shape.getType() == SeShape.TYPE_MULTI_POLYGON) {
-									// if the shape is of type multi polygon
-									// call appropriate method
-									listObjectParts = this
-											.createAreaObjectForPolygons(shape);
-								} else if (shape.getType() == SeShape.TYPE_LINE) {
-									// if the shape of the object is of type
-									// Line
-									listObjectParts = this
-											.createLineObjectsForSimpleLine(shape);
-								} else if (shape.getType() == SeShape.TYPE_MULTI_LINE) {
-									// if the shape of the object is of type
-									// multi Line
-									listObjectParts = this
-											.createLineObjectsForSimpleLine(shape);
-								} else if (shape.getType() == SeShape.TYPE_SIMPLE_LINE) {
-									// if the shape of the object is of type
-									// Simple Line
-									listObjectParts = this
-											.createLineObjectsForSimpleLine(shape);
-								} else if (shape.getType() == SeShape.TYPE_MULTI_SIMPLE_LINE) {
-									// check if the shape of object is of type
-									// type multi simple line
-									listObjectParts = this
-											.createLineObjectsForSimpleLine(shape);
-								} else if (shape.getType() == SeShape.TYPE_POINT) {
-									// if the shape of the object is of type
-									// point
-									listObjectParts = this
-											.createPointObjectsForPoints(shape);
-								} else if (shape.getType() == SeShape.TYPE_MULTI_POINT) {
-									// if the shape of the object is multi point
-									listObjectParts = this
-											.createPointObjectsForPoints(shape);
-								}
-								// Call a function to retrieve the shape
-								// attributes
-								break;
-							} // switch
-						if (listObjectParts != null
-								&& listObjectParts.size() > 0) {
-							GeoObject geoObject = new GeoObject(geoObjectID,
-									geoObjectType, listObjectParts);
-							objectContainer.addElement(geoObject);
-							listObjectParts = null;
+									if (shape.getType() == SeShape.TYPE_POLYGON) {
+										// if the shape is of type POLYGON call
+										// the
+										// appropriate method
+										listObjectParts = this
+												.createAreaObjectForPolygons(shape);
+									} else if (shape.getType() == SeShape.TYPE_MULTI_POLYGON) {
+										// if the shape is of type multi polygon
+										// call appropriate method
+										listObjectParts = this
+												.createAreaObjectForPolygons(shape);
+									} else if (shape.getType() == SeShape.TYPE_LINE) {
+										// if the shape of the object is of type
+										// Line
+										listObjectParts = this
+												.createLineObjectsForSimpleLine(shape);
+									} else if (shape.getType() == SeShape.TYPE_MULTI_LINE) {
+										// if the shape of the object is of type
+										// multi Line
+										listObjectParts = this
+												.createLineObjectsForSimpleLine(shape);
+									} else if (shape.getType() == SeShape.TYPE_SIMPLE_LINE) {
+										// if the shape of the object is of type
+										// Simple Line
+										listObjectParts = this
+												.createLineObjectsForSimpleLine(shape);
+									} else if (shape.getType() == SeShape.TYPE_MULTI_SIMPLE_LINE) {
+										// check if the shape of object is of
+										// type
+										// type multi simple line
+										listObjectParts = this
+												.createLineObjectsForSimpleLine(shape);
+									} else if (shape.getType() == SeShape.TYPE_POINT) {
+										// if the shape of the object is of type
+										// point
+										listObjectParts = this
+												.createPointObjectsForPoints(shape);
+									} else if (shape.getType() == SeShape.TYPE_MULTI_POINT) {
+										// if the shape of the object is multi
+										// point
+										listObjectParts = this
+												.createPointObjectsForPoints(shape);
+									}
+									// Call a function to retrieve the shape
+									// attributes
+									break;
+								} // switch
+							if (listObjectParts != null
+									&& listObjectParts.size() > 0) {
+								GeoObject geoObject = new GeoObject(
+										geoObjectID, geoObjectType,
+										listObjectParts);
+								m_objectContainer.addElement(geoObject);
+								listObjectParts = null;
 
-						}
+							}
 
-					}// for j
-				}// while row
-			} // for i --> layers
-			m_conn.close();
-		} catch (Exception _e) {
-			_e.printStackTrace();
-			return null;
+						}// for j
+					}// while row
+				} // for i --> layers
+				m_conn.close();
+			} catch (Exception _e) {
+				_e.printStackTrace();
+				return null;
+			}
 		}
 
 		System.out.println("Data Loaded Successfully ................ ");
-		return objectContainer;
+		return m_objectContainer;
 	}
 
 	/**
@@ -412,174 +425,52 @@ public class SDEServer implements GEOServerInterface {
 	@Override
 	public Vector<GeoObject> typeQuery(List<Integer> _typeList) {
 
-		System.out
-				.println("Getting Data From SDE Server along with selected POIs.... Please Wait");
-		// container for storing list of GEO Objects
-		Vector<GeoObject> objectContainer = new Vector<GeoObject>();
+		System.out.println("LOADING POI .........");
 
-		// hard coded layer names for getting objects
-		String[] allLayerNames = new String[] { "SDE.GEO_ADMIN.POINT_POI_BMN31" };
+		// remove previous POIs
+		if (m_poicontainer != null)
+			m_objectContainer.removeAll(m_poicontainer);
 
-		try {
+		m_poicontainer = new Vector<>();
 
-			// iterate through every layer
-			for (int layerCounter = 0; layerCounter < allLayerNames.length; layerCounter++) {
+		for (GeoObject geoObject : m_objectContainer) {
 
-				// each layer gets queried separately
-				SeSqlConstruct sqlConstruct = new SeSqlConstruct(
-						allLayerNames[layerCounter]);
+			int geoObjectType = geoObject.getM_type();
 
-				// get the table of the corresponding layer
-				SeTable tableForLayer = new SeTable(m_conn,
-						allLayerNames[layerCounter]);
+			String geoObjectID = geoObject.getM_id();
 
-				// get the column definitions of the table
-				SeColumnDefinition[] columnDefinition = tableForLayer
-						.describe();
+			List<ObjektTeil> listObjectParts = geoObject.getM_listObjectParts();
+			ObjektTeil objektTeil = listObjectParts.get(0);
 
-				// column array variable
-				String columnNames[] = new String[columnDefinition.length];
+			POIObject poiObject = null;
 
-				// get the column names in the column array
-				for (int columnnCount = 0; columnnCount < columnDefinition.length; columnnCount++) {
-					// add only relevant columns
-					columnNames[columnnCount] = columnDefinition[columnnCount]
-							.getName();
-				}
+			if (objektTeil instanceof PointObject
+					&& _typeList.contains(geoObjectType)) {
+				// if the shape of the object is of type
+				// point
+				poiObject = new POIObject(geoObjectID, geoObjectType,
+						((PointObject) objektTeil).getM_pointData());
 
-				// build the query
-				SeQuery query = new SeQuery(m_conn, columnNames, sqlConstruct);
+				m_poicontainer.addElement(poiObject);
 
-				// prepare the query
-				query.prepareQuery();
-
-				// execute the query
-				query.execute();
-
-				// string for GEO object type
-				String geoObjectID = null;
-
-				// for storing GEO object type
-				int geoObjectType = -1;
-
-				// area object for storing normal polygons
-				List<ObjektTeil> listObjectParts = null;
-
-				// create the row variable
-				SeRow row = null;
-
-				// iterate through the individual objects in the layer
-				while ((row = query.fetch()) != null) {
-
-					POIObject poiObject = null;
-
-					// Retrieve data from the first column
-					for (int columnCounter = 0; columnCounter < columnDefinition.length; columnCounter++) {
-
-						int dataType = columnDefinition[columnCounter]
-								.getType();
-
-						if (columnDefinition[columnCounter].getName().equals(
-								"OBJECTID")
-								|| columnDefinition[columnCounter].getName()
-										.equals("FEATTYP")
-								|| columnDefinition[columnCounter].getName()
-										.equals("SHAPE"))
-							switch (dataType) {
-							case SeColumnDefinition.TYPE_STRING:
-								break;
-							case SeColumnDefinition.TYPE_INT16:
-								geoObjectType = row.getShort(columnCounter);
-								break;
-							case SeColumnDefinition.TYPE_INT32:
-								geoObjectID = String.valueOf(row.getInteger(
-										columnCounter).intValue());
-								break;
-							case SeColumnDefinition.TYPE_INT64:
-								break;
-							case SeColumnDefinition.TYPE_FLOAT64:
-								break;
-							case SeColumnDefinition.TYPE_SHAPE:
-								// get the shape
-								SeShape shape = row.getShape(columnCounter);
-
-								if (shape.getType() == SeShape.TYPE_POLYGON) {
-									// if the shape is of type POLYGON call the
-									// appropriate method
-									listObjectParts = this
-											.createAreaObjectForPolygons(shape);
-								} else if (shape.getType() == SeShape.TYPE_MULTI_POLYGON) {
-									// if the shape is of type multi polygon
-									// call appropriate method
-									listObjectParts = this
-											.createAreaObjectForPolygons(shape);
-								} else if (shape.getType() == SeShape.TYPE_LINE) {
-									// if the shape of the object is of type
-									// Line
-									listObjectParts = this
-											.createLineObjectsForSimpleLine(shape);
-								} else if (shape.getType() == SeShape.TYPE_MULTI_LINE) {
-									// if the shape of the object is of type
-									// multi Line
-									listObjectParts = this
-											.createLineObjectsForSimpleLine(shape);
-								} else if (shape.getType() == SeShape.TYPE_SIMPLE_LINE) {
-									// if the shape of the object is of type
-									// Simple Line
-									listObjectParts = this
-											.createLineObjectsForSimpleLine(shape);
-								} else if (shape.getType() == SeShape.TYPE_MULTI_SIMPLE_LINE) {
-									// check if the shape of object is of type
-									// type multi simple line
-									listObjectParts = this
-											.createLineObjectsForSimpleLine(shape);
-								} else if (shape.getType() == SeShape.TYPE_POINT
-										&& _typeList.contains(geoObjectType)) {
-									// if the shape of the object is of type
-									// point
-									listObjectParts = this
-											.createPointObjectsForPoints(shape);
-									poiObject = new POIObject(geoObjectID,
-											geoObjectType,
-											((PointObject) listObjectParts
-													.get(0)).getM_pointData());
-
-								} else if (shape.getType() == SeShape.TYPE_MULTI_POINT
-										&& _typeList.contains(geoObjectType)) {
-									// if the shape of the object is multi point
-									listObjectParts = this
-											.createPointObjectsForPoints(shape);
-									poiObject = new POIObject(geoObjectID,
-											geoObjectType,
-											((PointObject) listObjectParts
-													.get(0)).getM_pointData());
-								}
-								// Call a function to retrieve the shape
-								// attributes
-								break;
-							} // switch
-						if (listObjectParts != null
-								&& listObjectParts.size() > 0) {
-							GeoObject geoObject = new GeoObject(geoObjectID,
-									geoObjectType, listObjectParts);
-							objectContainer.addElement(geoObject);
-							listObjectParts = null;
-						}
-						if (poiObject != null) {
-							objectContainer.addElement(poiObject);
-							poiObject = null;
-						}
-
-					}// for j
-				}// while row
-			} // for i --> layers
-			m_conn.close();
-		} catch (Exception _e) {
-			_e.printStackTrace();
+			}
 		}
 
+		m_objectContainer.addAll(m_poicontainer);
 		System.out.println("Data Loaded Successfully ................ ");
-		return objectContainer;
+
+		return m_objectContainer;
+	}
+
+	@Override
+	public Vector<GeoObject> clearPOIS() {
+
+		System.out.println("CLEARING POI .........");
+		// remove previous POIs
+		if (m_poicontainer != null)
+			m_objectContainer.removeAll(m_poicontainer);
+
+		return m_objectContainer;
 	}
 
 }
