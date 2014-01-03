@@ -63,13 +63,10 @@ public class DummyGIS {
 				// cursor to the result set
 				CgIGeoObject obj = cursor.getObject();
 				// extract object name
-				System.out.println("NAME --> " + obj.getName());
 				// extract object category, resp. type (water, wood, ...)
-				System.out.println("TYPE --> " + obj.getCategory());
 				// extract object parts (in case a multi polygon is present)
 				CgIGeoPart[] parts = obj.getParts();
 				for (int i = 0; i < parts.length; i++) {
-					System.out.println("PART " + i);
 					// number of points inside this part of the geo object
 					// geometry
 					int pointCount = parts[i].getPointCount();
@@ -81,12 +78,9 @@ public class DummyGIS {
 					// are expected)
 					Polygon poly = new Polygon(xArray, yArray, pointCount);
 					for (int j = 0; j < pointCount; j++) {
-						System.out.println("[" + xArray[j] + " ; " + yArray[j]
-								+ "]");
 					} // for j
 					objectContainer.addElement(poly);
 				} // for i
-				System.out.println();
 			} // while cursor
 			return objectContainer;
 		} catch (Exception _e) {

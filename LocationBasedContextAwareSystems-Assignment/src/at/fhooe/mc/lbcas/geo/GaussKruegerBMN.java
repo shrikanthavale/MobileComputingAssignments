@@ -123,6 +123,7 @@ public class GaussKruegerBMN extends GaussKrueger {
 	// SUPPORT METHODS
 	// --------------------------------------------------------------------------
 
+	@SuppressWarnings("unused")
 	public static void main(String[] _argv) {
 		if (_argv.length == 0) {
 			System.out.println("Use:");
@@ -136,21 +137,21 @@ public class GaussKruegerBMN extends GaussKrueger {
 			double lat = (46.0 + (30.0 / 60.0));
 
 			temp = new GaussKruegerBMN(new GeographischWGS84(lon, lat), 28);
-			System.out.println(temp);
+
 			temp = new GaussKruegerBMN(new GeographischWGS84(lon, lat), 31);
-			System.out.println(temp);
+
 			temp = new GaussKruegerBMN(new GeographischWGS84(lon, lat), 34);
-			System.out.println(temp);
+
 			System.out.println();
 
 			temp = new GaussKruegerBMN(new GeographischWGS84(lon, lat));
-			System.out.println(temp);
+
 			lon = (11.0 + (55.0 / 60.0));
 			temp = new GaussKruegerBMN(new GeographischWGS84(lon, lat));
-			System.out.println(temp);
+
 			lon = (11.0 + (45.0 / 60.0));
 			temp = new GaussKruegerBMN(new GeographischWGS84(lon, lat));
-			System.out.println(temp);
+
 		} else if (_argv.length == 4 && _argv[0].equals("TRANSFORM")) {
 			double lon = Double.parseDouble(_argv[1]);
 			double lat = Double.parseDouble(_argv[2]);

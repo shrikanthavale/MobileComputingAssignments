@@ -92,7 +92,6 @@ public class GPSSatellitePanel extends JPanel implements Observer {
 
 		Vector<SatelliteInfo> iter = m_info.getSatinfos();
 		SatelliteInfo sat = null;
-		// System.out.println(iter.size());
 		for (int i = 0; i < iter.size(); i++) {
 			sat = (SatelliteInfo) iter.get(i);
 
@@ -101,9 +100,6 @@ public class GPSSatellitePanel extends JPanel implements Observer {
 			m_phi = sat.getAngleHorizontal() - 90;
 			m_a = Math.round(m_r * Math.cos(Math.toRadians(m_phi)));
 			m_b = Math.round(m_r * Math.sin(Math.toRadians(m_phi)));
-
-			// System.out.println("SatID: "+sat.getId()+"; VertAngle: "+sat.getAngleVertical()+"; HoriAngle: "+sat.getAngleHorizontal()+"; SNR: "+sat.getSnr());
-			// System.out.println("SatID: "+sat.getId()+"; a = "+a+"; b = "+b+"; r = "+r);
 
 			if (sat.isUsed())
 				_g.setColor(new Color(0, 200, 0));

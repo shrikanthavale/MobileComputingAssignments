@@ -747,8 +747,6 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 							.initSelection(m_stopPoint);
 					if (select != null) {
 						for (int i = 0; i < select.length; i++) {
-							System.out.println(i + ". selected object --> " //$NON-NLS-1$
-									+ select[i]);
 						} // for i
 					} // if select
 				} // if zittern
@@ -889,7 +887,6 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 		try {
 			String[] temp = ImageToBitmap.getImageTypes();
 			for (int i = 0; i < temp.length; i++) {
-				System.out.println(i + ". --> " + temp[i]); //$NON-NLS-1$
 			} // for i
 
 			BufferedImage image = ImageToBitmap.getImage(
@@ -1354,11 +1351,10 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 		arraIntegers.add(contextAwarePOICode);
 		Vector<GeoObject> geoObjects = m_geoServerInterface.typeQuery(
 				arraIntegers, gpsCoordinates, _poiInterstIF.getPOIImagePath());
-		m_drawingPanel.getGeoObjects().addAll(geoObjects);
+
 		for (GeoObject geoObject : geoObjects) {
 
 			POIObject restaurantPOI = (POIObject) geoObject;
-			m_drawingPanel.getGeoObjects().add(restaurantPOI);
 
 			// convert the point , using to multiply point method
 			Point multipliedPoint = m_drawingPanel.getM_matrix().multiply(

@@ -27,6 +27,11 @@ public class SDEServerSerializedData implements GEOServerInterface {
 	// point of interest container
 	private static Vector<GeoObject> m_pointInterestContainer = null;
 
+	static {
+		m_objectContainer = new Vector<>();
+		m_pointInterestContainer = new Vector<>();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -113,29 +118,26 @@ public class SDEServerSerializedData implements GEOServerInterface {
 
 		System.out.println("Loading Serialized Data ..... Plese Wait");
 
-		if (m_objectContainer == null) {
-			m_objectContainer = new Vector<>();
-			GeoObject geoObject = null;
-			try {
+		GeoObject geoObject = null;
+		try {
 
-				// load the serialized object located on F Drive of the computer
-				// hard disk
-				for (int geoObjectCounter = 0; geoObjectCounter <= 126510; geoObjectCounter++) {
-					FileInputStream fileIn = new FileInputStream(
-							"F:\\GeoObjectsSerialiazed\\GeoObject" + geoObjectCounter + ".ser"); //$NON-NLS-1$
-					ObjectInputStream in = new ObjectInputStream(fileIn);
-					geoObject = (GeoObject) in.readObject();
-					m_objectContainer.addElement(geoObject);
-					in.close();
-					fileIn.close();
-				}
-			} catch (IOException ioException) {
-				ioException.printStackTrace();
-			} catch (ClassNotFoundException classNotFoundException) {
-				classNotFoundException.printStackTrace();
+			// load the serialized object located on F Drive of the computer
+			// hard disk
+			for (int geoObjectCounter = 0; geoObjectCounter <= 126510; geoObjectCounter++) {
+				FileInputStream fileIn = new FileInputStream(
+						"F:\\GeoObjectsSerialiazed\\GeoObject" + geoObjectCounter + ".ser"); //$NON-NLS-1$
+				ObjectInputStream in = new ObjectInputStream(fileIn);
+				geoObject = (GeoObject) in.readObject();
+				m_objectContainer.addElement(geoObject);
+				in.close();
+				fileIn.close();
 			}
-
+		} catch (IOException ioException) {
+			ioException.printStackTrace();
+		} catch (ClassNotFoundException classNotFoundException) {
+			classNotFoundException.printStackTrace();
 		}
+
 		System.out.println("Loading Serialized Data Completed ......");
 		return m_objectContainer;
 	}
@@ -151,8 +153,7 @@ public class SDEServerSerializedData implements GEOServerInterface {
 	public Vector<GeoObject> typeQuery(List<Integer> _typeList,
 			List<Point> _gpsCoordinates, String _imagePath) {
 
-		if (m_pointInterestContainer != null)
-			m_pointInterestContainer.clear();
+		m_pointInterestContainer.clear();
 
 		for (GeoObject geoObject : m_objectContainer) {
 

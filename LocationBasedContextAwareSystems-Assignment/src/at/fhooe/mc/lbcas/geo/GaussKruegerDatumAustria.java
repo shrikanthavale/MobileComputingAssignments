@@ -70,39 +70,19 @@ public class GaussKruegerDatumAustria extends GaussKrueger {
 		}// switch
 
 		double lambdaMittelmeridian = lon - lambdaMeridian;
-		// System.out.println("Lambda Mittelmeridian --> " +
-		// Math.toDegrees(lambdaMittelmeridian));
-		//
-		// tan(meridiankonvergenz) = tan(lambdaMittelmeridian) * sin(latitude)
+
 		double meridiankonvergenz = Math.atan(Math.tan(lambdaMittelmeridian)
 				* Math.sin(lat));
-		// System.out.println("Meridiankonvergenz    --> " +
-		// Math.toDegrees(meridiankonvergenz));
-		//
-		// N = a/(Sqrt(1-e^2*sin^2(latitude)))
 		double normaleDurchPunkt = m_ellipse.get_a()
 				/ Math.sqrt(1 - (Math.pow(m_ellipse.get_e(), 2) * (Math
 						.sin(lat) * Math.sin(lat))));
-		// System.out.println("N --> " + normaleDurchPunkt);
-		//
-		// sin(latitudeS) = sin(lambdaMittelmeridian) * cos(latitude)
 		double latitudeS = Math.asin(Math.sin(lambdaMittelmeridian)
 				* Math.cos(lat));
-		// System.out.println("Latitude Strich --> " +
-		// Math.toDegrees(latitudeS));
-		//
-		// B = c1 * latitude - c2 * sin(2*latitude) + c3 * sin(4*latitude)
 		double meridianbogen = m_ellipse.get_c1() * Math.toDegrees(lat)
 				- m_ellipse.get_c2() * Math.sin(2 * lat) + m_ellipse.get_c3()
 				* Math.sin(4 * lat);
-		// System.out.println("B --> " + meridianbogen);
-		//
-		// x = 2 * N * tan(latitudeS / 2) * tan(meridankonvergenz / 2.0) + B
 		double hochwert = (2 * normaleDurchPunkt * Math.tan(latitudeS / 2.0) * Math
 				.tan(meridiankonvergenz / 2.0)) + meridianbogen;
-		// System.out.println("hoch  --> " + hochwert);
-		//
-		// log(y) = log(N * sin(latitudeS)) + 1/3 * sin^2(latitudeS)
 		double rechtswert = 0.0;
 		if (latitudeS < 0) {
 			latitudeS = -1 * latitudeS;
@@ -115,7 +95,6 @@ public class GaussKruegerDatumAustria extends GaussKrueger {
 					* Math.sin(latitudeS))
 					+ 1.0 / 3.0 * (Math.sin(latitudeS) * Math.sin(latitudeS)));
 		}
-		// System.out.println("rechts --> " + rechtswert);
 
 		m_rechts = (int) (rechtswert * 100); // Genauigkeit in cm,
 												// Nachkommastellen abschneiden
@@ -175,6 +154,7 @@ public class GaussKruegerDatumAustria extends GaussKrueger {
 	// SUPPORT METHODS
 	// --------------------------------------------------------------------------
 
+	@SuppressWarnings("unused")
 	public static void main(String[] _argv) {
 		GaussKruegerDatumAustria temp = null;
 
@@ -182,20 +162,18 @@ public class GaussKruegerDatumAustria extends GaussKrueger {
 		double lat = (46.0 + (30.0 / 60.0));
 
 		temp = new GaussKruegerDatumAustria(new GeographischWGS84(lon, lat), 28);
-		System.out.println(temp);
+
 		temp = new GaussKruegerDatumAustria(new GeographischWGS84(lon, lat), 31);
-		System.out.println(temp);
+
 		temp = new GaussKruegerDatumAustria(new GeographischWGS84(lon, lat), 34);
-		System.out.println(temp);
-		System.out.println();
 
 		temp = new GaussKruegerDatumAustria(new GeographischWGS84(lon, lat));
-		System.out.println(temp);
+
 		lon = (11.0 + (55.0 / 60.0));
 		temp = new GaussKruegerDatumAustria(new GeographischWGS84(lon, lat));
-		System.out.println(temp);
+
 		lon = (11.0 + (45.0 / 60.0));
 		temp = new GaussKruegerDatumAustria(new GeographischWGS84(lon, lat));
-		System.out.println(temp);
+
 	}
 } // class

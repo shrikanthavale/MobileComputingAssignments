@@ -207,14 +207,10 @@ public class DrawingPanel extends Panel {
 		// coordinates) ...
 		GeoDoublePoint vector = new GeoDoublePoint(1.0, 1.0);
 		GeoDoublePoint vector_transformed = m_matrix.multiply(vector);
-		// System.out.println("1. --> " + vector.length());
-		// System.out.println("2. --> " + vector_transformed.length());
-		// double length = vector_transformed.length();
 		double length = vector.length() / vector_transformed.length();
 		double cmPerInch = 2.54;
 		double dotPerCm = m_dotPerInch / cmPerInch; // pixel per cm ...
 		double newCanvasScale = length * dotPerCm;
-		// m_out.println("map scale	--> " + canvasScale);
 		return (int) newCanvasScale;
 	}
 
