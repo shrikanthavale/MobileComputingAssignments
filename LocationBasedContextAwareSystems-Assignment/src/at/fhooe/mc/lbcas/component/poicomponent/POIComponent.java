@@ -588,15 +588,15 @@ public class POIComponent extends JPanel implements ComponentIF {
 		if (m_checkBoxPetrolStation.isSelected())
 			checkedPOI.add(Integer.parseInt(m_checkBoxPetrolStation
 					.getToolTipText()));
-		if (m_contextAwareCheckBox.isSelected())
-			checkedPOI.add(Integer.parseInt(m_contextAwareCheckBox
-					.getToolTipText()));
 		if (m_checkBoxPoliceStation.isSelected())
 			checkedPOI.add(Integer.parseInt(m_checkBoxPoliceStation
 					.getToolTipText()));
 		if (m_checkBoxTheater.isSelected())
 			checkedPOI
 					.add(Integer.parseInt(m_checkBoxTheater.getToolTipText()));
+		if (m_contextAwareCheckBox.isSelected())
+			checkedPOI.add(Integer.parseInt(m_contextAwareCheckBox
+					.getToolTipText()));
 
 		return checkedPOI;
 

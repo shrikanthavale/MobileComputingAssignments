@@ -19,8 +19,13 @@ public class POIObject extends GeoObject {
 	 */
 	private static final long serialVersionUID = 3752720695613768566L;
 
+	/**
+	 * static man icon image
+	 */
+	public static Image m_manIconImage = null;
+
 	// the bitmap representing the POI on a map
-	private static Image m_image = null;
+	private Image m_image = null;
 
 	// private static hard coded list of point of interest of objects
 	private static List<POIObject> listPOIObjects = new ArrayList<>();
@@ -28,15 +33,15 @@ public class POIObject extends GeoObject {
 	// the position of the POI on a map
 	private Point m_point = null;
 
-	// static block to pre-load the image
 	static {
+
 		try {
 			// get the image from package
 			URL resource = POIObject.class.getClassLoader().getResource(
-					"at/fhooe/mc/lbcas/entities/pointofinteredtGIH.gif");
+					"at/fhooe/mc/lbcas/entities/manicon.jpg");
 
 			// read the image
-			m_image = ImageIO.read(resource);
+			m_manIconImage = ImageIO.read(resource);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -51,10 +56,35 @@ public class POIObject extends GeoObject {
 	 * @param _type
 	 *            the type of the object
 	 */
-	public POIObject(String _id, int _type, Point _point) {
+	public POIObject(String _imageURL, String _id, int _type, Point _point) {
 		// list of object parts will be null
 		super(_id, _type, null);
 		m_point = _point;
+		if (_imageURL == null) {
+			try {
+				// get the image from package
+				URL resource = POIObject.class.getClassLoader().getResource(
+						"at/fhooe/mc/lbcas/entities/pointofinteredtGIH.gif");
+
+				// read the image
+				m_image = ImageIO.read(resource);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				// get the image from package
+				URL resource = POIObject.class.getClassLoader().getResource(
+						_imageURL);
+
+				// read the image
+				m_image = ImageIO.read(resource);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
@@ -62,8 +92,7 @@ public class POIObject extends GeoObject {
 	 * 
 	 * @return the m_image
 	 */
-	public static Image getM_image() {
-		// return the image
+	public Image getM_image() {
 		return m_image;
 	}
 
@@ -72,7 +101,7 @@ public class POIObject extends GeoObject {
 	 *            the m_image to set
 	 */
 	public void setM_image(Image m_image) {
-		POIObject.m_image = m_image;
+		this.m_image = m_image;
 	}
 
 	/**

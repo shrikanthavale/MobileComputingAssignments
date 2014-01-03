@@ -22,16 +22,16 @@ public class DrawingPanel extends Panel {
 	private static final long serialVersionUID = -3955506000009654571L;
 
 	// / the objects to paint
-	private Vector<GeoObject> m_objects = null;
+	private static Vector<GeoObject> m_objects = null;
 
 	// / the static POIs to paint
-	private List<POIObject> m_pois = null;
+	private static List<POIObject> m_pois = null;
 
 	// / the transformation matrix
-	private GeoTransformationMatrix m_matrix = null;
+	private static GeoTransformationMatrix m_matrix = null;
 
 	// / the inverse transformation matrix
-	private GeoTransformationMatrix m_matrixInv = null;
+	private static GeoTransformationMatrix m_matrixInv = null;
 
 	// / the DPI amount of the screen
 	private double m_dotPerInch = 72.0;
@@ -85,13 +85,13 @@ public class DrawingPanel extends Panel {
 		m_pois = POIObject.getListPOIObjects();
 
 		// add the hard coded POI Objects
-		m_pois.add(new POIObject("197", 666, new Point(653549, 176544)));
-		m_pois.add(new POIObject("198", 666, new Point(653549, 176544)));
-		m_pois.add(new POIObject("339", 666, new Point(643521, 188769)));
-		m_pois.add(new POIObject("340", 666, new Point(643521, 188769)));
-		m_pois.add(new POIObject("446", 666, new Point(648896, 298281)));
-		m_pois.add(new POIObject("449", 666, new Point(625116, 275121)));
-		m_pois.add(new POIObject("454", 666, new Point(653701, 176274)));
+		m_pois.add(new POIObject(null, "197", 666, new Point(653549, 176544)));
+		m_pois.add(new POIObject(null, "198", 666, new Point(653549, 176544)));
+		m_pois.add(new POIObject(null, "339", 666, new Point(643521, 188769)));
+		m_pois.add(new POIObject(null, "340", 666, new Point(643521, 188769)));
+		m_pois.add(new POIObject(null, "446", 666, new Point(648896, 298281)));
+		m_pois.add(new POIObject(null, "449", 666, new Point(625116, 275121)));
+		m_pois.add(new POIObject(null, "454", 666, new Point(653701, 176274)));
 	}
 
 	/**
@@ -360,7 +360,7 @@ public class DrawingPanel extends Panel {
 	 *            the m_matrix to set
 	 */
 	public void setM_matrix(GeoTransformationMatrix m_matrix) {
-		this.m_matrix = m_matrix;
+		DrawingPanel.m_matrix = m_matrix;
 	}
 
 	/**

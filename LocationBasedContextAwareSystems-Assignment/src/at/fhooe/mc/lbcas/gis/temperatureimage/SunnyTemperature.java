@@ -4,7 +4,7 @@
 package at.fhooe.mc.lbcas.gis.temperatureimage;
 
 /**
- * @author mypersonalpc
+ * @author Shrikant Havale
  * 
  */
 public class SunnyTemperature implements TemperatureImagePathIF {

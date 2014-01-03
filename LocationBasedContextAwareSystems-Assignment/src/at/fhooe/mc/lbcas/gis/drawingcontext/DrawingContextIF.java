@@ -9,7 +9,7 @@ import at.fhooe.mc.lbcas.entities.GeoObject;
 import at.fhooe.mc.lbcas.geo.GeoTransformationMatrix;
 
 /**
- * @author mypersonalpc
+ * @author Shrikant Havale
  * 
  */
 public interface DrawingContextIF {

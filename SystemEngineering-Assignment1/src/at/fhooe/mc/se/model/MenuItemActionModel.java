@@ -12,7 +12,7 @@ import at.fhooe.mc.se.view.DrawingAreaView;
 import at.fhooe.mc.se.view.InstructionsManualView;
 
 /**
- * @author mypersonalpc This class listens to all menu item events and
+ * @author Shrikant Havale This class listens to all menu item events and
  *         accordingly to take appropriate actions.
  * 
  */

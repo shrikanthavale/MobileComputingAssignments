@@ -6,7 +6,7 @@ package at.fhooe.mc.lbcas.gis.maplanguage;
 import java.util.Locale;
 
 /**
- * @author mypersonalpc
+ * @author Shrikant Havale
  * 
  */
 public class EnglishLanguage implements LanguageIF {

@@ -20,13 +20,19 @@ public class RestaurantPointOfInterset implements PointOfInterstIF {
 	@Override
 	public void setPOIDetails(JCheckBox _checkBox) {
 
-		_checkBox.setText("Restaurant");
+		_checkBox.setText(Messages.getString("POIComponent.POIRestaurant"));
 		_checkBox.setToolTipText(Messages
 				.getString("POIComponent.POIRestaurantCode"));
 	}
 
 	@Override
 	public String getPOIImagePath() {
-		return "at/fhooe/mc/lbcas/component/poicomponent/restaurant.jpg";
+		return "at/fhooe/mc/lbcas/component/poicomponent/restauranticon.jpg";
+	}
+
+	@Override
+	public int getPointOfInterestCode() {
+		return Integer.parseInt(Messages
+				.getString("POIComponent.POIRestaurantCode"));
 	}
 }

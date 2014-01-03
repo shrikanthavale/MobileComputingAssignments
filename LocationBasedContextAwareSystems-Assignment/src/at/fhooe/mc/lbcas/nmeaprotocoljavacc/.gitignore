@@ -1,3 +1,7 @@
 /NMEAProtocolParser.java
 /NMEAProtocolParserConstants.java
 /NMEAProtocolParserTokenManager.java
+/ParseException.java
+/SimpleCharStream.java
+/Token.java
+/TokenMgrError.java

@@ -40,9 +40,12 @@ public class PositionNowVariableNode extends TreeNode {
 		for (ContextElement contextElement : contextElements) {
 
 			if ("locationcontext".equals(contextElement.getContexttype())) {
-				m_value = contextElement.getLocationContextElement()
-						.getGeographicalLocation().getAltitude() > 260 ? "UNIVERSITY_CAMPUS"
-						: "";
+				m_value = (contextElement.getLocationContextElement()
+						.getGeographicalLocation().getAltitude() == 100
+						&& contextElement.getLocationContextElement()
+								.getGeographicalLocation().getLongitude() == 100 && contextElement
+						.getLocationContextElement().getGeographicalLocation()
+						.getLatitude() == 100) ? "UNIVERSITY_CAMPUS" : "";
 			}
 		}
 	}

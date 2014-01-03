@@ -48,4 +48,28 @@
         <methodName>activateLanguage</methodName>
         <parameter>at.fhooe.mc.lbcas.gis.maplanguage.GermanLanguage</parameter>
 	</rule>	
+	<rule>
+		<ruleId>7</ruleId>
+	    <rulename>RestaurantPOI</rulename>
+	    <rulecondition> || (time_now == 12:00 , time_now == 21:00)</rulecondition>
+	    <componentaffected>GISComponent</componentaffected>
+        <methodName>setContextAwarePOI</methodName>
+        <parameter>at.fhooe.mc.lbcas.component.poicomponent.RestaurantPointOfInterset</parameter>
+	</rule>
+	<rule>
+		<ruleId>8</ruleId>
+	    <rulename>OfficePOI</rulename>
+	    <rulecondition> &amp;&amp; (time_now &gt; 08:00 , time_now &lt; 10:00 )</rulecondition>
+        <methodName>setContextAwarePOI</methodName>
+        <componentaffected>GISComponent</componentaffected>
+        <parameter>at.fhooe.mc.lbcas.component.poicomponent.OfficePointOfInterest</parameter>
+	</rule>
+	<rule>
+		<ruleId>9</ruleId>
+	    <rulename>HomePOI</rulename>
+	    <rulecondition> &amp;&amp; (time_now &gt; 18:00 , time_now &lt; 20:00 )</rulecondition>
+        <methodName>setContextAwarePOI</methodName>
+        <componentaffected>GISComponent</componentaffected>
+        <parameter>at.fhooe.mc.lbcas.component.poicomponent.HomePointOfInterest</parameter>
+	</rule>
 </rules>

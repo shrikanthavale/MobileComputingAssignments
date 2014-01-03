@@ -3,6 +3,7 @@
  */
 package at.fhooe.mc.lbcas.server;
 
+import java.awt.Point;
 import java.util.List;
 import java.util.Vector;
 
@@ -50,5 +51,8 @@ public interface GEOServerInterface {
 	public Vector<GeoObject> loadData();
 
 	public Vector<GeoObject> clearPOIS();
+
+	public Vector<GeoObject> typeQuery(List<Integer> _typeList,
+			List<Point> _gpsCoordinates, String _imagePath);
 
 }

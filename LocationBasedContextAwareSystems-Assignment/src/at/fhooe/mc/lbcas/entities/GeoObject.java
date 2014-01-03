@@ -253,7 +253,7 @@ public class GeoObject implements Serializable {
 			point = _matrix.multiply(point);
 
 			// draws the image
-			_g.drawImage(POIObject.getM_image(), point.x, point.y, new Panel());
+			_g.drawImage(poiObject.getM_image(), point.x, point.y, new Panel());
 		}
 
 	}

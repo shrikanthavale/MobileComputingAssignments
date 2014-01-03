@@ -6,7 +6,7 @@ package at.fhooe.mc.lbcas.component.poicomponent;
 import javax.swing.JCheckBox;
 
 /**
- * @author mypersonalpc
+ * @author Shrikant Havale
  * 
  */
 public class OfficePointOfInterest implements PointOfInterstIF {
@@ -20,15 +20,21 @@ public class OfficePointOfInterest implements PointOfInterstIF {
 	 */
 	@Override
 	public void setPOIDetails(JCheckBox _checkBox) {
-		_checkBox.setText("Office");
+		_checkBox.setText(Messages.getString("POIComponent.POIOffice"));
 		_checkBox.setToolTipText(Messages
-				.getString("POIComponent.POIRestaurantCode"));
+				.getString("POIComponent.POIOfficeCode"));
 
 	}
 
 	@Override
 	public String getPOIImagePath() {
-		return "at/fhooe/mc/lbcas/component/poicomponent/office.jpg";
+		return "at/fhooe/mc/lbcas/component/poicomponent/officeicon.jpg";
+	}
+
+	@Override
+	public int getPointOfInterestCode() {
+		return Integer.parseInt(Messages
+				.getString("POIComponent.POIOfficeCode"));
 	}
 
 }

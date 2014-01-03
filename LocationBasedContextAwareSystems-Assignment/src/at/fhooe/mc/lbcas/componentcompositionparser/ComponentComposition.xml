@@ -18,7 +18,7 @@
 		<componentname>POI Component</componentname>
 		<shouldbeloaded>true</shouldbeloaded>
 		<dynamicmoduleproperties>
-			<ComponentProperty method="setContextAwarePOI">at.fhooe.mc.lbcas.component.poicomponent.RestaurantPointOfInterset</ComponentProperty>
+			<ComponentProperty method="setContextAwarePOI">at.fhooe.mc.lbcas.component.poicomponent.OfficePointOfInterest</ComponentProperty>
 			<ComponentProperty method="setServer">at.fhooe.mc.lbcas.server.SDEServerSerializedData</ComponentProperty>
 		</dynamicmoduleproperties>
 	</component>

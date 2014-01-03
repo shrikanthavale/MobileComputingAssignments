@@ -8,7 +8,7 @@ import javax.swing.JCheckBox;
 /**
  * This interface should be implemented by different Point of interests. Based
  * on the required POI, say example restaurant , method should be override to
- * update the checkbox code and label
+ * update the check box code and label
  * 
  * @author Shrikant Havale
  * 
@@ -31,5 +31,13 @@ public interface PointOfInterstIF {
 	 * @return path of the image
 	 */
 	public String getPOIImagePath();
+
+	/**
+	 * Returns the code about the point of interest , so that it can be searched
+	 * in the GEO server for its location
+	 * 
+	 * @return code to be searched
+	 */
+	public int getPointOfInterestCode();
 
 }

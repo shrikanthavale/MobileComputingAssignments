@@ -30,6 +30,8 @@ import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Vector;
@@ -48,6 +50,7 @@ import at.fhooe.mc.lbcas.component.ComponentIF;
 import at.fhooe.mc.lbcas.component.contextdatamodel.ContextElement;
 import at.fhooe.mc.lbcas.component.contextmanagement.ContextSituation;
 import at.fhooe.mc.lbcas.component.displaymessages.DisplayMessagesComponent;
+import at.fhooe.mc.lbcas.component.poicomponent.PointOfInterstIF;
 import at.fhooe.mc.lbcas.contextruleparser.NodeError;
 import at.fhooe.mc.lbcas.contextruleparser.RulesEntity;
 import at.fhooe.mc.lbcas.contextruleparser.TreeNode;
@@ -230,7 +233,7 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 	/**
 	 * drawing panel
 	 */
-	private DrawingPanel m_drawingPanel = new DrawingPanel();
+	private static DrawingPanel m_drawingPanel = new DrawingPanel();
 
 	/**
 	 * button for setting the image icon
@@ -241,6 +244,11 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 	 * server connection interface
 	 */
 	private static GEOServerInterface m_geoServerInterface = null;
+
+	/**
+	 * GPS position coordinates list
+	 */
+	private static List<Point> m_gpsCoordinates = new ArrayList<>();
 
 	/*
 	 * (non-Javadoc)
@@ -1148,14 +1156,16 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 					Point point = new Point(
 							gaussKruegerBMNCorodinate.getRechts() / 100,
 							gaussKruegerBMNCorodinate.getHoch() / 100);
-					// check for the instance
+
+					// add the points to GPS coordinates
+					m_gpsCoordinates.add(point);
 
 					// convert the point , using to multiply point method
 					point = m_drawingPanel.getM_matrix().multiply(point);
 
 					// draws the image
 					m_drawingPanel.getGraphics().drawImage(
-							POIObject.getM_image(), point.x, point.y,
+							POIObject.m_manIconImage, point.x, point.y,
 							new Panel());
 
 				}
@@ -1333,6 +1343,32 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 	 */
 	public void activateDayNightMode(DrawingContextIF drawingContextIF) {
 		DrawingPanel.setDrawingContextIF(drawingContextIF);
+	}
+
+	public void setContextAwarePOI(PointOfInterstIF _poiInterstIF) {
+
+		List<Point> gpsCoordinates = new ArrayList<>();
+		gpsCoordinates.addAll(m_gpsCoordinates);
+		int contextAwarePOICode = _poiInterstIF.getPointOfInterestCode();
+		List<Integer> arraIntegers = new ArrayList<>();
+		arraIntegers.add(contextAwarePOICode);
+		Vector<GeoObject> geoObjects = m_geoServerInterface.typeQuery(
+				arraIntegers, gpsCoordinates, _poiInterstIF.getPOIImagePath());
+		m_drawingPanel.getGeoObjects().addAll(geoObjects);
+		for (GeoObject geoObject : geoObjects) {
+
+			POIObject restaurantPOI = (POIObject) geoObject;
+			m_drawingPanel.getGeoObjects().add(restaurantPOI);
+
+			// convert the point , using to multiply point method
+			Point multipliedPoint = m_drawingPanel.getM_matrix().multiply(
+					restaurantPOI.getM_point());
+
+			// draws the image
+			m_drawingPanel.getGraphics().drawImage(restaurantPOI.getM_image(),
+					multipliedPoint.x, multipliedPoint.y, new Panel());
+		}
+
 	}
 
 	/**

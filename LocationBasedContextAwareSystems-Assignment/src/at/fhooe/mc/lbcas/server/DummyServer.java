@@ -1,5 +1,6 @@
 package at.fhooe.mc.lbcas.server;
 
+import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.List;
@@ -216,6 +217,13 @@ public class DummyServer implements GEOServerInterface {
 
 	@Override
 	public Vector<GeoObject> clearPOIS() {
+		return null;
+	}
+
+	@Override
+	public Vector<GeoObject> typeQuery(List<Integer> _typeList,
+			List<Point> _gpsCoordinates, String _imagePath) {
+		// Do Nothing
 		return null;
 	}
 
