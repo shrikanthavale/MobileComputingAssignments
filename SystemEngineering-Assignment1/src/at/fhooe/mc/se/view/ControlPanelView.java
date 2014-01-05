@@ -5,6 +5,7 @@ package at.fhooe.mc.se.view;
 
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -29,7 +30,12 @@ public class ControlPanelView extends JPanel {
 	/**
 	 * single instance of ControlPanelView
 	 */
-	private static ControlPanelView controlPanelView = new ControlPanelView();
+	private static JPanel firstButtonPanel = new ControlPanelView();
+
+	/**
+	 * single instance of ControlPanelView
+	 */
+	private static JPanel secondButtonPanel = new ControlPanelView();
 
 	/**
 	 * button for creating rectangle
@@ -82,15 +88,47 @@ public class ControlPanelView extends JPanel {
 	private static JButton deleteAssociationText;
 
 	/**
+	 * grid panel
+	 */
+	private static JPanel gridPanel;
+
+	/**
+	 * create state button
+	 */
+	private static JButton ovalPanelButton;
+
+	/**
+	 * create direction arrow button
+	 */
+	private static JButton directedArrowButton;
+
+	/**
+	 * create delete state button
+	 */
+	private static JButton deleteOvalPanel;
+
+	/**
+	 * create delete direction button
+	 */
+	private static JButton deleteDirectedArrow;
+
+	/**
 	 * static block for initializing the panel and adding required components
 	 */
 	static {
 
-		controlPanelView.setBackground(UIManager
+		// create the grid panel
+		gridPanel = new JPanel(new GridLayout(2, 1, 0, 0));
+
+		firstButtonPanel.setBackground(UIManager
 				.getColor(Constants.CONTROL_PANEL_BACKGROUND_COLOR));
-		controlPanelView.setBounds(0, 0, 600, 33);
-		controlPanelView.setLayout(new FlowLayout(FlowLayout.CENTER, 1,
-				10));
+		firstButtonPanel.setBounds(0, 0, 600, 33);
+		firstButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
+
+		secondButtonPanel.setBackground(UIManager
+				.getColor(Constants.CONTROL_PANEL_BACKGROUND_COLOR));
+		secondButtonPanel.setBounds(0, 0, 600, 33);
+		secondButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
 
 		// create first button create rectangle
 		createRectangleButton = new JButton(Constants.CREATE_CLASS_BUTTON_NAME);
@@ -105,7 +143,7 @@ public class ControlPanelView extends JPanel {
 				.setActionCommand(Constants.CREATE_CLASS_BUTTON_ACTION_COMMAND);
 		createRectangleButton.addActionListener(ApplicationEditorController
 				.getInstance());
-		controlPanelView.add(createRectangleButton);
+		firstButtonPanel.add(createRectangleButton);
 
 		// create association button for adding a association
 		createAssociationButton = new JButton(
@@ -121,7 +159,7 @@ public class ControlPanelView extends JPanel {
 				.setActionCommand(Constants.CREATE_ASSOCIATION_ACTION_COMMAND);
 		createAssociationButton.addActionListener(ApplicationEditorController
 				.getInstance());
-		controlPanelView.add(createAssociationButton);
+		firstButtonPanel.add(createAssociationButton);
 
 		// create association button for adding a association text
 		createAssociationTextButton = new JButton("Create Association Text");
@@ -133,9 +171,9 @@ public class ControlPanelView extends JPanel {
 		createAssociationTextButton.setBackground(UIManager
 				.getColor("Button.background"));
 		createAssociationTextButton.setActionCommand("createAssociationText");
-		createAssociationTextButton.addActionListener(ApplicationEditorController
-				.getInstance());
-		controlPanelView.add(createAssociationTextButton);
+		createAssociationTextButton
+				.addActionListener(ApplicationEditorController.getInstance());
+		firstButtonPanel.add(createAssociationTextButton);
 
 		// create comment button for adding a association
 		createCommentBoxButton = new JButton("Create Comment");
@@ -148,7 +186,7 @@ public class ControlPanelView extends JPanel {
 		createCommentBoxButton.setActionCommand("createcomment");
 		createCommentBoxButton.addActionListener(ApplicationEditorController
 				.getInstance());
-		controlPanelView.add(createCommentBoxButton);
+		firstButtonPanel.add(createCommentBoxButton);
 
 		// create second button delete rectangle
 		deleteRectangleButton = new JButton(Constants.DELETE_CLASS_BUTTON_NAME);
@@ -163,7 +201,7 @@ public class ControlPanelView extends JPanel {
 				.setActionCommand(Constants.DELETE_CLASS_BUTTON_ACTION_COMMAND);
 		deleteRectangleButton.addActionListener(ApplicationEditorController
 				.getInstance());
-		controlPanelView.add(deleteRectangleButton);
+		firstButtonPanel.add(deleteRectangleButton);
 
 		// create button delete comment box
 		deleteCommentBox = new JButton("Delete Comment");
@@ -174,7 +212,7 @@ public class ControlPanelView extends JPanel {
 		deleteCommentBox.setActionCommand("deletecomment");
 		deleteCommentBox.addActionListener(ApplicationEditorController
 				.getInstance());
-		controlPanelView.add(deleteCommentBox);
+		firstButtonPanel.add(deleteCommentBox);
 
 		// create button delete association
 		deleteAssociation = new JButton("Delete Association");
@@ -187,7 +225,7 @@ public class ControlPanelView extends JPanel {
 		deleteAssociation.setActionCommand("deleteassociation");
 		deleteAssociation.addActionListener(ApplicationEditorController
 				.getInstance());
-		controlPanelView.add(deleteAssociation);
+		firstButtonPanel.add(deleteAssociation);
 
 		// create button delete association box
 		deleteAssociationText = new JButton("Delete Association Text");
@@ -200,7 +238,7 @@ public class ControlPanelView extends JPanel {
 		deleteAssociationText.setActionCommand("deleteassociationtext");
 		deleteAssociationText.addActionListener(ApplicationEditorController
 				.getInstance());
-		controlPanelView.add(deleteAssociationText);
+		firstButtonPanel.add(deleteAssociationText);
 
 		// create third button removing all connections
 		deleteAllConnection = new JButton(
@@ -216,7 +254,7 @@ public class ControlPanelView extends JPanel {
 				.setActionCommand(Constants.REMOVE_ALL_ASSOCIATIONS_BUTTON_ACTION_COMMAND);
 		deleteAllConnection.addActionListener(ApplicationEditorController
 				.getInstance());
-		controlPanelView.add(deleteAllConnection);
+		firstButtonPanel.add(deleteAllConnection);
 
 		// create fourth button reseting the editor
 		resetDiagramButton = new JButton(Constants.REFRESH_EDITOR_BUTTON_NAME);
@@ -230,8 +268,64 @@ public class ControlPanelView extends JPanel {
 				.setActionCommand(Constants.REFRESH_EDITOR_BUTTON_ACTION_COMMAND);
 		resetDiagramButton.addActionListener(ApplicationEditorController
 				.getInstance());
-		controlPanelView.add(resetDiagramButton);
+		firstButtonPanel.add(resetDiagramButton);
 
+		// create the state chart diagram rounded oval button
+		ovalPanelButton = new JButton(Constants.OVAL_PANEL_BUTTON_NAME);
+		ovalPanelButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		ovalPanelButton.setToolTipText(Constants.OVAL_PANEL_BUTTON_NAME);
+		ovalPanelButton.setForeground(UIManager.getColor("Button.foreground"));
+		ovalPanelButton.setBackground(UIManager.getColor("Button.background"));
+		ovalPanelButton
+				.setActionCommand(Constants.CREATE_OVAL_BUTTON_ACTION_COMMAND);
+		ovalPanelButton.addActionListener(ApplicationEditorController
+				.getInstance());
+		secondButtonPanel.add(ovalPanelButton);
+
+		// create a button for directed arrow
+		directedArrowButton = new JButton(Constants.DIRECTED_LINE_BUTTON_NAME);
+		directedArrowButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		directedArrowButton.setToolTipText(Constants.DIRECTED_LINE_BUTTON_NAME);
+		directedArrowButton.setForeground(UIManager
+				.getColor("Button.foreground"));
+		directedArrowButton.setBackground(UIManager
+				.getColor("Button.background"));
+		directedArrowButton
+				.setActionCommand(Constants.CREATE_DIRECTED_LINE_BUTTON_ACTION_COMMAND);
+		directedArrowButton.addActionListener(ApplicationEditorController
+				.getInstance());
+		secondButtonPanel.add(directedArrowButton);
+
+		// create a button for delete oval panel
+		deleteOvalPanel = new JButton(Constants.DELETE_OVAL_PANEL_BUTTON_NAME);
+		deleteOvalPanel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		deleteOvalPanel.setToolTipText(Constants.DELETE_OVAL_PANEL_BUTTON_NAME);
+		deleteOvalPanel.setForeground(UIManager.getColor("Button.foreground"));
+		deleteOvalPanel.setBackground(UIManager.getColor("Button.background"));
+		deleteOvalPanel
+				.setActionCommand(Constants.DELETE_OVAL_BUTTON_ACTION_COMMAND);
+		deleteOvalPanel.addActionListener(ApplicationEditorController
+				.getInstance());
+		secondButtonPanel.add(deleteOvalPanel);
+
+		// create a button for delete oval panel
+		deleteDirectedArrow = new JButton(
+				Constants.DELTE_DIRECTED_ARROW_BUTTON_NAME);
+		deleteDirectedArrow.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		deleteDirectedArrow
+				.setToolTipText(Constants.DELTE_DIRECTED_ARROW_BUTTON_NAME);
+		deleteDirectedArrow.setForeground(UIManager
+				.getColor("Button.foreground"));
+		deleteDirectedArrow.setBackground(UIManager
+				.getColor("Button.background"));
+		deleteDirectedArrow
+				.setActionCommand(Constants.DELETE_DIRECTED_LINE_BUTTON_ACTION_COMMAND);
+		deleteDirectedArrow.addActionListener(ApplicationEditorController
+				.getInstance());
+		secondButtonPanel.add(deleteDirectedArrow);
+
+		gridPanel.add(firstButtonPanel);
+		gridPanel.add(secondButtonPanel);
 	}
 
 	/**
@@ -244,11 +338,10 @@ public class ControlPanelView extends JPanel {
 	/**
 	 * Get the singleton instance
 	 * 
-	 * @return ControlPanelView single instance of left side control
-	 *         panel
+	 * @return ControlPanelView single instance of left side control panel
 	 */
-	public static ControlPanelView getInstance() {
-		return controlPanelView;
+	public static JPanel getInstance() {
+		return gridPanel;
 	}
 
 	/**
@@ -309,6 +402,36 @@ public class ControlPanelView extends JPanel {
 	 */
 	public static void setDeleteAllConnection(JButton deleteAllConnection) {
 		ControlPanelView.deleteAllConnection = deleteAllConnection;
+	}
+
+	/**
+	 * @return the gridPanel
+	 */
+	public static JPanel getGridPanel() {
+		return gridPanel;
+	}
+
+	/**
+	 * @param gridPanel
+	 *            the gridPanel to set
+	 */
+	public static void setGridPanel(JPanel gridPanel) {
+		ControlPanelView.gridPanel = gridPanel;
+	}
+
+	/**
+	 * @return the secondButtonPanel
+	 */
+	public static JPanel getSecondButtonPanel() {
+		return secondButtonPanel;
+	}
+
+	/**
+	 * @param secondButtonPanel
+	 *            the secondButtonPanel to set
+	 */
+	public static void setSecondButtonPanel(JPanel secondButtonPanel) {
+		ControlPanelView.secondButtonPanel = secondButtonPanel;
 	}
 
 }

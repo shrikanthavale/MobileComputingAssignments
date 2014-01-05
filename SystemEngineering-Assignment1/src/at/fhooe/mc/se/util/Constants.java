@@ -113,6 +113,26 @@ public class Constants {
 	public static final String REFRESH_EDITOR_BUTTON_ACTION_COMMAND = "RefreshEditor";
 
 	/**
+	 * Action used on click button "Create Class"
+	 */
+	public static final String CREATE_OVAL_BUTTON_ACTION_COMMAND = "CreateState";
+
+	/**
+	 * Action used on click button "Create Class"
+	 */
+	public static final String CREATE_DIRECTED_LINE_BUTTON_ACTION_COMMAND = "CreateDirectedArrow";
+
+	/**
+	 * Action used on click button "Create Class"
+	 */
+	public static final String DELETE_OVAL_BUTTON_ACTION_COMMAND = "DeleteState";
+
+	/**
+	 * Action used on click button "Create Class"
+	 */
+	public static final String DELETE_DIRECTED_LINE_BUTTON_ACTION_COMMAND = "DeleteDirectedArrow";
+
+	/**
 	 * button name for remove class
 	 */
 	public static final String DELETE_CLASS_BUTTON_NAME = "Remove Class";
@@ -141,6 +161,26 @@ public class Constants {
 	 * button name for refresh editor
 	 */
 	public static final String REFRESH_EDITOR_BUTTON_NAME = "Refresh Editor";
+
+	/**
+	 * button name for refresh editor
+	 */
+	public static final String OVAL_PANEL_BUTTON_NAME = "Create State";
+
+	/**
+	 * button name for refresh editor
+	 */
+	public static final String DIRECTED_LINE_BUTTON_NAME = "Create Directed Line";
+
+	/**
+	 * button name for refresh editor
+	 */
+	public static final String DELETE_OVAL_PANEL_BUTTON_NAME = "Delete State";
+
+	/**
+	 * button name for refresh editor
+	 */
+	public static final String DELTE_DIRECTED_ARROW_BUTTON_NAME = "Delete Directed Line";
 
 	/**
 	 * dummy text for starting of class

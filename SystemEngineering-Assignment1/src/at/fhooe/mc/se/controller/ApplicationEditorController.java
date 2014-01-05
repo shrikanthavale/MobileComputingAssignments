@@ -63,6 +63,18 @@ public class ApplicationEditorController implements ActionListener {
 		case Constants.REFRESH_EDITOR_BUTTON_ACTION_COMMAND:
 			applicationEditorModel.refreshEditor();
 			break;
+		case Constants.CREATE_OVAL_BUTTON_ACTION_COMMAND:
+			applicationEditorModel.createState();
+			break;
+		case Constants.DELETE_OVAL_BUTTON_ACTION_COMMAND:
+			applicationEditorModel.deleteState();
+			break;
+		case Constants.CREATE_DIRECTED_LINE_BUTTON_ACTION_COMMAND:
+			applicationEditorModel.createDirectedLine();
+			break;
+		case Constants.DELETE_DIRECTED_LINE_BUTTON_ACTION_COMMAND:
+			applicationEditorModel.deleteDirectedLine();
+			break;
 		default:
 			break;
 		}

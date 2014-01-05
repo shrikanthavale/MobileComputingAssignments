@@ -42,8 +42,7 @@ public class CommentBoxView extends JTextArea {
 	 * @param yPositionTextPane
 	 *            - y position where text pane should be created
 	 */
-	public CommentBoxView(int xPositionTextPane,
-			int yPositionTextPane) {
+	public CommentBoxView(int xPositionTextPane, int yPositionTextPane) {
 		super();
 		this.setBounds(xPositionTextPane, yPositionTextPane, 100, 100);
 		this.setBackground(Color.WHITE);

@@ -157,7 +157,6 @@ public class ContextRuleParser implements ContextRuleParserConstants {
 /******************************************************* Comparison Nodes ********************************************************************/
 
 
-
 /******************************************************* Constant Nodes ********************************************************************/
   final public ConstantNode constant_node_statement() throws ParseException {
   Token token = null;

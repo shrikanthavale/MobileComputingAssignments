@@ -9,9 +9,10 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
 
-import at.fhooe.mc.se.view.CommentBoxView;
 import at.fhooe.mc.se.view.AssociationTextView;
 import at.fhooe.mc.se.view.ClassBoxView;
+import at.fhooe.mc.se.view.CommentBoxView;
+import at.fhooe.mc.se.view.OvalPanelView;
 
 /**
  * @author Shrikant Havale This event listener is specifically for the
@@ -65,6 +66,9 @@ public class CustomMouseModel extends MouseInputAdapter {
 		// capture the component
 		ClassBoxView textPane = null;
 
+		// capture the component
+		OvalPanelView ovalPanelView = null;
+
 		// check the instance
 		if (e.getComponent() instanceof AssociationTextView) {
 
@@ -81,8 +85,7 @@ public class CustomMouseModel extends MouseInputAdapter {
 			componentInFocus = e.getComponent();
 
 			// set the first and second component clicked
-			ApplicationEditorModel.getComponentsClicked().add(
-					componentInFocus);
+			ApplicationEditorModel.getComponentsClicked().add(componentInFocus);
 
 		} else if (e.getComponent() instanceof CommentBoxView) {
 
@@ -99,8 +102,7 @@ public class CustomMouseModel extends MouseInputAdapter {
 			componentInFocus = e.getComponent();
 
 			// set the first and second component clicked
-			ApplicationEditorModel.getComponentsClicked().add(
-					componentInFocus);
+			ApplicationEditorModel.getComponentsClicked().add(componentInFocus);
 
 		} else if (e.getComponent() instanceof ClassBoxView) {
 
@@ -117,8 +119,24 @@ public class CustomMouseModel extends MouseInputAdapter {
 			componentInFocus = e.getComponent();
 
 			// set the first and second component clicked
-			ApplicationEditorModel.getComponentsClicked().add(
-					componentInFocus);
+			ApplicationEditorModel.getComponentsClicked().add(componentInFocus);
+
+		} else if (e.getComponent() instanceof OvalPanelView) {
+
+			ovalPanelView = (OvalPanelView) e.getComponent();
+
+			// calculate the offset
+			if (ovalPanelView.contains(p)) {
+				offset.x = p.x - ovalPanelView.getX();
+				offset.y = p.y - ovalPanelView.getY();
+				dragging = true;
+			}
+
+			// capture the component in focus
+			componentInFocus = e.getComponent();
+
+			// set the first and second component clicked
+			ApplicationEditorModel.getComponentsClicked().add(componentInFocus);
 
 		}
 
