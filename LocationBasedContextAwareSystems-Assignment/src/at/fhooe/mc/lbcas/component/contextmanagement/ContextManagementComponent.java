@@ -1143,6 +1143,13 @@ public class ContextManagementComponent extends JPanel implements ComponentIF {
 
 			// communicate the context situation
 			m_CASMediator.communicateContextSituation(m_contextSituation);
+
+			// communicating context situation every 9 seconds
+			System.out
+					.println("Context Situation will be updated in "
+							+ m_transmissionFrequencySecondsText.getText()
+							+ " seconds");
+
 			Thread.sleep(Integer.parseInt(m_transmissionFrequencySecondsText
 					.getText()) * 1000);
 		}

@@ -429,7 +429,10 @@ public class SDEServer implements GEOServerInterface {
 
 		int contextAwarePOI = _typeList.get(_typeList.size() - 1);
 
-		m_objectContainer.removeAll(m_poicontainer);
+		if (m_poicontainer != null) {
+			m_objectContainer.removeAll(m_poicontainer);
+		}
+		m_poicontainer = new Vector<>();
 
 		for (GeoObject geoObject : m_objectContainer) {
 
@@ -472,6 +475,7 @@ public class SDEServer implements GEOServerInterface {
 		}
 
 		m_objectContainer.addAll(m_poicontainer);
+
 		System.out.println("Data Loaded Successfully ................ ");
 
 		return m_objectContainer;
@@ -484,6 +488,7 @@ public class SDEServer implements GEOServerInterface {
 		// remove previous POIs
 		if (m_poicontainer != null)
 			m_objectContainer.removeAll(m_poicontainer);
+		System.out.println("POI Cleared .........");
 
 		return m_objectContainer;
 	}

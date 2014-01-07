@@ -457,8 +457,8 @@ public class GISComponent extends JPanel implements ComponentIF, MouseListener,
 		loadZoomButtonsPanel.add(scroll);
 		loadZoomButtonsPanel.add(m_scale);
 		loadZoomButtonsPanel.add(m_poiButton);
-		// loadZoomButtonsPanel.add(m_storeButton);
-		// loadZoomButtonsPanel.add(m_stickyButton);
+		loadZoomButtonsPanel.add(m_storeButton);
+		loadZoomButtonsPanel.add(m_stickyButton);
 		buttonBar.add(loadZoomButtonsPanel);
 
 		// listener for radio button

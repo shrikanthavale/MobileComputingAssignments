@@ -181,8 +181,9 @@ public class CASMediator implements MediatorIF {
 		m_JFrame.getContentPane().add(panelForAllTabs, BorderLayout.CENTER);
 
 		m_componentDisplayMessages = new DisplayMessagesComponent();
+		@SuppressWarnings("unused")
 		JPanel messagePanel = m_componentDisplayMessages.createPanel();
-		m_JFrame.add(messagePanel, BorderLayout.SOUTH);
+		// m_JFrame.add(messagePanel, BorderLayout.SOUTH);
 
 		// get the required parser
 		m_componentCompositionXMLReader = FactoryCreator

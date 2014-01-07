@@ -40,7 +40,7 @@ public class PositionNowVariableNode extends TreeNode {
 		for (ContextElement contextElement : contextElements) {
 
 			if ("locationcontext".equals(contextElement.getContexttype())) {
-				m_value = (contextElement.getLocationContextElement()
+				m_value = !(contextElement.getLocationContextElement()
 						.getGeographicalLocation().getAltitude() == 100
 						&& contextElement.getLocationContextElement()
 								.getGeographicalLocation().getLongitude() == 100 && contextElement

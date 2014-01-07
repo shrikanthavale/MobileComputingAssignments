@@ -144,8 +144,10 @@ public class SDEServerSerializedData implements GEOServerInterface {
 
 	@Override
 	public Vector<GeoObject> clearPOIS() {
+		System.out.println("CLEARING POI .........");
 		if (m_pointInterestContainer != null)
 			m_objectContainer.removeAll(m_pointInterestContainer);
+		System.out.println("POI Cleared .........");
 		return m_objectContainer;
 	}
 
