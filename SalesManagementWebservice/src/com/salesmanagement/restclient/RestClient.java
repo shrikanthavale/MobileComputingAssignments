@@ -21,6 +21,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
+@SuppressWarnings("deprecation")
 public class RestClient {
 
 	private List<NameValuePair> params;
@@ -105,6 +106,7 @@ public class RestClient {
 
 	private String executeRequest(HttpUriRequest request, String url) {
 
+		@SuppressWarnings("resource")
 		HttpClient client = new DefaultHttpClient();
 
 		HttpResponse httpResponse;
@@ -132,7 +134,6 @@ public class RestClient {
 			client.getConnectionManager().shutdown();
 			e.printStackTrace();
 		}
-
 		return response;
 	}
 

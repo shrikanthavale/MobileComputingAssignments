@@ -104,6 +104,7 @@ public class SQLQueryFetchData {
 					salesManagementQuestion.getCaseStudyNode());
 
 			preparedStatement.executeUpdate();
+			sqlConnection.commit();
 			sqlConnection.close();
 		} catch (Exception exception) {
 			exception.printStackTrace();
@@ -137,7 +138,7 @@ public class SQLQueryFetchData {
 				preparedStatement.executeUpdate();
 
 			}
-
+			sqlConnection.commit();
 			sqlConnection.close();
 
 		} catch (Exception exception) {
