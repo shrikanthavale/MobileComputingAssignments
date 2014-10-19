@@ -247,7 +247,7 @@ public class TriangleController {
 	 * @return TriangleView
 	 */
 	private TriangleView getTriangleView() {
-		return TriangleMain.getTriangleMain().getTriangleView();
+		return Triangle1st.getTriangleMain().getTriangleView();
 	}
 
 	/**
@@ -256,6 +256,6 @@ public class TriangleController {
 	 * @return
 	 */
 	private TriangleModel getTriangleModel() {
-		return TriangleMain.getTriangleMain().getTriangleModel();
+		return Triangle1st.getTriangleMain().getTriangleModel();
 	}
 }

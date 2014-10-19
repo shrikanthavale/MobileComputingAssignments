@@ -8,7 +8,7 @@ package at.fhhagenberg.sqe.exercise1;
  * @author Shrikant Havale - S1310455005 Oct 18, 2014
  * 
  */
-public class TriangleMain {
+public class Triangle1st {
 
 	/**
 	 * Create reference for triangle frame, for adding the frame
@@ -26,16 +26,16 @@ public class TriangleMain {
 	private TriangleModel triangleModel;
 
 	/**
-	 * Singleton instance of TriangleMain
+	 * Singleton instance of Triangle1st
 	 */
-	private static TriangleMain triangleMain;
+	private static Triangle1st triangle1st;
 
 	/**
 	 * static block to initialize the singleton instance
 	 */
 	static {
 		// initialize the singleton class
-		triangleMain = new TriangleMain();
+		triangle1st = new Triangle1st();
 	}
 
 	/**
@@ -44,31 +44,31 @@ public class TriangleMain {
 	public static void main(String[] args) {
 
 		// initialize the view
-		triangleMain.triangleView = new TriangleView();
-		triangleMain.triangleView.setVisible(true);
+		triangle1st.triangleView = new TriangleView();
+		triangle1st.triangleView.setVisible(true);
 
 		// initialize the controller
-		triangleMain.triangleController = new TriangleController();
-		triangleMain.triangleController.addButtonClickListeners();
-		triangleMain.triangleController.addTextChangeListenerForSides();
+		triangle1st.triangleController = new TriangleController();
+		triangle1st.triangleController.addButtonClickListeners();
+		triangle1st.triangleController.addTextChangeListenerForSides();
 
 		// initialize the model
-		triangleMain.triangleModel = new TriangleModel();
+		triangle1st.triangleModel = new TriangleModel();
 	}
 
 	/**
 	 * Create the application. Empty private constructor to avoid external
 	 * initialization of singleton class
 	 */
-	private TriangleMain() {
+	private Triangle1st() {
 
 	}
 
 	/**
-	 * @return the triangleMain
+	 * @return the triangle1st
 	 */
-	public static TriangleMain getTriangleMain() {
-		return triangleMain;
+	public static Triangle1st getTriangleMain() {
+		return triangle1st;
 	}
 
 	/**
