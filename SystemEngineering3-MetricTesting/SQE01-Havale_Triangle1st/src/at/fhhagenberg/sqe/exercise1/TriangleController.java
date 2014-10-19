@@ -253,7 +253,7 @@ public class TriangleController {
 	/**
 	 * Triangle Model instance {@link TriangleModel}
 	 * 
-	 * @return
+	 * @return {@link TriangleModel}
 	 */
 	private TriangleModel getTriangleModel() {
 		return Triangle1st.getTriangleMain().getTriangleModel();
