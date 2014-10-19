@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
  * Oct 18, 2014
  *
  */
-public class TriangleFrame extends JFrame {
+public class TriangleView extends JFrame {
 
 	/**
 	 * Generated serial version id
@@ -127,7 +127,7 @@ public class TriangleFrame extends JFrame {
 	/**
 	 * reset button - to reset the values entered
 	 */
-	private JButton btnReset;
+	private JButton resetButton;
 	
 	/**
 	 * inner panels - to adjust UI
@@ -175,7 +175,7 @@ public class TriangleFrame extends JFrame {
 	 * This method creates text fields for taking input the parameters of triangle. And also components for displaying 
 	 * area and perimeter of the triangle
 	 */
-	public TriangleFrame() {
+	public TriangleView() {
 		
 		// for closing the grame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -327,11 +327,172 @@ public class TriangleFrame extends JFrame {
 		innerWindowSouthPanel.add(calculateButton);
 		calculateButton
 				.setToolTipText("Calculate Area and Perimeter for above values");
+		calculateButton.setEnabled(false);
 
 		// reset button
-		btnReset = new JButton("Reset");
-		innerWindowSouthPanel.add(btnReset);
+		resetButton = new JButton("Reset");
+		innerWindowSouthPanel.add(resetButton);
 		
+	}
+
+
+	/**
+	 * @return the sideATextfield
+	 */
+	public JTextField getSideATextfield() {
+		return sideATextfield;
+	}
+
+
+	/**
+	 * @param sideATextfield the sideATextfield to set
+	 */
+	public void setSideATextfield(JTextField sideATextfield) {
+		this.sideATextfield = sideATextfield;
+	}
+
+
+	/**
+	 * @return the sideBTextfield
+	 */
+	public JTextField getSideBTextfield() {
+		return sideBTextfield;
+	}
+
+
+	/**
+	 * @param sideBTextfield the sideBTextfield to set
+	 */
+	public void setSideBTextfield(JTextField sideBTextfield) {
+		this.sideBTextfield = sideBTextfield;
+	}
+
+
+	/**
+	 * @return the sideCTextfield
+	 */
+	public JTextField getSideCTextfield() {
+		return sideCTextfield;
+	}
+
+
+	/**
+	 * @param sideCTextfield the sideCTextfield to set
+	 */
+	public void setSideCTextfield(JTextField sideCTextfield) {
+		this.sideCTextfield = sideCTextfield;
+	}
+
+
+	/**
+	 * @return the sideAValidationMessage
+	 */
+	public JLabel getSideAValidationMessage() {
+		return sideAValidationMessage;
+	}
+
+
+	/**
+	 * @param sideAValidationMessage the sideAValidationMessage to set
+	 */
+	public void setSideAValidationMessage(JLabel sideAValidationMessage) {
+		this.sideAValidationMessage = sideAValidationMessage;
+	}
+
+
+	/**
+	 * @return the sideBValidationMessage
+	 */
+	public JLabel getSideBValidationMessage() {
+		return sideBValidationMessage;
+	}
+
+
+	/**
+	 * @param sideBValidationMessage the sideBValidationMessage to set
+	 */
+	public void setSideBValidationMessage(JLabel sideBValidationMessage) {
+		this.sideBValidationMessage = sideBValidationMessage;
+	}
+
+
+	/**
+	 * @return the sideCValidationMessage
+	 */
+	public JLabel getSideCValidationMessage() {
+		return sideCValidationMessage;
+	}
+
+
+	/**
+	 * @param sideCValidationMessage the sideCValidationMessage to set
+	 */
+	public void setSideCValidationMessage(JLabel sideCValidationMessage) {
+		this.sideCValidationMessage = sideCValidationMessage;
+	}
+
+
+	/**
+	 * @return the calculateButton
+	 */
+	public JButton getCalculateButton() {
+		return calculateButton;
+	}
+
+
+	/**
+	 * @param calculateButton the calculateButton to set
+	 */
+	public void setCalculateButton(JButton calculateButton) {
+		this.calculateButton = calculateButton;
+	}
+
+
+	/**
+	 * @return the btnReset
+	 */
+	public JButton getResetButton() {
+		return resetButton;
+	}
+
+
+	/**
+	 * @param btnReset the btnReset to set
+	 */
+	public void setResetButton(JButton btnReset) {
+		this.resetButton = btnReset;
+	}
+
+
+	/**
+	 * @return the areaTriangleValueLabel
+	 */
+	public JLabel getAreaTriangleValueLabel() {
+		return areaTriangleValueLabel;
+	}
+
+
+	/**
+	 * @param areaTriangleValueLabel the areaTriangleValueLabel to set
+	 */
+	public void setAreaTriangleValueLabel(JLabel areaTriangleValueLabel) {
+		this.areaTriangleValueLabel = areaTriangleValueLabel;
+	}
+
+
+	/**
+	 * @return the perimeterTriangleValueLabel
+	 */
+	public JLabel getPerimeterTriangleValueLabel() {
+		return perimeterTriangleValueLabel;
+	}
+
+
+	/**
+	 * @param perimeterTriangleValueLabel the perimeterTriangleValueLabel to set
+	 */
+	public void setPerimeterTriangleValueLabel(JLabel perimeterTriangleValueLabel) {
+		this.perimeterTriangleValueLabel = perimeterTriangleValueLabel;
 	}
 
 }
