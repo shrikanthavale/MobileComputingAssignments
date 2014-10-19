@@ -52,9 +52,9 @@ public class TriangleController {
 
 							// pass the data from model back to UI
 							getTriangleView().getPerimeterTriangleValueLabel()
-									.setText(perimeter + "");
+									.setText(perimeter + ""); //$NON-NLS-1$
 							getTriangleView().getAreaTriangleValueLabel()
-									.setText(area + "");
+									.setText(area + ""); //$NON-NLS-1$
 
 						} catch (TriangleException triangleException) {
 
@@ -80,21 +80,21 @@ public class TriangleController {
 						// clear all the entries calculate and entered by the
 						// user
 						getTriangleView().getPerimeterTriangleValueLabel()
-								.setText("");
+								.setText(""); //$NON-NLS-1$
 						getTriangleView().getAreaTriangleValueLabel().setText(
-								"");
-						getTriangleView().getSideATextfield().setText("");
-						getTriangleView().getSideBTextfield().setText("");
-						getTriangleView().getSideCTextfield().setText("");
+								""); //$NON-NLS-1$
+						getTriangleView().getSideATextfield().setText(""); //$NON-NLS-1$
+						getTriangleView().getSideBTextfield().setText(""); //$NON-NLS-1$
+						getTriangleView().getSideCTextfield().setText(""); //$NON-NLS-1$
 						getTriangleView().getSideAValidationMessage().setText(
-								"Cannot be blank");
+								Messages.getString("TriangleController.blankerrormessage")); //$NON-NLS-1$
 						getTriangleView().getSideBValidationMessage().setText(
-								"Cannot be blank");
+								Messages.getString("TriangleController.blankerrormessage")); //$NON-NLS-1$
 						getTriangleView().getSideCValidationMessage().setText(
-								"Cannot be blank");
+								Messages.getString("TriangleController.blankerrormessage")); //$NON-NLS-1$
 						getTriangleView().getCalculateButton()
 								.setEnabled(false);
-						getTriangleView().getSumSidesErrorMessage().setText("");
+						getTriangleView().getSumSidesErrorMessage().setText(""); //$NON-NLS-1$
 					}
 				});
 
@@ -119,7 +119,7 @@ public class TriangleController {
 					getTriangleModel().validateSingleSide(sideText);
 
 					// if everything is ok, clear the message
-					getTriangleView().getSideAValidationMessage().setText("");
+					getTriangleView().getSideAValidationMessage().setText(""); //$NON-NLS-1$
 
 				} catch (TriangleException triangleException) {
 
@@ -137,7 +137,7 @@ public class TriangleController {
 				// enable or disable the calculate button
 				getTriangleView().getCalculateButton().setEnabled(
 						enableDisableCalculateMethod());
-				getTriangleView().getSumSidesErrorMessage().setText("");
+				getTriangleView().getSumSidesErrorMessage().setText(""); //$NON-NLS-1$
 			}
 
 		});
@@ -155,7 +155,7 @@ public class TriangleController {
 					getTriangleModel().validateSingleSide(sideText);
 
 					// if everything is ok, clear the message
-					getTriangleView().getSideBValidationMessage().setText("");
+					getTriangleView().getSideBValidationMessage().setText(""); //$NON-NLS-1$
 
 				} catch (TriangleException triangleException) {
 
@@ -173,7 +173,7 @@ public class TriangleController {
 				// enable or disable the calculate button
 				getTriangleView().getCalculateButton().setEnabled(
 						enableDisableCalculateMethod());
-				getTriangleView().getSumSidesErrorMessage().setText("");
+				getTriangleView().getSumSidesErrorMessage().setText(""); //$NON-NLS-1$
 			}
 		});
 
@@ -190,7 +190,7 @@ public class TriangleController {
 					getTriangleModel().validateSingleSide(sideText);
 
 					// if everything is ok, clear the message
-					getTriangleView().getSideCValidationMessage().setText("");
+					getTriangleView().getSideCValidationMessage().setText(""); //$NON-NLS-1$
 
 				} catch (TriangleException triangleException) {
 
@@ -208,7 +208,7 @@ public class TriangleController {
 				// enable or disable the calculate button
 				getTriangleView().getCalculateButton().setEnabled(
 						enableDisableCalculateMethod());
-				getTriangleView().getSumSidesErrorMessage().setText("");
+				getTriangleView().getSumSidesErrorMessage().setText(""); //$NON-NLS-1$
 			}
 		});
 
@@ -232,8 +232,8 @@ public class TriangleController {
 				.getSideCValidationMessage().getText();
 
 		// check for empty validation messages
-		if ("".equals(validationAmessage) && "".equals(validationBmessage)
-				&& "".equals(validationCmessage)) {
+		if ("".equals(validationAmessage) && "".equals(validationBmessage) //$NON-NLS-1$ //$NON-NLS-2$
+				&& "".equals(validationCmessage)) { //$NON-NLS-1$
 			return true;
 		} else {
 			return false;

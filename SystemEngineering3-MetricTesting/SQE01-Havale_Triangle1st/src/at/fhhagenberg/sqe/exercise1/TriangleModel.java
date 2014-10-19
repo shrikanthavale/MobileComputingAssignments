@@ -67,24 +67,24 @@ public class TriangleModel {
 	public void validateSingleSide(String side) throws TriangleException,
 			Exception {
 
-		String regexDecimal = "^-?\\d*\\.\\d+$";
+		String regexDecimal = Messages.getString("TriangleModel.floatregularexpression"); //$NON-NLS-1$
 
-		String regexInteger = "^-?\\d+$";
+		String regexInteger = Messages.getString("TriangleModel.integerregularexpression"); //$NON-NLS-1$
 
-		String regexDouble = regexDecimal + "|" + regexInteger;
+		String regexDouble = regexDecimal + "|" + regexInteger; //$NON-NLS-1$
 
 		try {
 			// check for null or empty side
 			if (side == null || side.length() < 1) {
-				throw new TriangleException("Cannot be blank");
+				throw new TriangleException(Messages.getString("TriangleModel.emptyerrormessage")); //$NON-NLS-1$
 
 			}// check for decimal numbers
 			else if (!side.matches(regexDouble)) {
-				throw new TriangleException("Invalid Input");
+				throw new TriangleException(Messages.getString("TriangleModel.invalidinputerrormessage")); //$NON-NLS-1$
 
 			}// check for greater than 0
 			else if (Double.parseDouble(side) <= 0.0) {
-				throw new TriangleException("Should be >0 ");
+				throw new TriangleException(Messages.getString("TriangleModel.greaterthan0errormessage")); //$NON-NLS-1$
 			}
 		} catch (TriangleException e) {
 			e.printStackTrace();
@@ -121,12 +121,12 @@ public class TriangleModel {
 				if ((sideB <= sideC)) {
 					if ((sideA + sideB) <= sideC) {
 						throw new TriangleException(
-								"Sum (Side A + Side B) should be greater than Side C");
+								Messages.getString("TriangleModel.sumsideAsideBgreaterthanC")); //$NON-NLS-1$
 					}
 				} else {
 					if ((sideA + sideC) <= sideB) {
 						throw new TriangleException(
-								"Sum (Side A + Side C) should be greater than Side B");
+								Messages.getString("TriangleModel.sumsideAsideCgreaterthanB")); //$NON-NLS-1$
 					}
 				}
 			}// second check
@@ -134,12 +134,12 @@ public class TriangleModel {
 				if ((sideA <= sideC)) {
 					if ((sideB + sideA) <= sideC) {
 						throw new TriangleException(
-								"Sum (Side A + Side B) should be greater than Side C");
+								Messages.getString("TriangleModel.sumsideAsideBgreaterthanC")); //$NON-NLS-1$
 					}
 				} else {
 					if ((sideB + sideC) <= sideA) {
 						throw new TriangleException(
-								"Sum (Side B + Side C) should be greater than Side A");
+								Messages.getString("TriangleModel.sumsideBsideCgreaterthanA")); //$NON-NLS-1$
 					}
 				}
 			}// second check
@@ -147,12 +147,12 @@ public class TriangleModel {
 				if ((sideA <= sideB)) {
 					if ((sideC + sideA) <= sideB) {
 						throw new TriangleException(
-								"Sum (Side A + Side C) should be greater than Side B");
+								Messages.getString("TriangleModel.sumsideAsideCgreaterthanB")); //$NON-NLS-1$
 					}
 				} else {
 					if ((sideC + sideB) <= sideA) {
 						throw new TriangleException(
-								"Sum (Side B + Side C) should be greater than Side A");
+								Messages.getString("TriangleModel.sumsideBsideCgreaterthanA")); //$NON-NLS-1$
 					}
 				}
 			}

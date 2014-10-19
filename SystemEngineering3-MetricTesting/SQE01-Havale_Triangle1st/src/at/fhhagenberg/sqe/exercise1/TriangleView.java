@@ -191,7 +191,7 @@ public class TriangleView extends JFrame {
 
 		// for closing the grame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("SE3 - Metrics & Testing - Assignment 1");
+		setTitle(Messages.getString("TriangleView.frametitle")); //$NON-NLS-1$
 
 		// setting the bounds of the frame
 		setBounds(100, 100, 747, 423);
@@ -211,16 +211,16 @@ public class TriangleView extends JFrame {
 		mainWindowNorthPanel.setLayout(new GridLayout(2, 1, 0, 0));
 
 		// create a heading label
-		applicationHeadingLabel = new JLabel("Triangle Application");
+		applicationHeadingLabel = new JLabel(Messages.getString("TriangleView.frameheading")); //$NON-NLS-1$
 		mainWindowNorthPanel.add(applicationHeadingLabel);
 
 		// modify the properties and place it in the center
-		applicationHeadingLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		applicationHeadingLabel.setFont(new Font(Messages.getString("TriangleView.tahomafont"), Font.PLAIN, 20)); //$NON-NLS-1$
 		applicationHeadingLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		// enter message label
 		enterMessageLabel = new JLabel(
-				"Enter 3 sides of triangle and press calculate");
+				Messages.getString("TriangleView.entermessage")); //$NON-NLS-1$
 		enterMessageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		enterMessageLabel.setVerticalAlignment(SwingConstants.CENTER);
 		mainWindowNorthPanel.add(enterMessageLabel);
@@ -253,53 +253,53 @@ public class TriangleView extends JFrame {
 		inputPanel.setLayout(new GridLayout(4, 3, 20, 20));
 
 		// side A label
-		sideALabel = new JLabel("Side A");
+		sideALabel = new JLabel(Messages.getString("TriangleView.sideAlabel")); //$NON-NLS-1$
 		sideALabel.setHorizontalAlignment(SwingConstants.CENTER);
 		inputPanel.add(sideALabel);
 
 		// side A text field
 		sideATextfield = new JTextField();
 		sideATextfield
-				.setToolTipText("Enter the length of first side of triangle in cm");
+				.setToolTipText(Messages.getString("TriangleView.sideAtooltip")); //$NON-NLS-1$
 		inputPanel.add(sideATextfield);
 		sideATextfield.setColumns(10);
 
 		// side A error validation message
-		sideAValidationMessage = new JLabel("Cannot be blank");
+		sideAValidationMessage = new JLabel(Messages.getString("TriangleView.emptyerrormessage")); //$NON-NLS-1$
 		sideAValidationMessage.setForeground(Color.RED);
 		inputPanel.add(sideAValidationMessage);
 
 		// side B label
-		sideBLabel = new JLabel("Side B");
+		sideBLabel = new JLabel(Messages.getString("TriangleView.sideBlabel")); //$NON-NLS-1$
 		sideBLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		inputPanel.add(sideBLabel);
 
 		// side B text field
 		sideBTextfield = new JTextField();
 		sideBTextfield
-				.setToolTipText("Enter the length of second side of triangle in cm");
+				.setToolTipText(Messages.getString("TriangleView.sideBtooltip")); //$NON-NLS-1$
 		inputPanel.add(sideBTextfield);
 		sideBTextfield.setColumns(10);
 
 		// side B error validation message
-		sideBValidationMessage = new JLabel("Cannot be blank");
+		sideBValidationMessage = new JLabel(Messages.getString("TriangleView.emptyerrormessage")); //$NON-NLS-1$
 		sideBValidationMessage.setForeground(Color.RED);
 		inputPanel.add(sideBValidationMessage);
 
 		// side C error validation message
-		sideCLabel = new JLabel("Side C");
+		sideCLabel = new JLabel(Messages.getString("TriangleView.sideClabel")); //$NON-NLS-1$
 		sideCLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		inputPanel.add(sideCLabel);
 
 		// side C textfield
 		sideCTextfield = new JTextField();
 		sideCTextfield
-				.setToolTipText("Enter the length of third side of triangle in cm");
+				.setToolTipText(Messages.getString("TriangleView.sideCtooltip")); //$NON-NLS-1$
 		inputPanel.add(sideCTextfield);
 		sideCTextfield.setColumns(10);
 
 		// side C validation message
-		sideCValidationMessage = new JLabel("Cannot be blank");
+		sideCValidationMessage = new JLabel(Messages.getString("TriangleView.emptyerrormessage")); //$NON-NLS-1$
 		sideCValidationMessage.setForeground(Color.RED);
 		inputPanel.add(sideCValidationMessage);
 
@@ -320,30 +320,30 @@ public class TriangleView extends JFrame {
 		outputPanel.setLayout(new GridLayout(2, 2, 10, 10));
 
 		// triangle area label
-		areaTriangleLabel = new JLabel("Triangle Area :");
-		areaTriangleLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		areaTriangleLabel = new JLabel(Messages.getString("TriangleView.trianglearealabel")); //$NON-NLS-1$
+		areaTriangleLabel.setFont(new Font(Messages.getString("TriangleView.tahomafont"), Font.PLAIN, 20)); //$NON-NLS-1$
 		outputPanel.add(areaTriangleLabel);
 
 		// triangle value label
-		areaTriangleValueLabel = new JLabel("");
-		areaTriangleValueLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		areaTriangleValueLabel = new JLabel(""); //$NON-NLS-1$
+		areaTriangleValueLabel.setFont(new Font(Messages.getString("TriangleView.tahomafont"), Font.PLAIN, 20)); //$NON-NLS-1$
 		outputPanel.add(areaTriangleValueLabel);
 
 		// perimeter triangle label
-		perimeterTriangleLabel = new JLabel("Triangle Perimeter : ");
-		perimeterTriangleLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		perimeterTriangleLabel = new JLabel(Messages.getString("TriangleView.triangleperimeterlabel")); //$NON-NLS-1$
+		perimeterTriangleLabel.setFont(new Font(Messages.getString("TriangleView.tahomafont"), Font.PLAIN, 20)); //$NON-NLS-1$
 		outputPanel.add(perimeterTriangleLabel);
 
 		// perimeter triangle value
-		perimeterTriangleValueLabel = new JLabel("");
-		perimeterTriangleValueLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		perimeterTriangleValueLabel = new JLabel(""); //$NON-NLS-1$
+		perimeterTriangleValueLabel.setFont(new Font(Messages.getString("TriangleView.tahomafont"), Font.PLAIN, 20)); //$NON-NLS-1$
 		outputPanel.add(perimeterTriangleValueLabel);
 
 		innerSumErrorPanel = new JPanel();
 		innerOutputErrorPanel.add(innerSumErrorPanel, BorderLayout.SOUTH);
 
 		// error message for sum of sides
-		sumSidesErrorMessage = new JLabel("");
+		sumSidesErrorMessage = new JLabel(""); //$NON-NLS-1$
 		innerSumErrorPanel.add(sumSidesErrorMessage);
 		sumSidesErrorMessage.setHorizontalAlignment(SwingConstants.CENTER);
 		sumSidesErrorMessage.setForeground(Color.RED);
@@ -353,14 +353,14 @@ public class TriangleView extends JFrame {
 		mainWindowCenterPanel.add(innerWindowSouthPanel, BorderLayout.SOUTH);
 
 		// calculate button
-		calculateButton = new JButton("Calculate");
+		calculateButton = new JButton(Messages.getString("TriangleView.calculatebuttonlabel")); //$NON-NLS-1$
 		innerWindowSouthPanel.add(calculateButton);
 		calculateButton
-				.setToolTipText("Calculate Area and Perimeter for above values");
+				.setToolTipText(Messages.getString("TriangleView.calculatebuttontooltip")); //$NON-NLS-1$
 		calculateButton.setEnabled(false);
 
 		// reset button
-		resetButton = new JButton("Reset");
+		resetButton = new JButton(Messages.getString("TriangleView.resetbuttonlabel")); //$NON-NLS-1$
 		innerWindowSouthPanel.add(resetButton);
 
 	}
