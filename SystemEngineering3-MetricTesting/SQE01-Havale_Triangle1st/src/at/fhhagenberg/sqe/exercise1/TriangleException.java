@@ -4,11 +4,11 @@
 package at.fhhagenberg.sqe.exercise1;
 
 /**
- * This class is responsible for capturing and storing exception messages. Based on validations done in
- * {@link TriangleModel}, this exception will be thrown with custom error messages.
+ * This class is responsible for capturing and storing exception messages. Based
+ * on validations done in {@link TriangleModel}, this exception will be thrown
+ * with custom error messages.
  * 
- * @author Shrikant Havale - S1310455005
- * Oct 19, 2014
+ * @author Shrikant Havale - S1310455005 Oct 19, 2014
  * 
  */
 public class TriangleException extends Exception {

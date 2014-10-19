@@ -1,6 +1,5 @@
 package at.fhhagenberg.sqe.exercise1;
 
-
 /**
  * This class is the main class of the application, from where the project
  * execution starts. It contains main method which is responsible for invoking
@@ -15,54 +14,54 @@ public class TriangleMain {
 	 * Create reference for triangle frame, for adding the frame
 	 */
 	private TriangleView triangleView;
-	
+
 	/**
 	 * create the reference for the controller
 	 */
 	private TriangleController triangleController;
-	
+
 	/**
 	 * create a reference of the model
 	 */
 	private TriangleModel triangleModel;
-	
+
 	/**
 	 * Singleton instance of TriangleMain
 	 */
 	private static TriangleMain triangleMain;
-	
+
 	/**
 	 * static block to initialize the singleton instance
 	 */
-	static{
+	static {
 		// initialize the singleton class
 		triangleMain = new TriangleMain();
 	}
-	
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
+
 		// initialize the view
 		triangleMain.triangleView = new TriangleView();
 		triangleMain.triangleView.setVisible(true);
-		
+
 		// initialize the controller
 		triangleMain.triangleController = new TriangleController();
 		triangleMain.triangleController.addButtonClickListeners();
 		triangleMain.triangleController.addTextChangeListenerForSides();
-		
+
 		// initialize the model
 		triangleMain.triangleModel = new TriangleModel();
 	}
 
 	/**
-	 * Create the application. Empty private constructor to avoid external initialization of 
-	 * singleton class
+	 * Create the application. Empty private constructor to avoid external
+	 * initialization of singleton class
 	 */
 	private TriangleMain() {
-		
+
 	}
 
 	/**
@@ -92,5 +91,5 @@ public class TriangleMain {
 	public TriangleModel getTriangleModel() {
 		return triangleModel;
 	}
-	
+
 }
