@@ -1,6 +1,3 @@
-/**
- * 
- */
 package at.fhhagenberg.sqe.exercise3.utility;
 
 import at.fhhagenberg.sqe.exercise3.model.Triangle;

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package at.fhhagenberg.sqe.exercise3.controller;
 
 import java.awt.event.ActionEvent;

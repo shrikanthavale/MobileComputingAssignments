@@ -1,6 +1,3 @@
-/**
- * 
- */
 package at.fhhagenberg.sqe.exercise3.model;
 
 import at.fhhagenberg.sqe.exercise3.utility.TriangleException;
@@ -13,7 +10,7 @@ import at.fhhagenberg.sqe.exercise3.utility.TriangleException;
  * 
  */
 public class Triangle {
-
+	
 	/**
 	 * Calculate the area of the triangle.
 	 * 
@@ -37,7 +34,6 @@ public class Triangle {
 
 		// return area
 		return area;
-
 	}
 
 	/**
@@ -69,11 +65,9 @@ public class Triangle {
 	public void validateSingleSide(String side) throws TriangleException,
 			Exception {
 
-		String regexDecimal = "^-?\\d*\\.\\d+$"; //$NON-NLS-1$
-
 		String regexInteger = "^-?\\d+$"; //$NON-NLS-1$
-
-		String regexDouble = regexDecimal + "|" + regexInteger; //$NON-NLS-1$
+		
+		String exponentialFormat = "[+-]?(?=\\d*[.eE])(?=\\.?\\d)\\d*\\.?\\d*(?:[eE][+-]?\\d+)?";
 
 		try {
 			// check for null or empty side
@@ -81,7 +75,7 @@ public class Triangle {
 				throw new TriangleException(Messages.getString("Triangle.cannotbeblankmessage")); //$NON-NLS-1$
 
 			}// check for decimal numbers
-			else if (!side.matches(regexDouble)) {
+			else if (!side.matches(exponentialFormat + "|" + regexInteger)) {
 				throw new TriangleException(Messages.getString("Triangle.invalidinputmessage")); //$NON-NLS-1$
 
 			}// check for greater than 0
