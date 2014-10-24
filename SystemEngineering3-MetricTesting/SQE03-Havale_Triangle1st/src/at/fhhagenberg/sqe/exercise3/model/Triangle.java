@@ -10,7 +10,7 @@ import at.fhhagenberg.sqe.exercise3.utility.TriangleException;
  * 
  */
 public class Triangle {
-	
+
 	/**
 	 * Calculate the area of the triangle.
 	 * 
@@ -59,28 +59,33 @@ public class Triangle {
 	 * 
 	 * @param side
 	 *            side of triangle to be validated
+	 * @return true - if input is valid and no exception is thrown.
 	 * @throws TriangleException
 	 *             throws exception for invalid inputs
+	 * 
 	 */
-	public void validateSingleSide(String side) throws TriangleException,
+	public boolean validateSingleSide(String side) throws TriangleException,
 			Exception {
 
 		String regexInteger = "^-?\\d+$"; //$NON-NLS-1$
-		
+
 		String exponentialFormat = "[+-]?(?=\\d*[.eE])(?=\\.?\\d)\\d*\\.?\\d*(?:[eE][+-]?\\d+)?";
 
 		try {
 			// check for null or empty side
 			if (side == null || side.length() < 1) {
-				throw new TriangleException(Messages.getString("Triangle.cannotbeblankmessage")); //$NON-NLS-1$
+				throw new TriangleException(
+						Messages.getString("Triangle.cannotbeblankmessage")); //$NON-NLS-1$
 
 			}// check for decimal numbers
 			else if (!side.matches(exponentialFormat + "|" + regexInteger)) {
-				throw new TriangleException(Messages.getString("Triangle.invalidinputmessage")); //$NON-NLS-1$
+				throw new TriangleException(
+						Messages.getString("Triangle.invalidinputmessage")); //$NON-NLS-1$
 
 			}// check for greater than 0
 			else if (Double.parseDouble(side) <= 0.0) {
-				throw new TriangleException(Messages.getString("Triangle.greaterthan0message")); //$NON-NLS-1$
+				throw new TriangleException(
+						Messages.getString("Triangle.greaterthan0message")); //$NON-NLS-1$
 			}
 		} catch (TriangleException e) {
 			e.printStackTrace();
@@ -89,6 +94,8 @@ public class Triangle {
 			e.printStackTrace();
 			throw e;
 		}
+
+		return true;
 
 	}
 
