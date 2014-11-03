@@ -20,6 +20,12 @@ public class DummyObserver implements Observer {
 	
 
 	/**
+	 * check if same object is received
+	 */
+	private Object objectReference = null;
+	
+	
+	/**
 	 * default constructor
 	 */
 	public DummyObserver() {
@@ -33,6 +39,9 @@ public class DummyObserver implements Observer {
 		
 		// update method should be called only once
 		notificationMethodCounter++;
+		
+		// assign the captured object
+		objectReference = arg;
 
 	}
 
@@ -41,6 +50,13 @@ public class DummyObserver implements Observer {
 	 */
 	public int getNotificationMethodCounter() {
 		return notificationMethodCounter;
+	}
+
+	/**
+	 * @return the objectReference
+	 */
+	public Object getObjectReference() {
+		return objectReference;
 	}
 	
 }
