@@ -68,6 +68,7 @@ public class ObservableShuntTest implements Observer{
 	 */
 	@After
 	public void tearDown() throws Exception {
+		myObservable.deleteObservers();
 	}
 
 	

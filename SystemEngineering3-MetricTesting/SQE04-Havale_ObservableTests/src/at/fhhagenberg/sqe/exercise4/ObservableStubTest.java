@@ -62,6 +62,7 @@ public class ObservableStubTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
+		myObservable.deleteObservers();
 	}
 
 	@Test
