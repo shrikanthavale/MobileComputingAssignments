@@ -14,6 +14,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
+ * Here in Shunt test, test case itself behaves like observer, so we don't have to
+ * create {@link DummyObserver} unlike we created before
+ * 
  * @author S1310455005 - Shrikant Havale
  * Nov 4, 2014
  * 

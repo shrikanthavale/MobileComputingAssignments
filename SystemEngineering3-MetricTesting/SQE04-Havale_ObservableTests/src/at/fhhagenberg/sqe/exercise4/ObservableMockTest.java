@@ -13,6 +13,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
+ * Uses {@link EasyMock} to mock the observer, and tests if this observer is notified on changes in
+ * {@link MyObservable} , notification should be received only once and correct object is passed
+ * 
  * @author S1310455005 - Shrikant Havale
  * Nov 4, 2014
  * 
@@ -58,12 +61,20 @@ public class ObservableMockTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
+		myObservable.deleteObserver(mockObserver);
 	}
 
+	/**
+	 * Tests if the notify method of observer is called once and valid object passed is received
+	 */
 	@Test
 	public final void testNotifyObservers() {
+		
+		// create a object, to check if same object is received or not
+		Object referenceObject = new Object();
+		
 		// explain the behavior of what should happen
-		mockObserver.update(myObservable, "Shrikant");
+		mockObserver.update(myObservable, referenceObject);
 		
 		// make sure that it is called only once
 		EasyMock.expectLastCall().times(1);
@@ -73,7 +84,7 @@ public class ObservableMockTest {
 		
 		// create scenario for calling the update method
 		myObservable.setChanged();
-		myObservable.notifyObservers("Shrikant");
+		myObservable.notifyObservers(referenceObject);
 		
 		// verify the behavior
 		EasyMock.verify(mockObserver);

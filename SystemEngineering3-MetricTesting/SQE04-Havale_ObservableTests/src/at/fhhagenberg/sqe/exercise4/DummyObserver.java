@@ -7,6 +7,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
+ * This class is dummy observer, whose update method is to be tested for , getting called only once,
+ * and has valid object passed, when the observable {@link MyObservable} is changed and notifies this
+ * observer.
+ * 
  * @author S1310455005 - Shrikant Havale
  * Nov 3, 2014
  * 

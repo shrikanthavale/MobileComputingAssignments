@@ -11,6 +11,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
+ * Testing observer design pattern using {@link DummyObserver} 
+ * 
  * @author S1310455005 - Shrikant Havale
  * Nov 3, 2014
  * 
