@@ -13,7 +13,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * 
  */
 @RunWith(Suite.class)
-@SuiteClasses({ EmptyRingBufferTest.class, RingBufferTest.class })
+@SuiteClasses({ EmptyRingBufferTest.class, RingBufferTest.class, RingBufferWhiteboxTest.class })
 public class AllTests {
 
 }
