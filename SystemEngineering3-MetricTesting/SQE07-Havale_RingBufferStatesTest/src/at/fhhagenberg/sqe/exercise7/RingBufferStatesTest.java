@@ -86,11 +86,12 @@ public class RingBufferStatesTest {
 		Assert.assertTrue("Ring Buffer STATE is NOT FILLED ", (!ringBuffer.isEmpty() && !ringBuffer.isFull()));
 
 		// 1.b After adding one more element, Ring Buffer goes to Full state
-		ringBuffer.enqueue(1);
+		ringBuffer.enqueue(2);
 		Assert.assertTrue("Ring Buffer STATE is NOT FULL ", ringBuffer.isFull());
 		
 		// 1.c After removing one element, Ring Buffer should go again to Filled State
-		ringBuffer.dequeue();
+		Integer valueReturned = ringBuffer.dequeue();
+		Assert.assertEquals("Value Returned Doesn't Match ", 1, valueReturned.intValue());
 		Assert.assertTrue("Ring Buffer STATE is NOT FILLED ", (!ringBuffer.isEmpty() && !ringBuffer.isFull()));
 
 		// 1.d After removing one more element, Ring Buffer should go again to Empty state
