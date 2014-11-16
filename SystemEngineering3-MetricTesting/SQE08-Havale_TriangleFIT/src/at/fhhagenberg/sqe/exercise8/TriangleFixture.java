@@ -100,6 +100,10 @@ public class TriangleFixture extends ColumnFixture {
 	 * 
 	 */
 	public boolean validateSummationRule3Sides() {
+		
+		double sum = sideA + sideA + sideC;
+		if(sum > Integer.MAX_VALUE)
+			return false;
 
 		// first check
 		if ((sideA <= sideB) && (sideA <= sideC)) {
