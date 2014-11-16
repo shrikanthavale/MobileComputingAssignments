@@ -9,22 +9,22 @@ import fit.ColumnFixture;
  * @author Shrikant Havale - S1310455005 Oct 19, 2014
  * 
  */
-public class Triangle extends ColumnFixture {
+public class TriangleFixture extends ColumnFixture {
 
 	/**
 	 * side A of the triangle
 	 */
-	public double sideA;
+	public Integer sideA;
 
 	/**
 	 * side B of the triangle
 	 */
-	public double sideB;
+	public Integer sideB;
 
 	/**
 	 * side C of the triangle
 	 */
-	public double sideC;
+	public Integer sideC;
 
 	/**
 	 * single side in string
@@ -72,16 +72,18 @@ public class Triangle extends ColumnFixture {
 
 		String regexInteger = "^-?\\d+$"; //$NON-NLS-1$
 
-		String exponentialFormat = "[+-]?(?=\\d*[.eE])(?=\\.?\\d)\\d*\\.?\\d*(?:[eE][+-]?\\d+)?";
+		//String exponentialFormat = "[+-]?(?=\\d*[.eE])(?=\\.?\\d)\\d*\\.?\\d*(?:[eE][+-]?\\d+)?";
 
 		// check for null or empty side
 		if (side == null || side.length() < 1) {
 			return false;
 		}// check for decimal numbers
-		else if (!side.matches(exponentialFormat + "|" + regexInteger)) {
+		else if (!side.matches(regexInteger)) {
 			return false;
 		}// check for greater than 0
-		else if (Double.parseDouble(side) <= 0.0) {
+		else if (Double.parseDouble(side) <= 0) {
+			return false;
+		}else if(Double.parseDouble(side) > Integer.MAX_VALUE){
 			return false;
 		}
 
