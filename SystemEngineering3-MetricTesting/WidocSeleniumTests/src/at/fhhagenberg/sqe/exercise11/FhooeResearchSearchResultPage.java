@@ -6,6 +6,7 @@ package at.fhhagenberg.sqe.exercise11;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 /**
  * @author Shrikant Havale - S1310455005
@@ -39,6 +40,22 @@ public class FhooeResearchSearchResultPage {
 	
 	@FindBy(id="cvHeaderArea")
 	private WebElement searchResultForLabel;
+	
+	@FindBy()
+	private WebElement researchUnitResult;
+	
+	/**
+	 * Searching for something and returning search results
+	 * 
+	 * @param searchTerm term to be searched
+	 * @return
+	 */
+	public FhooeResearchSearchResultPage searchFor(String searchTerm) {
+		searchedTextField.clear();
+		searchedTextField.sendKeys(searchTerm);
+		searchButton.click();
+		return PageFactory.initElements(driver, FhooeResearchSearchResultPage.class);
+	}
 	
 
 	/**
