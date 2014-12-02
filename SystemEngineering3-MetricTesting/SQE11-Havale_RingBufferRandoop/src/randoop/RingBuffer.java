@@ -1,7 +1,7 @@
 package randoop;
 /*************************************************************************
- *  Compilation:  javac RingBuffer.java
- *  Execution:    java RingBuffer
+ *  Compilation:  javac RingBufferMutant.java
+ *  Execution:    java RingBufferMutant
  *  
  *  Ring buffer (fixed size queue) implementation using a circular array
  *  (array with wrap-around).
