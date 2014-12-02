@@ -41,8 +41,23 @@ public class FhooeResearchSearchResultPage {
 	@FindBy(id="cvHeaderArea")
 	private WebElement searchResultForLabel;
 	
-	@FindBy()
+	@FindBy(xpath="//ul[@id='subMenu']/li[1]/a")
+	private WebElement personsResult;
+	
+	@FindBy(xpath="//ul[@id='subMenu']/li[2]/a")
+	private WebElement researchFieldsResult;
+	
+	@FindBy(xpath="//ul[@id='subMenu']/li[3]/a")
 	private WebElement researchUnitResult;
+	
+	@FindBy(xpath="//ul[@id='subMenu']/li[4]/a")
+	private WebElement publicationsResult;
+	
+	@FindBy(xpath="//ul[@id='subMenu']/li[5]/a")
+	private WebElement projectsResult;
+	
+	@FindBy(xpath="//ul[@id='subMenu']/li[6]/a")
+	private WebElement patentsResult;
 	
 	/**
 	 * Searching for something and returning search results
@@ -122,4 +137,51 @@ public class FhooeResearchSearchResultPage {
 	}
 
 
+	/**
+	 * @return the personsResult
+	 */
+	public WebElement getPersonsResult() {
+		return personsResult;
+	}
+
+
+	/**
+	 * @return the researchFieldsResult
+	 */
+	public WebElement getResearchFieldsResult() {
+		return researchFieldsResult;
+	}
+
+
+	/**
+	 * @return the researchUnitResult
+	 */
+	public WebElement getResearchUnitResult() {
+		return researchUnitResult;
+	}
+
+
+	/**
+	 * @return the publicationsResult
+	 */
+	public WebElement getPublicationsResult() {
+		return publicationsResult;
+	}
+
+
+	/**
+	 * @return the projectsResult
+	 */
+	public WebElement getProjectsResult() {
+		return projectsResult;
+	}
+
+
+	/**
+	 * @return the patentsResult
+	 */
+	public WebElement getPatentsResult() {
+		return patentsResult;
+	}
+	
 }

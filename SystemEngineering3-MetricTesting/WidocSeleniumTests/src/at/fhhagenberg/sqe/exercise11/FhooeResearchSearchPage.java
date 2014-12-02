@@ -54,7 +54,6 @@ public class FhooeResearchSearchPage {
 		searchedTextField.clear();
 		searchedTextField.sendKeys(searchTerm);
 		searchButton.click();
-		System.out.println(driver.getCurrentUrl());
 		return PageFactory.initElements(driver, FhooeResearchSearchResultPage.class);
 	}
 

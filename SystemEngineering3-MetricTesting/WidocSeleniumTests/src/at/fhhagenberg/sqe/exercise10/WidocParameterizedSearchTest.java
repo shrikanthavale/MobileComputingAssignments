@@ -1,8 +1,5 @@
 package at.fhhagenberg.sqe.exercise10;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -27,17 +24,7 @@ public class WidocParameterizedSearchTest extends ColumnFixture {
 	/**
 	 * web driver
 	 */
-	private WebDriver driver;
-
-	/**
-	 * base url for testing
-	 */
-	private static final String BASE_URL = "http://research.fh-ooe.at/";
-
-	/**
-	 * verification errors
-	 */
-	private StringBuffer verificationErrors = new StringBuffer();
+	private static WebDriver driver;
 
 	/**
 	 * search string to read from the word document, has to be public
@@ -60,13 +47,16 @@ public class WidocParameterizedSearchTest extends ColumnFixture {
 	private FhooeResearchSearchResultPage fhooeResearchSearchResultPage;
 
 	/**
-	 * default constructor for initializing the driver
+	 * method initializing the driver
 	 */
 	public WidocParameterizedSearchTest() {
-		driver = new FirefoxDriver();
-		fhooeResearchSearchPage = FhooeResearchSearchPage.navigateTo(driver);
-		fhooeResearchSearchResultPage = fhooeResearchSearchPage
-				.searchFor(searchString);
+		if (driver == null) {
+			driver = new FirefoxDriver();
+			fhooeResearchSearchPage = FhooeResearchSearchPage
+					.navigateTo(driver);
+			fhooeResearchSearchResultPage = fhooeResearchSearchPage
+					.searchFor(searchString);
+		}
 	}
 
 	/**
@@ -74,43 +64,30 @@ public class WidocParameterizedSearchTest extends ColumnFixture {
 	 * Searched for the string and returns the search result, which is compared
 	 * with the result in the document.
 	 * 
-	 * @return
+	 * @return string combined result of all the data
 	 * @throws Exception
 	 */
-	public int testWidocParamaterizedSearch() throws Exception {
-		
+	public String testWidocParamaterizedSearch() throws Exception {
+
 		fhooeResearchSearchResultPage = fhooeResearchSearchResultPage
 				.searchFor(searchString);
 
-		try {
-			assertEquals("", fhooeResearchSearchResultPage
-					.getSearchedTextField().getText());
-		} catch (Error e) {
-			verificationErrors.append(e.toString());
-		}
+		String personResult = fhooeResearchSearchResultPage.getPersonsResult()
+				.getText();
+		String researchFieldResult = fhooeResearchSearchResultPage
+				.getResearchFieldsResult().getText();
+		String researchUnitResult = fhooeResearchSearchResultPage
+				.getResearchUnitResult().getText();
+		String publicationsResult = fhooeResearchSearchResultPage
+				.getPublicationsResult().getText();
+		String projectResult = fhooeResearchSearchResultPage
+				.getProjectsResult().getText();
+		String patentsResult = fhooeResearchSearchResultPage.getPatentsResult()
+				.getText();
 
-		Assert.assertNotNull(fhooeResearchSearchResultPage
-				.getSearchedTextField());
-		Assert.assertNotNull(fhooeResearchSearchResultPage.getSearchButton());
-		Assert.assertNotNull(fhooeResearchSearchResultPage
-				.getResearchFieldsButton());
-		Assert.assertNotNull(fhooeResearchSearchResultPage
-				.getResearchUnitsButton());
-		Assert.assertNotNull(fhooeResearchSearchResultPage
-				.getScienceFieldsButton());
-
-		assertEquals("Research fields", fhooeResearchSearchResultPage
-				.getResearchFieldsButton().getText());
-		assertEquals("Research units", fhooeResearchSearchResultPage
-				.getResearchUnitsButton().getText());
-		assertEquals("Science fields", fhooeResearchSearchResultPage
-				.getScienceFieldsButton().getText());
-
-		assertEquals("Search\nResults for testing:",
-				fhooeResearchSearchResultPage.getSearchResultForLabel()
-						.getText());
-
-		return 0;
+		return personResult + "," + researchFieldResult + ","
+				+ researchUnitResult + "," + publicationsResult + ","
+				+ projectResult + "," + patentsResult;
 
 	}
 
@@ -120,7 +97,7 @@ public class WidocParameterizedSearchTest extends ColumnFixture {
 	 * @return success
 	 */
 	public int closeBrowserDriver() {
-		if (flag) {
+		if (flag && driver != null) {
 			driver.quit();
 		}
 		return 0;
